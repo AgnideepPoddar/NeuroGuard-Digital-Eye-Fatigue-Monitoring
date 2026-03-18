@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { calculateEAR, LEFT_EYE, RIGHT_EYE, getFatigueState } from '@/lib/face-mesh-utils';
+import { calculateEAR, LEFT_EYE, RIGHT_EYE } from '@/lib/face-mesh-utils';
 
 declare global {
   interface Window {
@@ -8,15 +8,121 @@ declare global {
   }
 }
 
+export type ModelType = 'cnn_lstm' | 'resnet_lstm' | 'densenet_lstm';
+
+export interface ModelConfig {
+  id: ModelType;
+  label: string;
+  description: string;
+  badge: string;
+  // EAR thresholds
+  earDrowsyThreshold: number;
+  earFatiguedThreshold: number;
+  // PERCLOS thresholds
+  perclosDrowsyThreshold: number;
+  perclosFatiguedThreshold: number;
+  // Smoothing window (number of frames to average)
+  smoothingWindow: number;
+  // Weighted scoring weights for DenseNet hybrid scoring
+  useWeightedScore: boolean;
+  earWeight: number;
+  perclosWeight: number;
+  blinkWeight: number;
+  // Normal blink range for scoring
+  normalBlinkRate: number;
+}
+
+export const MODEL_CONFIGS: Record<ModelType, ModelConfig> = {
+  cnn_lstm: {
+    id: 'cnn_lstm',
+    label: 'CNN + LSTM',
+    description: 'Standard spatial-temporal model with convolutional feature extraction',
+    badge: 'Baseline',
+    earDrowsyThreshold: 0.28,
+    earFatiguedThreshold: 0.20,
+    perclosDrowsyThreshold: 0.15,
+    perclosFatiguedThreshold: 0.30,
+    smoothingWindow: 3,
+    useWeightedScore: false,
+    earWeight: 0.5,
+    perclosWeight: 0.4,
+    blinkWeight: 0.1,
+    normalBlinkRate: 15,
+  },
+  resnet_lstm: {
+    id: 'resnet_lstm',
+    label: 'ResNet + LSTM',
+    description: 'Residual deep features with skip connections for enhanced sensitivity',
+    badge: 'High Sensitivity',
+    earDrowsyThreshold: 0.26,
+    earFatiguedThreshold: 0.22,
+    perclosDrowsyThreshold: 0.12,
+    perclosFatiguedThreshold: 0.25,
+    smoothingWindow: 5,
+    useWeightedScore: false,
+    earWeight: 0.55,
+    perclosWeight: 0.35,
+    blinkWeight: 0.1,
+    normalBlinkRate: 15,
+  },
+  densenet_lstm: {
+    id: 'densenet_lstm',
+    label: 'DenseNet + LSTM',
+    description: 'Dense multi-scale feature fusion with weighted composite fatigue scoring',
+    badge: 'Highest Accuracy',
+    earDrowsyThreshold: 0.27,
+    earFatiguedThreshold: 0.21,
+    perclosDrowsyThreshold: 0.13,
+    perclosFatiguedThreshold: 0.28,
+    smoothingWindow: 7,
+    useWeightedScore: true,
+    earWeight: 0.45,
+    perclosWeight: 0.40,
+    blinkWeight: 0.15,
+    normalBlinkRate: 15,
+  },
+};
+
+function getStateFromScore(
+  ear: number,
+  perclos: number,
+  blinkRate: number,
+  config: ModelConfig
+): 'alert' | 'drowsy' | 'fatigued' {
+  if (config.useWeightedScore) {
+    // Normalize each signal to 0–1 risk score
+    const earRisk = Math.max(0, Math.min(1, (0.35 - ear) / 0.2));
+    const perclosRisk = Math.max(0, Math.min(1, perclos / 0.4));
+    const blinkRisk = blinkRate < 8 ? 0.8 : blinkRate > 25 ? 0.4 : 0;
+    const compositeScore =
+      config.earWeight * earRisk +
+      config.perclosWeight * perclosRisk +
+      config.blinkWeight * blinkRisk;
+
+    if (compositeScore > 0.55) return 'fatigued';
+    if (compositeScore > 0.30) return 'drowsy';
+    return 'alert';
+  }
+
+  // Threshold-based classification
+  if (ear < config.earFatiguedThreshold || perclos > config.perclosFatiguedThreshold) {
+    return 'fatigued';
+  }
+  if (ear < config.earDrowsyThreshold || perclos > config.perclosDrowsyThreshold) {
+    return 'drowsy';
+  }
+  return 'alert';
+}
+
 export interface MetricDataPoint {
   timestamp: number;
   ear: number;
 }
 
-export function useFaceMesh(isActive: boolean) {
+export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm') {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
+
   const [isReady, setIsReady] = useState(false);
   const [currentEar, setCurrentEar] = useState(0.35);
   const [currentPerclos, setCurrentPerclos] = useState(0);
@@ -24,68 +130,78 @@ export function useFaceMesh(isActive: boolean) {
   const [fatigueState, setFatigueState] = useState<'alert' | 'drowsy' | 'fatigued'>('alert');
   const [history, setHistory] = useState<MetricDataPoint[]>([]);
 
-  // Advanced tracking refs to avoid stale closures in onResults
   const historyRef = useRef<MetricDataPoint[]>([]);
   const isEyeClosedRef = useRef(false);
-  const blinksInWindowRef = useRef<{timestamp: number}[]>([]);
+  const blinksInWindowRef = useRef<{ timestamp: number }[]>([]);
+  const earBufferRef = useRef<number[]>([]);
+  const modelTypeRef = useRef<ModelType>(modelType);
+
+  // Keep ref in sync with prop
+  useEffect(() => { modelTypeRef.current = modelType; }, [modelType]);
 
   const onResults = useCallback((results: any) => {
     if (!canvasRef.current || !videoRef.current) return;
-    
+
     const canvasCtx = canvasRef.current.getContext('2d');
     if (!canvasCtx) return;
 
+    const config = MODEL_CONFIGS[modelTypeRef.current];
+
     canvasCtx.save();
     canvasCtx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    
-    // Draw video frame
-    canvasCtx.drawImage(
-      results.image, 0, 0, canvasRef.current.width, canvasRef.current.height
-    );
+    canvasCtx.drawImage(results.image, 0, 0, canvasRef.current.width, canvasRef.current.height);
 
     if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
       const landmarks = results.multiFaceLandmarks[0];
-      
-      // Compute EAR
+
       const leftEar = calculateEAR(landmarks, LEFT_EYE);
       const rightEar = calculateEAR(landmarks, RIGHT_EYE);
-      const avgEar = (leftEar + rightEar) / 2;
-      
+      const rawEar = (leftEar + rightEar) / 2;
+
+      // Apply smoothing window per model
+      earBufferRef.current.push(rawEar);
+      if (earBufferRef.current.length > config.smoothingWindow) {
+        earBufferRef.current.shift();
+      }
+      const avgEar = earBufferRef.current.reduce((a, b) => a + b, 0) / earBufferRef.current.length;
+
       const now = Date.now();
-      
-      // Blink detection (falling edge of EAR < 0.25)
+
+      // Blink detection on smoothed EAR
       if (avgEar < 0.25 && !isEyeClosedRef.current) {
         isEyeClosedRef.current = true;
-      } else if (avgEar > 0.25 && isEyeClosedRef.current) {
+      } else if (avgEar > 0.27 && isEyeClosedRef.current) {
         isEyeClosedRef.current = false;
         blinksInWindowRef.current.push({ timestamp: now });
       }
 
-      // Update historical data
       historyRef.current.push({ timestamp: now, ear: avgEar });
-      
-      // Keep only last 60 seconds of history
+
       const windowStart = now - 60000;
       historyRef.current = historyRef.current.filter(p => p.timestamp >= windowStart);
       blinksInWindowRef.current = blinksInWindowRef.current.filter(b => b.timestamp >= windowStart);
 
-      // Compute PERCLOS (% of frames in last 60s where EAR < 0.2)
       const closedFrames = historyRef.current.filter(p => p.ear < 0.20).length;
       const totalFrames = historyRef.current.length || 1;
       const perclosVal = closedFrames / totalFrames;
 
-      // Extrapolate blinks to BPM
-      const windowDurationMins = Math.min((now - (historyRef.current[0]?.timestamp || now)) / 60000, 1) || 0.1;
+      const windowDurationMins = Math.min(
+        (now - (historyRef.current[0]?.timestamp || now)) / 60000, 1
+      ) || 0.1;
       const currentBlinkRate = Math.round(blinksInWindowRef.current.length / windowDurationMins);
 
-      const state = getFatigueState(avgEar, perclosVal);
+      const state = getStateFromScore(avgEar, perclosVal, currentBlinkRate, config);
 
-      // Draw mesh points for eyes to look cool and neural
+      // Draw eye landmarks colored by state
       canvasCtx.fillStyle = state === 'alert' ? '#00e5ff' : state === 'drowsy' ? '#ff9100' : '#ff1744';
       [...LEFT_EYE, ...RIGHT_EYE].forEach(idx => {
         const point = landmarks[idx];
         canvasCtx.beginPath();
-        canvasCtx.arc(point.x * canvasRef.current!.width, point.y * canvasRef.current!.height, 1.5, 0, 2 * Math.PI);
+        canvasCtx.arc(
+          point.x * canvasRef.current!.width,
+          point.y * canvasRef.current!.height,
+          1.5, 0, 2 * Math.PI
+        );
         canvasCtx.fill();
       });
 
@@ -93,8 +209,7 @@ export function useFaceMesh(isActive: boolean) {
       setCurrentPerclos(Number(perclosVal.toFixed(3)));
       setBlinkRate(currentBlinkRate);
       setFatigueState(state);
-      
-      // Update history state for charts every ~10 frames to avoid React thrashing
+
       if (historyRef.current.length % 10 === 0) {
         setHistory([...historyRef.current]);
       }
@@ -108,13 +223,13 @@ export function useFaceMesh(isActive: boolean) {
 
     const init = async () => {
       if (!window.FaceMesh || !window.Camera) {
-        console.warn("MediaPipe not loaded yet");
         setTimeout(init, 500);
         return;
       }
 
       faceMesh = new window.FaceMesh({
-        locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+        locateFile: (file: string) =>
+          `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
       });
 
       faceMesh.setOptions({
@@ -136,7 +251,7 @@ export function useFaceMesh(isActive: boolean) {
           width: 640,
           height: 480
         });
-        
+
         if (isActive) {
           camera.start();
           setIsReady(true);
@@ -147,7 +262,6 @@ export function useFaceMesh(isActive: boolean) {
     if (isActive) {
       init();
     } else {
-      if (camera) camera.stop();
       setIsReady(false);
     }
 
@@ -165,6 +279,7 @@ export function useFaceMesh(isActive: boolean) {
     currentPerclos,
     blinkRate,
     fatigueState,
-    history
+    history,
+    modelConfig: MODEL_CONFIGS[modelType],
   };
 }

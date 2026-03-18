@@ -1,37 +1,57 @@
 import { useState, useEffect } from "react";
 import { Layout } from "@/components/layout";
-import { useFaceMesh } from "@/hooks/use-face-mesh";
-import { useCreateSession, useEndSession, useRecordMetric, useCreateAlert, CreateSessionRequestSessionType } from "@workspace/api-client-react";
-import { Play, Square, AlertTriangle, Eye, Activity, Brain, Clock } from "lucide-react";
+import { useFaceMesh, MODEL_CONFIGS, type ModelType } from "@/hooks/use-face-mesh";
+import { useCreateSession, useEndSession, useRecordMetric, useCreateAlert, CreateSessionRequestSessionType, CreateSessionRequestModelType } from "@workspace/api-client-react";
+import { Play, Square, AlertTriangle, Eye, Activity, Brain, Clock, Cpu, ChevronRight } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip, ReferenceLine } from "recharts";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn, formatTime } from "@/lib/utils";
 
+const MODEL_ORDER: ModelType[] = ['cnn_lstm', 'resnet_lstm', 'densenet_lstm'];
+
+const BADGE_COLORS: Record<ModelType, string> = {
+  cnn_lstm: 'text-sky-400 border-sky-400/40 bg-sky-400/10',
+  resnet_lstm: 'text-violet-400 border-violet-400/40 bg-violet-400/10',
+  densenet_lstm: 'text-emerald-400 border-emerald-400/40 bg-emerald-400/10',
+};
+
+const MODEL_RING: Record<ModelType, string> = {
+  cnn_lstm: 'border-sky-500 shadow-[0_0_18px_rgba(14,165,233,0.35)]',
+  resnet_lstm: 'border-violet-500 shadow-[0_0_18px_rgba(139,92,246,0.35)]',
+  densenet_lstm: 'border-emerald-500 shadow-[0_0_18px_rgba(52,211,153,0.35)]',
+};
+
+const MODEL_ACCENT: Record<ModelType, string> = {
+  cnn_lstm: 'bg-sky-500',
+  resnet_lstm: 'bg-violet-500',
+  densenet_lstm: 'bg-emerald-500',
+};
+
 export default function LiveMonitor() {
   const [userName, setUserName] = useState("User_01");
   const [sessionType, setSessionType] = useState<CreateSessionRequestSessionType>("driving");
-  
+  const [selectedModel, setSelectedModel] = useState<ModelType>("cnn_lstm");
+
   const [activeSessionId, setActiveSessionId] = useState<number | null>(null);
   const [sessionTime, setSessionTime] = useState(0);
 
-  const { 
-    videoRef, 
-    canvasRef, 
-    isReady, 
-    currentEar, 
-    currentPerclos, 
-    blinkRate, 
+  const {
+    videoRef,
+    canvasRef,
+    isReady,
+    currentEar,
+    currentPerclos,
+    blinkRate,
     fatigueState,
-    history 
-  } = useFaceMesh(!!activeSessionId);
+    history,
+    modelConfig,
+  } = useFaceMesh(!!activeSessionId, selectedModel);
 
-  // Mutations
   const { mutateAsync: createSession, isPending: isCreating } = useCreateSession();
   const { mutateAsync: endSession, isPending: isEnding } = useEndSession();
   const { mutateAsync: recordMetric } = useRecordMetric();
   const { mutateAsync: createAlert } = useCreateAlert();
 
-  // Timer
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (activeSessionId) {
@@ -40,26 +60,19 @@ export default function LiveMonitor() {
     return () => clearInterval(interval);
   }, [activeSessionId]);
 
-  // Metric recording loop
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (activeSessionId && isReady) {
       interval = setInterval(() => {
         recordMetric({
           sessionId: activeSessionId,
-          data: {
-            ear: currentEar,
-            perclos: currentPerclos,
-            blinkRate,
-            fatigueState
-          }
+          data: { ear: currentEar, perclos: currentPerclos, blinkRate, fatigueState }
         }).catch(err => console.error("Failed to record metric", err));
-      }, 2000); // Every 2 seconds
+      }, 2000);
     }
     return () => clearInterval(interval);
   }, [activeSessionId, isReady, currentEar, currentPerclos, blinkRate, fatigueState, recordMetric]);
 
-  // Alert generation
   useEffect(() => {
     if (activeSessionId && isReady && (fatigueState === 'drowsy' || fatigueState === 'fatigued')) {
       const alertType = fatigueState === 'fatigued' ? 'fatigued' : 'drowsy';
@@ -67,17 +80,23 @@ export default function LiveMonitor() {
         sessionId: activeSessionId,
         data: {
           alertType,
-          message: `${alertType.toUpperCase()} state detected. EAR: ${currentEar.toFixed(2)}, PERCLOS: ${(currentPerclos * 100).toFixed(1)}%`,
+          message: `[${modelConfig.label}] ${alertType.toUpperCase()} detected. EAR: ${currentEar.toFixed(2)}, PERCLOS: ${(currentPerclos * 100).toFixed(1)}%`,
           ear: currentEar,
           perclos: currentPerclos
         }
-      }).catch(err => console.error("Failed to create alert", err));
+      }).catch(() => {});
     }
-  }, [fatigueState, activeSessionId, isReady]); // Intentionally omitting others to avoid spam, in reality we'd debounce this.
+  }, [fatigueState, activeSessionId, isReady]);
 
   const handleStart = async () => {
     try {
-      const session = await createSession({ data: { userName, sessionType } });
+      const session = await createSession({
+        data: {
+          userName,
+          sessionType,
+          modelType: selectedModel as CreateSessionRequestModelType
+        }
+      });
       setActiveSessionId(session.id);
       setSessionTime(0);
     } catch (error) {
@@ -95,7 +114,6 @@ export default function LiveMonitor() {
     }
   };
 
-  // Prepare chart data
   const chartData = history.slice(-60).map((h, i) => ({
     time: i,
     ear: Number(h.ear.toFixed(3))
@@ -107,21 +125,15 @@ export default function LiveMonitor() {
     fatigued: "text-destructive border-destructive bg-destructive/10"
   };
 
-  const stateShadows = {
-    alert: "neon-glow-cyan",
-    drowsy: "neon-glow-amber",
-    fatigued: "neon-glow-red"
-  };
-
   return (
     <Layout>
-      <div className="flex justify-between items-end mb-8">
+      <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="text-3xl font-display font-bold text-foreground">Live Monitoring</h1>
           <p className="text-muted-foreground mt-1">Real-time landmark analysis & fatigue classification</p>
         </div>
-        
-        <div className="flex items-center space-x-4 bg-card/50 p-2 rounded-2xl border border-white/5 backdrop-blur-md">
+
+        <div className="flex items-center space-x-3 bg-card/50 p-2 rounded-2xl border border-white/5 backdrop-blur-md">
           <input
             type="text"
             value={userName}
@@ -140,12 +152,12 @@ export default function LiveMonitor() {
             <option value="development">Development</option>
             <option value="general">General</option>
           </select>
-          
+
           {activeSessionId ? (
             <button
               onClick={handleStop}
               disabled={isEnding}
-              className="flex items-center px-6 py-2 bg-destructive/20 text-destructive border border-destructive/50 rounded-xl font-medium hover:bg-destructive hover:text-white transition-all neon-glow-red"
+              className="flex items-center px-6 py-2 bg-destructive/20 text-destructive border border-destructive/50 rounded-xl font-medium hover:bg-destructive hover:text-white transition-all"
             >
               <Square className="w-4 h-4 mr-2" />
               End Session
@@ -163,40 +175,86 @@ export default function LiveMonitor() {
         </div>
       </div>
 
+      {/* Model Selector */}
+      <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Cpu className="w-4 h-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Inference Model</span>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {MODEL_ORDER.map((modelId) => {
+            const cfg = MODEL_CONFIGS[modelId];
+            const isSelected = selectedModel === modelId;
+            const isDisabled = !!activeSessionId;
+            return (
+              <button
+                key={modelId}
+                onClick={() => !isDisabled && setSelectedModel(modelId)}
+                disabled={isDisabled}
+                className={cn(
+                  "relative text-left p-4 rounded-2xl border-2 transition-all duration-200",
+                  isSelected
+                    ? `${MODEL_RING[modelId]} bg-card`
+                    : "border-white/5 bg-card/40 hover:border-white/15",
+                  isDisabled && "opacity-60 cursor-not-allowed"
+                )}
+              >
+                {isSelected && (
+                  <motion.div
+                    layoutId="model-indicator"
+                    className={cn("absolute top-3 right-3 w-2 h-2 rounded-full", MODEL_ACCENT[modelId])}
+                  />
+                )}
+                <div className="flex items-start justify-between mb-2">
+                  <span className="text-sm font-display font-bold text-foreground">{cfg.label}</span>
+                </div>
+                <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", BADGE_COLORS[modelId])}>
+                  {cfg.badge}
+                </span>
+                <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">{cfg.description}</p>
+                <div className="mt-3 grid grid-cols-2 gap-1 text-[10px] text-muted-foreground font-mono">
+                  <span>EAR drowsy: <span className="text-foreground">&lt;{cfg.earDrowsyThreshold}</span></span>
+                  <span>EAR fatigue: <span className="text-foreground">&lt;{cfg.earFatiguedThreshold}</span></span>
+                  <span>PERCLOS: <span className="text-foreground">&gt;{(cfg.perclosDrowsyThreshold * 100).toFixed(0)}%</span></span>
+                  <span>Smooth: <span className="text-foreground">{cfg.smoothingWindow}f</span></span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left Col: Video Feed */}
+        {/* Left: Video + Chart */}
         <div className="lg:col-span-2 space-y-8">
           <div className="relative rounded-3xl overflow-hidden glass-panel aspect-video bg-black flex items-center justify-center">
-            {/* Base Video Element */}
             <video
               ref={videoRef}
               className="absolute inset-0 w-full h-full object-cover opacity-0"
               playsInline
             />
-            {/* Canvas Overlay for WebGL / MediaPipe drawing */}
             <canvas
               ref={canvasRef}
               className="absolute inset-0 w-full h-full object-cover z-10"
               width={640}
               height={480}
             />
-            
+
             {!activeSessionId && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
                 <Brain className="w-16 h-16 text-muted-foreground mb-4 opacity-50" />
                 <p className="text-xl font-display text-muted-foreground">Session Inactive</p>
-                <p className="text-sm text-muted-foreground mt-2">Start monitoring to initialize neural tracking</p>
+                <p className="text-sm text-muted-foreground mt-2">Select a model above and start monitoring</p>
               </div>
             )}
 
             {activeSessionId && !isReady && (
               <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
                 <Activity className="w-12 h-12 text-primary animate-spin mb-4" />
-                <p className="text-lg font-display text-primary animate-pulse">Calibrating Model...</p>
+                <p className="text-lg font-display text-primary animate-pulse">Loading {modelConfig.label}...</p>
               </div>
             )}
-            
-            {/* Top HUD overlay */}
+
             {isReady && (
               <div className="absolute top-4 left-4 z-30 flex items-center space-x-3">
                 <div className="px-3 py-1 bg-black/50 border border-white/10 rounded-full flex items-center backdrop-blur-md">
@@ -207,32 +265,46 @@ export default function LiveMonitor() {
                   <Clock className="w-3 h-3 text-primary mr-2" />
                   <span className="text-xs font-mono text-white">{formatTime(sessionTime)}</span>
                 </div>
+                <div className={cn("px-3 py-1 bg-black/50 border rounded-full flex items-center backdrop-blur-md text-xs font-mono", BADGE_COLORS[selectedModel])}>
+                  <Cpu className="w-3 h-3 mr-1" />
+                  {modelConfig.label}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Timeline Chart */}
+          {/* EAR Chart */}
           <div className="glass-panel rounded-3xl p-6">
-            <h3 className="text-lg font-display mb-6 flex items-center text-foreground">
-              <Activity className="w-5 h-5 mr-2 text-primary" />
-              Real-time EAR Signal (Last 60s)
-            </h3>
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-display flex items-center text-foreground">
+                <Activity className="w-5 h-5 mr-2 text-primary" />
+                Real-time EAR Signal (Last 60s)
+              </h3>
+              <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
+                <span className="flex items-center gap-1">
+                  <span className="inline-block w-5 h-[2px] bg-amber-400" /> Drowsy ({modelConfig.earDrowsyThreshold})
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="inline-block w-5 h-[2px] bg-red-500" /> Fatigued ({modelConfig.earFatiguedThreshold})
+                </span>
+              </div>
+            </div>
             <div className="h-48 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
                   <XAxis dataKey="time" hide />
-                  <YAxis domain={[0.1, 0.5]} hide />
-                  <ReferenceLine y={0.28} stroke="hsl(var(--warning))" strokeDasharray="3 3" opacity={0.5} />
-                  <ReferenceLine y={0.20} stroke="hsl(var(--destructive))" strokeDasharray="3 3" opacity={0.5} />
-                  <RechartsTooltip 
-                    contentStyle={{ backgroundColor: 'rgba(15, 23, 42, 0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                  <YAxis domain={[0.1, 0.45]} hide />
+                  <ReferenceLine y={modelConfig.earDrowsyThreshold} stroke="#ffb300" strokeDasharray="3 3" opacity={0.6} />
+                  <ReferenceLine y={modelConfig.earFatiguedThreshold} stroke="#ff1744" strokeDasharray="3 3" opacity={0.6} />
+                  <RechartsTooltip
+                    contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
                     itemStyle={{ color: '#00e5ff' }}
                     labelStyle={{ display: 'none' }}
                   />
-                  <Line 
-                    type="monotone" 
-                    dataKey="ear" 
-                    stroke="hsl(var(--primary))" 
+                  <Line
+                    type="monotone"
+                    dataKey="ear"
+                    stroke="hsl(var(--primary))"
                     strokeWidth={2}
                     dot={false}
                     isAnimationActive={false}
@@ -243,18 +315,18 @@ export default function LiveMonitor() {
           </div>
         </div>
 
-        {/* Right Col: Metrics */}
+        {/* Right: State + Metrics */}
         <div className="space-y-6">
           <AnimatePresence mode="popLayout">
             {activeSessionId && (
               <motion.div
+                key={fatigueState}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 className={cn(
                   "rounded-3xl border-2 p-8 flex flex-col items-center justify-center transition-all duration-500",
-                  stateColors[fatigueState],
-                  stateShadows[fatigueState]
+                  stateColors[fatigueState]
                 )}
               >
                 <div className="text-sm font-semibold uppercase tracking-widest opacity-80 mb-2">Current State</div>
@@ -271,10 +343,57 @@ export default function LiveMonitor() {
             )}
           </AnimatePresence>
 
+          {/* Model Info Card */}
+          {!activeSessionId && (
+            <div className={cn("rounded-3xl border-2 p-5 transition-all", MODEL_RING[selectedModel])}>
+              <div className="flex items-center gap-2 mb-3">
+                <Cpu className="w-4 h-4" />
+                <span className="text-sm font-display font-bold">{modelConfig.label}</span>
+                <span className={cn("ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full border", BADGE_COLORS[selectedModel])}>
+                  {modelConfig.badge}
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground mb-4">{modelConfig.description}</p>
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Drowsy threshold (EAR)</span>
+                  <span className="font-mono">&lt; {modelConfig.earDrowsyThreshold}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Fatigue threshold (EAR)</span>
+                  <span className="font-mono">&lt; {modelConfig.earFatiguedThreshold}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">PERCLOS drowsy</span>
+                  <span className="font-mono">&gt; {(modelConfig.perclosDrowsyThreshold * 100).toFixed(0)}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">PERCLOS fatigue</span>
+                  <span className="font-mono">&gt; {(modelConfig.perclosFatiguedThreshold * 100).toFixed(0)}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Smoothing window</span>
+                  <span className="font-mono">{modelConfig.smoothingWindow} frames</span>
+                </div>
+                {modelConfig.useWeightedScore && (
+                  <div className="mt-2 pt-2 border-t border-white/5">
+                    <p className="text-muted-foreground mb-1">Composite score weights:</p>
+                    <div className="flex gap-3 text-[10px] font-mono">
+                      <span>EAR {(modelConfig.earWeight * 100).toFixed(0)}%</span>
+                      <ChevronRight className="w-3 h-3 text-muted-foreground" />
+                      <span>PERCLOS {(modelConfig.perclosWeight * 100).toFixed(0)}%</span>
+                      <ChevronRight className="w-3 h-3 text-muted-foreground" />
+                      <span>Blink {(modelConfig.blinkWeight * 100).toFixed(0)}%</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="glass-panel rounded-3xl p-6 space-y-8">
             <h3 className="text-lg font-display text-foreground border-b border-white/5 pb-4">Live Metrics</h3>
-            
-            {/* EAR Metric */}
+
             <div>
               <div className="flex justify-between items-end mb-2">
                 <div className="flex items-center text-sm text-muted-foreground">
@@ -284,10 +403,12 @@ export default function LiveMonitor() {
                 <span className="font-mono text-xl text-foreground font-medium">{currentEar.toFixed(3)}</span>
               </div>
               <div className="h-2 w-full bg-background/50 rounded-full overflow-hidden border border-white/5">
-                <div 
+                <div
                   className={cn(
                     "h-full rounded-full transition-all duration-300",
-                    currentEar < 0.2 ? "bg-destructive" : currentEar < 0.28 ? "bg-warning" : "bg-primary"
+                    currentEar < modelConfig.earFatiguedThreshold ? "bg-destructive"
+                      : currentEar < modelConfig.earDrowsyThreshold ? "bg-warning"
+                      : "bg-primary"
                   )}
                   style={{ width: `${Math.min(Math.max((currentEar - 0.1) / 0.3 * 100, 0), 100)}%` }}
                 />
@@ -298,7 +419,6 @@ export default function LiveMonitor() {
               </div>
             </div>
 
-            {/* PERCLOS Metric */}
             <div>
               <div className="flex justify-between items-end mb-2">
                 <div className="flex items-center text-sm text-muted-foreground">
@@ -307,30 +427,33 @@ export default function LiveMonitor() {
                 </div>
                 <span className="font-mono text-xl text-foreground font-medium">{(currentPerclos * 100).toFixed(1)}%</span>
               </div>
-              <div className="h-2 w-full bg-background/50 rounded-full overflow-hidden border border-white/5 flex">
-                <div 
+              <div className="h-2 w-full bg-background/50 rounded-full overflow-hidden border border-white/5">
+                <div
                   className={cn(
                     "h-full rounded-full transition-all duration-500",
-                    currentPerclos > 0.3 ? "bg-destructive" : currentPerclos > 0.15 ? "bg-warning" : "bg-primary"
+                    currentPerclos > modelConfig.perclosFatiguedThreshold ? "bg-destructive"
+                      : currentPerclos > modelConfig.perclosDrowsyThreshold ? "bg-warning"
+                      : "bg-primary"
                   )}
                   style={{ width: `${Math.min(currentPerclos * 100, 100)}%` }}
                 />
               </div>
               <div className="flex justify-between text-[10px] text-muted-foreground mt-1 px-1">
                 <span>Alert</span>
-                <span>Drowsy (&gt;15%)</span>
-                <span>Fatigued (&gt;30%)</span>
+                <span>Drowsy (&gt;{(modelConfig.perclosDrowsyThreshold * 100).toFixed(0)}%)</span>
+                <span>Fatigued (&gt;{(modelConfig.perclosFatiguedThreshold * 100).toFixed(0)}%)</span>
               </div>
             </div>
 
-            {/* Blink Rate */}
             <div>
               <div className="flex justify-between items-end mb-2">
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Activity className="w-4 h-4 mr-2" />
                   Blink Rate
                 </div>
-                <span className="font-mono text-xl text-foreground font-medium">{blinkRate} <span className="text-xs text-muted-foreground">bpm</span></span>
+                <span className="font-mono text-xl text-foreground font-medium">
+                  {blinkRate} <span className="text-xs text-muted-foreground">bpm</span>
+                </span>
               </div>
             </div>
           </div>

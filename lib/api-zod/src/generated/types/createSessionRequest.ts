@@ -5,9 +5,11 @@
  * NeuroGuard Eye Fatigue Monitoring API
  * OpenAPI spec version: 0.1.0
  */
+import type { CreateSessionRequestModelType } from "./createSessionRequestModelType";
 import type { CreateSessionRequestSessionType } from "./createSessionRequestSessionType";
 
 export interface CreateSessionRequest {
   userName: string;
   sessionType: CreateSessionRequestSessionType;
+  modelType: CreateSessionRequestModelType;
 }

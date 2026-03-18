@@ -6,11 +6,13 @@ export const sessionTypeEnum = pgEnum("session_type", ["driving", "development",
 export const sessionStatusEnum = pgEnum("session_status", ["active", "completed"]);
 export const fatigueStateEnum = pgEnum("fatigue_state", ["alert", "drowsy", "fatigued"]);
 export const alertTypeEnum = pgEnum("alert_type", ["drowsy", "fatigued", "microsleep"]);
+export const modelTypeEnum = pgEnum("model_type", ["cnn_lstm", "resnet_lstm", "densenet_lstm"]);
 
 export const sessionsTable = pgTable("sessions", {
   id: serial("id").primaryKey(),
   userName: text("user_name").notNull(),
   sessionType: sessionTypeEnum("session_type").notNull().default("general"),
+  modelType: modelTypeEnum("model_type").notNull().default("cnn_lstm"),
   status: sessionStatusEnum("status").notNull().default("active"),
   startedAt: timestamp("started_at", { withTimezone: true }).notNull().defaultNow(),
   endedAt: timestamp("ended_at", { withTimezone: true }),

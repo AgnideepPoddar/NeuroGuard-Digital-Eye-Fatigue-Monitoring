@@ -7,12 +7,14 @@
  */
 import type { FatigueMetric } from "./fatigueMetric";
 import type { SessionAnalyticsAlertsByType } from "./sessionAnalyticsAlertsByType";
+import type { SessionAnalyticsModelType } from "./sessionAnalyticsModelType";
 import type { SessionAnalyticsStateDistribution } from "./sessionAnalyticsStateDistribution";
 
 export interface SessionAnalytics {
   sessionId: number;
   userName: string;
   sessionType: string;
+  modelType: SessionAnalyticsModelType;
   /** Duration in seconds */
   duration: number;
   totalMetrics: number;

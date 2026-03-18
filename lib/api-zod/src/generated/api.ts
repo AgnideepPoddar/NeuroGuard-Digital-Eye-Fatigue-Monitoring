@@ -22,6 +22,7 @@ export const ListSessionsResponseItem = zod.object({
   id: zod.number(),
   userName: zod.string(),
   sessionType: zod.enum(["driving", "development", "general"]),
+  modelType: zod.enum(["cnn_lstm", "resnet_lstm", "densenet_lstm"]),
   status: zod.enum(["active", "completed"]),
   startedAt: zod.date(),
   endedAt: zod.date().nullish(),
@@ -37,6 +38,7 @@ export const ListSessionsResponse = zod.array(ListSessionsResponseItem);
 export const CreateSessionBody = zod.object({
   userName: zod.string(),
   sessionType: zod.enum(["driving", "development", "general"]),
+  modelType: zod.enum(["cnn_lstm", "resnet_lstm", "densenet_lstm"]),
 });
 
 /**
@@ -50,6 +52,7 @@ export const GetSessionResponse = zod.object({
   id: zod.number(),
   userName: zod.string(),
   sessionType: zod.enum(["driving", "development", "general"]),
+  modelType: zod.enum(["cnn_lstm", "resnet_lstm", "densenet_lstm"]),
   status: zod.enum(["active", "completed"]),
   startedAt: zod.date(),
   endedAt: zod.date().nullish(),
@@ -73,6 +76,7 @@ export const EndSessionResponse = zod.object({
   id: zod.number(),
   userName: zod.string(),
   sessionType: zod.enum(["driving", "development", "general"]),
+  modelType: zod.enum(["cnn_lstm", "resnet_lstm", "densenet_lstm"]),
   status: zod.enum(["active", "completed"]),
   startedAt: zod.date(),
   endedAt: zod.date().nullish(),
@@ -172,6 +176,7 @@ export const GetAnalyticsSummaryResponse = zod.object({
       id: zod.number(),
       userName: zod.string(),
       sessionType: zod.enum(["driving", "development", "general"]),
+      modelType: zod.enum(["cnn_lstm", "resnet_lstm", "densenet_lstm"]),
       status: zod.enum(["active", "completed"]),
       startedAt: zod.date(),
       endedAt: zod.date().nullish(),
@@ -193,6 +198,7 @@ export const GetSessionAnalyticsResponse = zod.object({
   sessionId: zod.number(),
   userName: zod.string(),
   sessionType: zod.string(),
+  modelType: zod.enum(["cnn_lstm", "resnet_lstm", "densenet_lstm"]),
   duration: zod.number().describe("Duration in seconds"),
   totalMetrics: zod.number(),
   totalAlerts: zod.number(),

@@ -22,6 +22,15 @@ export const SessionSessionType = {
   general: "general",
 } as const;
 
+export type SessionModelType =
+  (typeof SessionModelType)[keyof typeof SessionModelType];
+
+export const SessionModelType = {
+  cnn_lstm: "cnn_lstm",
+  resnet_lstm: "resnet_lstm",
+  densenet_lstm: "densenet_lstm",
+} as const;
+
 export type SessionStatus = (typeof SessionStatus)[keyof typeof SessionStatus];
 
 export const SessionStatus = {
@@ -33,6 +42,7 @@ export interface Session {
   id: number;
   userName: string;
   sessionType: SessionSessionType;
+  modelType: SessionModelType;
   status: SessionStatus;
   startedAt: string;
   endedAt?: string | null;
@@ -50,9 +60,19 @@ export const CreateSessionRequestSessionType = {
   general: "general",
 } as const;
 
+export type CreateSessionRequestModelType =
+  (typeof CreateSessionRequestModelType)[keyof typeof CreateSessionRequestModelType];
+
+export const CreateSessionRequestModelType = {
+  cnn_lstm: "cnn_lstm",
+  resnet_lstm: "resnet_lstm",
+  densenet_lstm: "densenet_lstm",
+} as const;
+
 export interface CreateSessionRequest {
   userName: string;
   sessionType: CreateSessionRequestSessionType;
+  modelType: CreateSessionRequestModelType;
 }
 
 export type EndSessionRequestStatus =
@@ -152,6 +172,15 @@ export interface AnalyticsSummary {
   recentSessions: Session[];
 }
 
+export type SessionAnalyticsModelType =
+  (typeof SessionAnalyticsModelType)[keyof typeof SessionAnalyticsModelType];
+
+export const SessionAnalyticsModelType = {
+  cnn_lstm: "cnn_lstm",
+  resnet_lstm: "resnet_lstm",
+  densenet_lstm: "densenet_lstm",
+} as const;
+
 export type SessionAnalyticsStateDistribution = {
   alert: number;
   drowsy: number;
@@ -168,6 +197,7 @@ export interface SessionAnalytics {
   sessionId: number;
   userName: string;
   sessionType: string;
+  modelType: SessionAnalyticsModelType;
   /** Duration in seconds */
   duration: number;
   totalMetrics: number;

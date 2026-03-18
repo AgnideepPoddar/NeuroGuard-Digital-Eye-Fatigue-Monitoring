@@ -146,6 +146,7 @@ router.get("/analytics/sessions/:sessionId", async (req, res): Promise<void> => 
     sessionId,
     userName: session.userName,
     sessionType: session.sessionType,
+    modelType: session.modelType,
     duration,
     totalMetrics: Number(metricsAgg[0]?.totalMetrics ?? 0),
     totalAlerts: Number(alertsAgg[0]?.cnt ?? 0),

@@ -263,6 +263,9 @@ components:
         sessionType:
           type: string
           enum: [driving, development, general]
+        modelType:
+          type: string
+          enum: [cnn_lstm, resnet_lstm, densenet_lstm]
         status:
           type: string
           enum: [active, completed]
@@ -287,6 +290,7 @@ components:
         - id
         - userName
         - sessionType
+        - modelType
         - status
         - startedAt
         - totalAlerts
@@ -299,9 +303,13 @@ components:
         sessionType:
           type: string
           enum: [driving, development, general]
+        modelType:
+          type: string
+          enum: [cnn_lstm, resnet_lstm, densenet_lstm]
       required:
         - userName
         - sessionType
+        - modelType
 
     EndSessionRequest:
       type: object
@@ -464,6 +472,9 @@ components:
           type: string
         sessionType:
           type: string
+        modelType:
+          type: string
+          enum: [cnn_lstm, resnet_lstm, densenet_lstm]
         duration:
           type: integer
           description: Duration in seconds
@@ -520,6 +531,7 @@ components:
         - sessionId
         - userName
         - sessionType
+        - modelType
         - duration
         - totalMetrics
         - totalAlerts

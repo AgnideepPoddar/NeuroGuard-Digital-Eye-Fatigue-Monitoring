@@ -42,6 +42,7 @@ router.post("/sessions", async (req, res): Promise<void> => {
     .values({
       userName: parsed.data.userName,
       sessionType: parsed.data.sessionType,
+      modelType: parsed.data.modelType,
     })
     .returning();
 
