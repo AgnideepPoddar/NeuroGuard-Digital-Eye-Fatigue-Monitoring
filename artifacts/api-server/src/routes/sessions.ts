@@ -49,6 +49,27 @@ router.post("/sessions", async (req, res): Promise<void> => {
   res.status(201).json(GetSessionResponse.parse(session));
 });
 
+router.delete("/sessions/:sessionId", async (req, res): Promise<void> => {
+  const raw = Array.isArray(req.params.sessionId) ? req.params.sessionId[0] : req.params.sessionId;
+  const sessionId = parseInt(raw, 10);
+  if (isNaN(sessionId)) {
+    res.status(400).json({ error: "Invalid session ID" });
+    return;
+  }
+
+  const [deleted] = await db
+    .delete(sessionsTable)
+    .where(eq(sessionsTable.id, sessionId))
+    .returning();
+
+  if (!deleted) {
+    res.status(404).json({ error: "Session not found" });
+    return;
+  }
+
+  res.sendStatus(204);
+});
+
 router.get("/sessions/:sessionId", async (req, res): Promise<void> => {
   const params = GetSessionParams.safeParse(req.params);
   if (!params.success) {

@@ -42,6 +42,13 @@ export const CreateSessionBody = zod.object({
 });
 
 /**
+ * @summary Delete a session and all its data
+ */
+export const DeleteSessionParams = zod.object({
+  sessionId: zod.coerce.number(),
+});
+
+/**
  * @summary Get a specific session
  */
 export const GetSessionParams = zod.object({

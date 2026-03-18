@@ -136,6 +136,12 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
   const earBufferRef = useRef<number[]>([]);
   const modelTypeRef = useRef<ModelType>(modelType);
 
+  // State transition debounce — only commit a new state after it holds for 2.5s
+  const pendingStateRef = useRef<'alert' | 'drowsy' | 'fatigued'>('alert');
+  const committedStateRef = useRef<'alert' | 'drowsy' | 'fatigued'>('alert');
+  const stateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const STATE_HOLD_MS = 2500;
+
   // Keep ref in sync with prop
   useEffect(() => { modelTypeRef.current = modelType; }, [modelType]);
 
@@ -190,10 +196,25 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
       ) || 0.1;
       const currentBlinkRate = Math.round(blinksInWindowRef.current.length / windowDurationMins);
 
-      const state = getStateFromScore(avgEar, perclosVal, currentBlinkRate, config);
+      const rawState = getStateFromScore(avgEar, perclosVal, currentBlinkRate, config);
 
-      // Draw eye landmarks colored by state
-      canvasCtx.fillStyle = state === 'alert' ? '#00e5ff' : state === 'drowsy' ? '#ff9100' : '#ff1744';
+      // Debounce state transitions: only switch after rawState holds for STATE_HOLD_MS
+      if (rawState !== pendingStateRef.current) {
+        // New candidate state — reset the hold timer
+        pendingStateRef.current = rawState;
+        if (stateTimerRef.current) clearTimeout(stateTimerRef.current);
+        stateTimerRef.current = setTimeout(() => {
+          committedStateRef.current = pendingStateRef.current;
+          setFatigueState(pendingStateRef.current);
+          stateTimerRef.current = null;
+        }, STATE_HOLD_MS);
+      }
+
+      // Use the committed (debounced) state for rendering landmarks
+      const displayState = committedStateRef.current;
+
+      // Draw eye landmarks colored by committed state
+      canvasCtx.fillStyle = displayState === 'alert' ? '#00e5ff' : displayState === 'drowsy' ? '#ff9100' : '#ff1744';
       [...LEFT_EYE, ...RIGHT_EYE].forEach(idx => {
         const point = landmarks[idx];
         canvasCtx.beginPath();
@@ -208,7 +229,6 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
       setCurrentEar(Number(avgEar.toFixed(3)));
       setCurrentPerclos(Number(perclosVal.toFixed(3)));
       setBlinkRate(currentBlinkRate);
-      setFatigueState(state);
 
       if (historyRef.current.length % 10 === 0) {
         setHistory([...historyRef.current]);
@@ -268,6 +288,7 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
     return () => {
       if (camera) camera.stop();
       if (faceMesh) faceMesh.close();
+      if (stateTimerRef.current) clearTimeout(stateTimerRef.current);
     };
   }, [isActive, onResults]);
 

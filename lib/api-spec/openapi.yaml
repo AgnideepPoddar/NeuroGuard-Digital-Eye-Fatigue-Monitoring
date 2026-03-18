@@ -63,6 +63,25 @@ paths:
                 $ref: "#/components/schemas/Session"
 
   /sessions/{sessionId}:
+    delete:
+      operationId: deleteSession
+      tags: [sessions]
+      summary: Delete a session and all its data
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Session deleted
+        "404":
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     get:
       operationId: getSession
       tags: [sessions]
