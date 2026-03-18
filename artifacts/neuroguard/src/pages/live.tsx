@@ -208,10 +208,7 @@ export default function LiveMonitor() {
                 <div className="flex items-start justify-between mb-2">
                   <span className="text-sm font-display font-bold text-foreground">{cfg.label}</span>
                 </div>
-                <span className={cn("text-[10px] font-semibold px-2 py-0.5 rounded-full border", BADGE_COLORS[modelId])}>
-                  {cfg.badge}
-                </span>
-                <p className="text-[11px] text-muted-foreground mt-2 leading-relaxed">{cfg.description}</p>
+                <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{cfg.description}</p>
                 <div className="mt-3 grid grid-cols-2 gap-1 text-[10px] text-muted-foreground font-mono">
                   <span>EAR drowsy: <span className="text-foreground">&lt;{cfg.earDrowsyThreshold}</span></span>
                   <span>EAR fatigue: <span className="text-foreground">&lt;{cfg.earFatiguedThreshold}</span></span>
@@ -349,9 +346,6 @@ export default function LiveMonitor() {
               <div className="flex items-center gap-2 mb-3">
                 <Cpu className="w-4 h-4" />
                 <span className="text-sm font-display font-bold">{modelConfig.label}</span>
-                <span className={cn("ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full border", BADGE_COLORS[selectedModel])}>
-                  {modelConfig.badge}
-                </span>
               </div>
               <p className="text-[11px] text-muted-foreground mb-4">{modelConfig.description}</p>
               <div className="space-y-2 text-xs">
