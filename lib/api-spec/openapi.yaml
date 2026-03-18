@@ -1,15 +1,20 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: NeuroGuard Eye Fatigue Monitoring API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: sessions
+    description: Monitoring session operations
+  - name: metrics
+    description: Fatigue metrics operations
+  - name: analytics
+    description: Analytics and reporting
 paths:
   /healthz:
     get:
@@ -24,6 +29,212 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /sessions:
+    get:
+      operationId: listSessions
+      tags: [sessions]
+      summary: List all sessions
+      responses:
+        "200":
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Session"
+    post:
+      operationId: createSession
+      tags: [sessions]
+      summary: Start a new monitoring session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSessionRequest"
+      responses:
+        "201":
+          description: Session created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+
+  /sessions/{sessionId}:
+    get:
+      operationId: getSession
+      tags: [sessions]
+      summary: Get a specific session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Session details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+        "404":
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      operationId: endSession
+      tags: [sessions]
+      summary: End a monitoring session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndSessionRequest"
+      responses:
+        "200":
+          description: Session ended
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Session"
+
+  /sessions/{sessionId}/metrics:
+    get:
+      operationId: getSessionMetrics
+      tags: [metrics]
+      summary: Get metrics for a session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 100
+      responses:
+        "200":
+          description: List of fatigue metrics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FatigueMetric"
+    post:
+      operationId: recordMetric
+      tags: [metrics]
+      summary: Record a fatigue metric data point
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecordMetricRequest"
+      responses:
+        "201":
+          description: Metric recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FatigueMetric"
+
+  /sessions/{sessionId}/alerts:
+    get:
+      operationId: getSessionAlerts
+      tags: [metrics]
+      summary: Get alerts for a session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+    post:
+      operationId: createAlert
+      tags: [metrics]
+      summary: Create a fatigue alert
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAlertRequest"
+      responses:
+        "201":
+          description: Alert created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+
+  /analytics/summary:
+    get:
+      operationId: getAnalyticsSummary
+      tags: [analytics]
+      summary: Get overall analytics summary
+      responses:
+        "200":
+          description: Analytics summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalyticsSummary"
+
+  /analytics/sessions/{sessionId}:
+    get:
+      operationId: getSessionAnalytics
+      tags: [analytics]
+      summary: Get analytics for a specific session
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Session analytics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionAnalytics"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +245,289 @@ components:
       required:
         - status
 
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    Session:
+      type: object
+      properties:
+        id:
+          type: integer
+        userName:
+          type: string
+        sessionType:
+          type: string
+          enum: [driving, development, general]
+        status:
+          type: string
+          enum: [active, completed]
+        startedAt:
+          type: string
+          format: date-time
+        endedAt:
+          type: string
+          format: date-time
+          nullable: true
+        totalAlerts:
+          type: integer
+        avgEar:
+          type: number
+          format: float
+          nullable: true
+        avgPerclos:
+          type: number
+          format: float
+          nullable: true
+      required:
+        - id
+        - userName
+        - sessionType
+        - status
+        - startedAt
+        - totalAlerts
+
+    CreateSessionRequest:
+      type: object
+      properties:
+        userName:
+          type: string
+        sessionType:
+          type: string
+          enum: [driving, development, general]
+      required:
+        - userName
+        - sessionType
+
+    EndSessionRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [completed]
+      required:
+        - status
+
+    FatigueMetric:
+      type: object
+      properties:
+        id:
+          type: integer
+        sessionId:
+          type: integer
+        ear:
+          type: number
+          format: float
+        perclos:
+          type: number
+          format: float
+        blinkRate:
+          type: number
+          format: float
+        fatigueState:
+          type: string
+          enum: [alert, drowsy, fatigued]
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - id
+        - sessionId
+        - ear
+        - perclos
+        - blinkRate
+        - fatigueState
+        - timestamp
+
+    RecordMetricRequest:
+      type: object
+      properties:
+        ear:
+          type: number
+          format: float
+        perclos:
+          type: number
+          format: float
+        blinkRate:
+          type: number
+          format: float
+        fatigueState:
+          type: string
+          enum: [alert, drowsy, fatigued]
+      required:
+        - ear
+        - perclos
+        - blinkRate
+        - fatigueState
+
+    Alert:
+      type: object
+      properties:
+        id:
+          type: integer
+        sessionId:
+          type: integer
+        alertType:
+          type: string
+          enum: [drowsy, fatigued, microsleep]
+        message:
+          type: string
+        ear:
+          type: number
+          format: float
+        perclos:
+          type: number
+          format: float
+        timestamp:
+          type: string
+          format: date-time
+      required:
+        - id
+        - sessionId
+        - alertType
+        - message
+        - ear
+        - perclos
+        - timestamp
+
+    CreateAlertRequest:
+      type: object
+      properties:
+        alertType:
+          type: string
+          enum: [drowsy, fatigued, microsleep]
+        message:
+          type: string
+        ear:
+          type: number
+          format: float
+        perclos:
+          type: number
+          format: float
+      required:
+        - alertType
+        - message
+        - ear
+        - perclos
+
+    AnalyticsSummary:
+      type: object
+      properties:
+        totalSessions:
+          type: integer
+        activeSessions:
+          type: integer
+        totalAlerts:
+          type: integer
+        avgEar:
+          type: number
+          format: float
+        avgPerclos:
+          type: number
+          format: float
+        alertsByType:
+          type: object
+          properties:
+            drowsy:
+              type: integer
+            fatigued:
+              type: integer
+            microsleep:
+              type: integer
+          required:
+            - drowsy
+            - fatigued
+            - microsleep
+        recentSessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Session"
+      required:
+        - totalSessions
+        - activeSessions
+        - totalAlerts
+        - avgEar
+        - avgPerclos
+        - alertsByType
+        - recentSessions
+
+    SessionAnalytics:
+      type: object
+      properties:
+        sessionId:
+          type: integer
+        userName:
+          type: string
+        sessionType:
+          type: string
+        duration:
+          type: integer
+          description: Duration in seconds
+        totalMetrics:
+          type: integer
+        totalAlerts:
+          type: integer
+        avgEar:
+          type: number
+          format: float
+        minEar:
+          type: number
+          format: float
+        avgPerclos:
+          type: number
+          format: float
+        maxPerclos:
+          type: number
+          format: float
+        avgBlinkRate:
+          type: number
+          format: float
+        stateDistribution:
+          type: object
+          properties:
+            alert:
+              type: integer
+            drowsy:
+              type: integer
+            fatigued:
+              type: integer
+          required:
+            - alert
+            - drowsy
+            - fatigued
+        alertsByType:
+          type: object
+          properties:
+            drowsy:
+              type: integer
+            fatigued:
+              type: integer
+            microsleep:
+              type: integer
+          required:
+            - drowsy
+            - fatigued
+            - microsleep
+        metricsTimeSeries:
+          type: array
+          items:
+            $ref: "#/components/schemas/FatigueMetric"
+      required:
+        - sessionId
+        - userName
+        - sessionType
+        - duration
+        - totalMetrics
+        - totalAlerts
+        - avgEar
+        - minEar
+        - avgPerclos
+        - maxPerclos
+        - avgBlinkRate
+        - stateDistribution
+        - alertsByType
+        - metricsTimeSeries

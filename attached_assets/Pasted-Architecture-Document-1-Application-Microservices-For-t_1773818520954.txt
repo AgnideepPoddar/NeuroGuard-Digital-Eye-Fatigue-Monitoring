@@ -1,0 +1,36 @@
+Architecture Document
+1.	 Application 
+Microservices 
+For this project, we have selected an Event-Driven Microservices Architecture. This choice is driven by the need for high-frequency data processing, real-time responsiveness, and modular scalability.
+
+•	Scalability: Each component, such as the Landmark Extraction Service, Hybrid Inference Service, and Notification Service, can scale independently based on the system load. During peak usage, only the compute-intensive Inference service needs additional resources.
+•	Real-Time Responsiveness: By using an event-driven approach, the system processes facial data streams asynchronously. The "Fatigue Detected" event is broadcast to the Notification Service for immediate user alerting, while the Analytics Serviceprocesses the same event for long-term storage without blocking the feedback loop.
+•	Loose Coupling: Services communicate via a central Event Bus. This ensures that a failure in the Analytics Service does not prevent the Notification Service from alerting a drowsy driver.
+•	Data Consistency: Using an event-sourced pattern allows for a complete audit trail of all fatigue-related events
+
+
+
+
+
+
+
+
+2.	Database 
+1.	ER Diagram 
+ 
+2.	Schema Design 
+ 
+3.	Data Exchange Contract
+1.	Frequency of data exchanges 
+•	Client-to-Server: Facial landmarks are transmitted at 30 Hz (30 frames per second) for real-time processing.
+•	Server-to-Database: Processed fatigue metrics are batched and persisted every 2 seconds to reduce I/O overhead while maintaining granular history.
+
+2.	Data Sets 
+•	Inbound: JSON payload containing a sequence of 468 3D landmark coordinates ($x, y, z$).
+•	Outbound: Real-time status updates (Alert, Drowsy, Fatigued) and telemetry for dashboard visualization.
+
+3.	Mode of Exchanges (API, File, Queue etc.,) 
+•	API (REST/HTTPS): Used for session initialization, user management, and historical data retrieval.
+•	WebSockets (WS): Primary channel for the low-latency stream of landmark data and real-time inference feedback.
+•	Message Queue (Redis/RabbitMQ): Buffers high-frequency logs before persistent storage to the database.
+

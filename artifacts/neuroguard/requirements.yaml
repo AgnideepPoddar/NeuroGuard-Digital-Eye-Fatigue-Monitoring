@@ -1,0 +1,16 @@
+packages:
+  "recharts": "Required for historical and real-time fatigue metric charts"
+  "framer-motion": "Required for smooth dashboard and metrics animations"
+  "date-fns": "Required for human-readable date formatting in analytics"
+  "clsx": "Required for Tailwind class merging"
+  "tailwind-merge": "Required for Tailwind class merging"
+
+images:
+  - path: "artifacts/neuroguard/public/images/logo.png"
+    description: "A highly professional, minimal tech logo for a neural analytics company called NeuroGuard. Stylized eye crossed with a neural network node in bright cyan and dark navy."
+    aspect_ratio: "1:1"
+
+notes:
+  - "Using MediaPipe Face Mesh via CDN in index.html for real-time landmark detection."
+  - "Using existing generated React Query hooks from @workspace/api-client-react."
+  - "PostgreSQL backend assumed to be running and storing metrics."
