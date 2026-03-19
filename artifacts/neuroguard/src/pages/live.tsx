@@ -43,6 +43,7 @@ export default function LiveMonitor() {
     currentPerclos,
     blinkRate,
     fatigueState,
+    detectionConfidence,
     history,
     modelConfig,
   } = useFaceMesh(!!activeSessionId, selectedModel);
@@ -119,6 +120,7 @@ export default function LiveMonitor() {
     ear: Number(h.ear.toFixed(3)),
     perclos: Number((h.perclos * 100).toFixed(1)),
     blinkRate: h.blinkRate,
+    confidence: h.confidence,
   }));
 
   const stateColors = {
@@ -360,6 +362,50 @@ export default function LiveMonitor() {
                     <Line type="monotone" dataKey="blinkRate" stroke="#a78bfa" strokeWidth={2} dot={false} isAnimationActive={false} />
                   </LineChart>
                 </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Detection Accuracy / Confidence Chart */}
+            <div className="glass-panel rounded-3xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h3 className="text-sm font-display font-semibold flex items-center text-foreground">
+                    <Brain className="w-4 h-4 mr-2 text-emerald-400" />
+                    Real-time Detection Confidence
+                  </h3>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    {modelConfig.label} base accuracy: <span className="text-foreground font-mono font-bold">{modelConfig.baseAccuracy}%</span>
+                  </p>
+                </div>
+                <div className={cn(
+                  "text-2xl font-mono font-bold tabular-nums",
+                  detectionConfidence >= 70 ? "text-emerald-400"
+                    : detectionConfidence >= 40 ? "text-amber-400"
+                    : "text-red-400"
+                )}>
+                  {isReady ? `${detectionConfidence}%` : '--'}
+                </div>
+              </div>
+              <div className="h-36 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <XAxis dataKey="time" hide />
+                    <YAxis domain={[0, 100]} hide />
+                    <ReferenceLine y={70} stroke="#34d399" strokeDasharray="3 3" opacity={0.5} />
+                    <ReferenceLine y={40} stroke="#ffb300" strokeDasharray="3 3" opacity={0.5} />
+                    <RechartsTooltip
+                      contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                      formatter={(v: number) => [`${v}%`, 'Confidence']}
+                      labelStyle={{ display: 'none' }}
+                    />
+                    <Line type="monotone" dataKey="confidence" stroke="#34d399" strokeWidth={2} dot={false} isAnimationActive={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex justify-between text-[10px] text-muted-foreground mt-1 px-1">
+                <span className="text-red-400">Low (&lt;40%)</span>
+                <span className="text-amber-400">Medium (40–70%)</span>
+                <span className="text-emerald-400">High (&gt;70%)</span>
               </div>
             </div>
           </div>

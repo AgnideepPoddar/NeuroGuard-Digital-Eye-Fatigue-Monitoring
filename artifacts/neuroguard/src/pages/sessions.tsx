@@ -1,5 +1,5 @@
 import { Layout } from "@/components/layout";
-import { useListSessions, useDeleteSession } from "@workspace/api-client-react";
+import { useListSessions, useDeleteSession, getListSessionsQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Activity, Search, Filter, ShieldAlert, Trash2, X, AlertTriangle } from "lucide-react";
@@ -101,11 +101,20 @@ export default function Sessions() {
 
   const handleDeleteConfirm = async () => {
     if (!confirmDelete) return;
+    const id = confirmDelete.id;
+    // Optimistically remove from cache instantly
+    const queryKey = getListSessionsQueryKey();
+    const prev = queryClient.getQueryData<typeof sessions>(queryKey);
+    queryClient.setQueryData(queryKey, (old: typeof sessions) =>
+      old ? old.filter(s => s.id !== id) : old
+    );
+    setConfirmDelete(null);
     try {
-      await deleteSession({ sessionId: confirmDelete.id });
-      queryClient.invalidateQueries({ queryKey: ["listSessions"] });
-      setConfirmDelete(null);
+      await deleteSession({ sessionId: id });
+      queryClient.invalidateQueries({ queryKey });
     } catch (e) {
+      // Roll back on failure
+      queryClient.setQueryData(queryKey, prev);
       console.error("Failed to delete session", e);
     }
   };

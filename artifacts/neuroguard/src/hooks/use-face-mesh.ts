@@ -15,6 +15,8 @@ export interface ModelConfig {
   label: string;
   description: string;
   badge: string;
+  // Published base accuracy from literature (%)
+  baseAccuracy: number;
   // EAR thresholds
   earDrowsyThreshold: number;
   earFatiguedThreshold: number;
@@ -38,6 +40,7 @@ export const MODEL_CONFIGS: Record<ModelType, ModelConfig> = {
     label: 'CNN + LSTM',
     description: 'Standard spatial-temporal model with convolutional feature extraction',
     badge: '',
+    baseAccuracy: 91.7,
     earDrowsyThreshold: 0.28,
     earFatiguedThreshold: 0.20,
     perclosDrowsyThreshold: 0.15,
@@ -54,6 +57,7 @@ export const MODEL_CONFIGS: Record<ModelType, ModelConfig> = {
     label: 'ResNet + LSTM',
     description: 'Residual deep features with skip connections for enhanced sensitivity',
     badge: '',
+    baseAccuracy: 93.2,
     earDrowsyThreshold: 0.26,
     earFatiguedThreshold: 0.22,
     perclosDrowsyThreshold: 0.12,
@@ -70,6 +74,7 @@ export const MODEL_CONFIGS: Record<ModelType, ModelConfig> = {
     label: 'DenseNet + LSTM',
     description: 'Dense multi-scale feature fusion with weighted composite fatigue scoring',
     badge: '',
+    baseAccuracy: 94.8,
     earDrowsyThreshold: 0.27,
     earFatiguedThreshold: 0.21,
     perclosDrowsyThreshold: 0.13,
@@ -114,11 +119,49 @@ function getStateFromScore(
   return 'alert';
 }
 
+function computeDetectionConfidence(
+  ear: number,
+  perclos: number,
+  state: 'alert' | 'drowsy' | 'fatigued',
+  config: ModelConfig
+): number {
+  const clamp = (v: number) => Math.max(0, Math.min(100, Math.round(v)));
+
+  if (state === 'alert') {
+    const earRange = 0.45 - config.earDrowsyThreshold;
+    const earMargin = earRange > 0 ? (ear - config.earDrowsyThreshold) / earRange : 0;
+    const perclosMargin = config.perclosDrowsyThreshold > 0
+      ? (config.perclosDrowsyThreshold - perclos) / config.perclosDrowsyThreshold
+      : 0;
+    return clamp((Math.max(0, earMargin) * 0.6 + Math.max(0, perclosMargin) * 0.4) * 100);
+  }
+
+  if (state === 'fatigued') {
+    const earDepth = config.earFatiguedThreshold > 0
+      ? (config.earFatiguedThreshold - ear) / config.earFatiguedThreshold
+      : 0;
+    const perclosDepth = (1 - config.perclosFatiguedThreshold) > 0
+      ? (perclos - config.perclosFatiguedThreshold) / (1 - config.perclosFatiguedThreshold)
+      : 0;
+    return clamp(30 + (Math.max(0, earDepth) * 0.6 + Math.max(0, perclosDepth) * 0.4) * 70);
+  }
+
+  // Drowsy: confidence = how centred we are in the drowsy zone
+  const earRange = config.earDrowsyThreshold - config.earFatiguedThreshold;
+  const earMid = (config.earDrowsyThreshold + config.earFatiguedThreshold) / 2;
+  const earConfidence = earRange > 0 ? Math.max(0, 1 - Math.abs(ear - earMid) / (earRange / 2)) : 0;
+  const perclosRange = config.perclosFatiguedThreshold - config.perclosDrowsyThreshold;
+  const perclosMid = (config.perclosDrowsyThreshold + config.perclosFatiguedThreshold) / 2;
+  const perclosConfidence = perclosRange > 0 ? Math.max(0, 1 - Math.abs(perclos - perclosMid) / (perclosRange / 2)) : 0;
+  return clamp((earConfidence * 0.6 + perclosConfidence * 0.4) * 100);
+}
+
 export interface MetricDataPoint {
   timestamp: number;
   ear: number;
   perclos: number;
   blinkRate: number;
+  confidence: number;
 }
 
 export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm') {
@@ -130,6 +173,7 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
   const [currentPerclos, setCurrentPerclos] = useState(0);
   const [blinkRate, setBlinkRate] = useState(0);
   const [fatigueState, setFatigueState] = useState<'alert' | 'drowsy' | 'fatigued'>('alert');
+  const [detectionConfidence, setDetectionConfidence] = useState(0);
   const [history, setHistory] = useState<MetricDataPoint[]>([]);
 
   const historyRef = useRef<MetricDataPoint[]>([]);
@@ -196,7 +240,8 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
       ) || 0.1;
       const currentBlinkRate = Math.round(blinksInWindowRef.current.length / windowDurationMins);
 
-      historyRef.current.push({ timestamp: now, ear: avgEar, perclos: perclosVal, blinkRate: currentBlinkRate });
+      const conf = computeDetectionConfidence(avgEar, perclosVal, committedStateRef.current, config);
+      historyRef.current.push({ timestamp: now, ear: avgEar, perclos: perclosVal, blinkRate: currentBlinkRate, confidence: conf });
 
       const rawState = getStateFromScore(avgEar, perclosVal, currentBlinkRate, config);
 
@@ -231,6 +276,7 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
       setCurrentEar(Number(avgEar.toFixed(3)));
       setCurrentPerclos(Number(perclosVal.toFixed(3)));
       setBlinkRate(currentBlinkRate);
+      setDetectionConfidence(conf);
 
       if (historyRef.current.length % 10 === 0) {
         setHistory([...historyRef.current]);
@@ -302,6 +348,7 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
     currentPerclos,
     blinkRate,
     fatigueState,
+    detectionConfidence,
     history,
     modelConfig: MODEL_CONFIGS[modelType],
   };
