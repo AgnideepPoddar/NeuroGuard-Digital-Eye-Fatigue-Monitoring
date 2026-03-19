@@ -128,32 +128,37 @@ function computeDetectionConfidence(
   const clamp = (v: number) => Math.max(0, Math.min(100, Math.round(v)));
 
   if (state === 'alert') {
+    // Confidence scales from 80% at the threshold boundary up to 98% at wide-open eyes
     const earRange = 0.45 - config.earDrowsyThreshold;
-    const earMargin = earRange > 0 ? (ear - config.earDrowsyThreshold) / earRange : 0;
+    const earMargin = earRange > 0 ? Math.max(0, (ear - config.earDrowsyThreshold) / earRange) : 0;
     const perclosMargin = config.perclosDrowsyThreshold > 0
-      ? (config.perclosDrowsyThreshold - perclos) / config.perclosDrowsyThreshold
+      ? Math.max(0, (config.perclosDrowsyThreshold - perclos) / config.perclosDrowsyThreshold)
       : 0;
-    return clamp((Math.max(0, earMargin) * 0.6 + Math.max(0, perclosMargin) * 0.4) * 100);
+    const raw = earMargin * 0.65 + perclosMargin * 0.35;
+    return clamp(80 + raw * 18);
   }
 
   if (state === 'fatigued') {
+    // Confidence scales from 82% just past the threshold up to 97% deep in fatigue zone
     const earDepth = config.earFatiguedThreshold > 0
-      ? (config.earFatiguedThreshold - ear) / config.earFatiguedThreshold
+      ? Math.max(0, (config.earFatiguedThreshold - ear) / config.earFatiguedThreshold)
       : 0;
     const perclosDepth = (1 - config.perclosFatiguedThreshold) > 0
-      ? (perclos - config.perclosFatiguedThreshold) / (1 - config.perclosFatiguedThreshold)
+      ? Math.max(0, (perclos - config.perclosFatiguedThreshold) / (1 - config.perclosFatiguedThreshold))
       : 0;
-    return clamp(30 + (Math.max(0, earDepth) * 0.6 + Math.max(0, perclosDepth) * 0.4) * 70);
+    const raw = earDepth * 0.65 + perclosDepth * 0.35;
+    return clamp(82 + raw * 15);
   }
 
-  // Drowsy: confidence = how centred we are in the drowsy zone
+  // Drowsy: highest confidence when metrics are centred in the drowsy zone (83–92%)
   const earRange = config.earDrowsyThreshold - config.earFatiguedThreshold;
   const earMid = (config.earDrowsyThreshold + config.earFatiguedThreshold) / 2;
   const earConfidence = earRange > 0 ? Math.max(0, 1 - Math.abs(ear - earMid) / (earRange / 2)) : 0;
   const perclosRange = config.perclosFatiguedThreshold - config.perclosDrowsyThreshold;
   const perclosMid = (config.perclosDrowsyThreshold + config.perclosFatiguedThreshold) / 2;
   const perclosConfidence = perclosRange > 0 ? Math.max(0, 1 - Math.abs(perclos - perclosMid) / (perclosRange / 2)) : 0;
-  return clamp((earConfidence * 0.6 + perclosConfidence * 0.4) * 100);
+  const raw = earConfidence * 0.6 + perclosConfidence * 0.4;
+  return clamp(83 + raw * 9);
 }
 
 export interface MetricDataPoint {

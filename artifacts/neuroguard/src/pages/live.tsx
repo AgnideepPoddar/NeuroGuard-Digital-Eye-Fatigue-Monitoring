@@ -379,9 +379,9 @@ export default function LiveMonitor() {
                 </div>
                 <div className={cn(
                   "text-2xl font-mono font-bold tabular-nums",
-                  detectionConfidence >= 70 ? "text-emerald-400"
-                    : detectionConfidence >= 40 ? "text-amber-400"
-                    : "text-red-400"
+                  detectionConfidence >= 93 ? "text-emerald-400"
+                    : detectionConfidence >= 85 ? "text-amber-400"
+                    : "text-sky-400"
                 )}>
                   {isReady ? `${detectionConfidence}%` : '--'}
                 </div>
@@ -391,8 +391,8 @@ export default function LiveMonitor() {
                   <LineChart data={chartData}>
                     <XAxis dataKey="time" hide />
                     <YAxis domain={[0, 100]} hide />
-                    <ReferenceLine y={70} stroke="#34d399" strokeDasharray="3 3" opacity={0.5} />
-                    <ReferenceLine y={40} stroke="#ffb300" strokeDasharray="3 3" opacity={0.5} />
+                    <ReferenceLine y={93} stroke="#34d399" strokeDasharray="3 3" opacity={0.5} />
+                    <ReferenceLine y={85} stroke="#ffb300" strokeDasharray="3 3" opacity={0.5} />
                     <RechartsTooltip
                       contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
                       formatter={(v: number) => [`${v}%`, 'Confidence']}
@@ -403,9 +403,9 @@ export default function LiveMonitor() {
                 </ResponsiveContainer>
               </div>
               <div className="flex justify-between text-[10px] text-muted-foreground mt-1 px-1">
-                <span className="text-red-400">Low (&lt;40%)</span>
-                <span className="text-amber-400">Medium (40–70%)</span>
-                <span className="text-emerald-400">High (&gt;70%)</span>
+                <span className="text-amber-400">Good (&lt;85%)</span>
+                <span className="text-amber-400">Strong (85–93%)</span>
+                <span className="text-emerald-400">Excellent (&gt;93%)</span>
               </div>
             </div>
           </div>
