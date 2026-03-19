@@ -29,7 +29,7 @@ const MODEL_ACCENT: Record<ModelType, string> = {
 
 export default function LiveMonitor() {
   const [userName, setUserName] = useState("User_01");
-  const [sessionType, setSessionType] = useState<CreateSessionRequestSessionType>("driving");
+  const [sessionType, setSessionType] = useState<CreateSessionRequestSessionType>("general");
   const [selectedModel, setSelectedModel] = useState<ModelType>("cnn_lstm");
 
   const [activeSessionId, setActiveSessionId] = useState<number | null>(null);
@@ -114,9 +114,11 @@ export default function LiveMonitor() {
     }
   };
 
-  const chartData = history.slice(-60).map((h, i) => ({
+  const chartData = history.slice(-120).map((h, i) => ({
     time: i,
-    ear: Number(h.ear.toFixed(3))
+    ear: Number(h.ear.toFixed(3)),
+    perclos: Number((h.perclos * 100).toFixed(1)),
+    blinkRate: h.blinkRate,
   }));
 
   const stateColors = {
@@ -148,9 +150,9 @@ export default function LiveMonitor() {
             disabled={!!activeSessionId}
             className="bg-background/50 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-primary transition-colors disabled:opacity-50 appearance-none"
           >
+            <option value="general">General</option>
             <option value="driving">Driving</option>
             <option value="development">Development</option>
-            <option value="general">General</option>
           </select>
 
           {activeSessionId ? (
@@ -270,44 +272,95 @@ export default function LiveMonitor() {
             )}
           </div>
 
-          {/* EAR Chart */}
-          <div className="glass-panel rounded-3xl p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-display flex items-center text-foreground">
-                <Activity className="w-5 h-5 mr-2 text-primary" />
-                Real-time EAR Signal (Last 60s)
-              </h3>
-              <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <span className="inline-block w-5 h-[2px] bg-amber-400" /> Drowsy ({modelConfig.earDrowsyThreshold})
-                </span>
-                <span className="flex items-center gap-1">
-                  <span className="inline-block w-5 h-[2px] bg-red-500" /> Fatigued ({modelConfig.earFatiguedThreshold})
-                </span>
+          {/* Real-time Charts */}
+          <div className="space-y-4">
+            {/* EAR Chart */}
+            <div className="glass-panel rounded-3xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-display font-semibold flex items-center text-foreground">
+                  <Eye className="w-4 h-4 mr-2 text-primary" />
+                  Eye Aspect Ratio (EAR)
+                </h3>
+                <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+                  <span className="flex items-center gap-1"><span className="inline-block w-4 h-[2px] bg-amber-400" /> {modelConfig.earDrowsyThreshold}</span>
+                  <span className="flex items-center gap-1"><span className="inline-block w-4 h-[2px] bg-red-500" /> {modelConfig.earFatiguedThreshold}</span>
+                </div>
+              </div>
+              <div className="h-36 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <XAxis dataKey="time" hide />
+                    <YAxis domain={[0.1, 0.45]} hide />
+                    <ReferenceLine y={modelConfig.earDrowsyThreshold} stroke="#ffb300" strokeDasharray="3 3" opacity={0.6} />
+                    <ReferenceLine y={modelConfig.earFatiguedThreshold} stroke="#ff1744" strokeDasharray="3 3" opacity={0.6} />
+                    <RechartsTooltip
+                      contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                      formatter={(v: number) => [v.toFixed(3), 'EAR']}
+                      labelStyle={{ display: 'none' }}
+                    />
+                    <Line type="monotone" dataKey="ear" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} isAnimationActive={false} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
-            <div className="h-48 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={chartData}>
-                  <XAxis dataKey="time" hide />
-                  <YAxis domain={[0.1, 0.45]} hide />
-                  <ReferenceLine y={modelConfig.earDrowsyThreshold} stroke="#ffb300" strokeDasharray="3 3" opacity={0.6} />
-                  <ReferenceLine y={modelConfig.earFatiguedThreshold} stroke="#ff1744" strokeDasharray="3 3" opacity={0.6} />
-                  <RechartsTooltip
-                    contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
-                    itemStyle={{ color: '#00e5ff' }}
-                    labelStyle={{ display: 'none' }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="ear"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={2}
-                    dot={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+
+            {/* PERCLOS Chart */}
+            <div className="glass-panel rounded-3xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-display font-semibold flex items-center text-foreground">
+                  <Clock className="w-4 h-4 mr-2 text-amber-400" />
+                  PERCLOS — % Eye Closure (60s window)
+                </h3>
+                <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+                  <span className="flex items-center gap-1"><span className="inline-block w-4 h-[2px] bg-amber-400" /> {(modelConfig.perclosDrowsyThreshold * 100).toFixed(0)}%</span>
+                  <span className="flex items-center gap-1"><span className="inline-block w-4 h-[2px] bg-red-500" /> {(modelConfig.perclosFatiguedThreshold * 100).toFixed(0)}%</span>
+                </div>
+              </div>
+              <div className="h-36 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <XAxis dataKey="time" hide />
+                    <YAxis domain={[0, 100]} hide />
+                    <ReferenceLine y={modelConfig.perclosDrowsyThreshold * 100} stroke="#ffb300" strokeDasharray="3 3" opacity={0.6} />
+                    <ReferenceLine y={modelConfig.perclosFatiguedThreshold * 100} stroke="#ff1744" strokeDasharray="3 3" opacity={0.6} />
+                    <RechartsTooltip
+                      contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                      formatter={(v: number) => [`${v.toFixed(1)}%`, 'PERCLOS']}
+                      labelStyle={{ display: 'none' }}
+                    />
+                    <Line type="monotone" dataKey="perclos" stroke="#fbbf24" strokeWidth={2} dot={false} isAnimationActive={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Blink Rate Chart */}
+            <div className="glass-panel rounded-3xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-display font-semibold flex items-center text-foreground">
+                  <Activity className="w-4 h-4 mr-2 text-violet-400" />
+                  Blink Rate (blinks/min)
+                </h3>
+                <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
+                  <span className="flex items-center gap-1"><span className="inline-block w-4 h-[2px] bg-amber-400" /> &lt;10 drowsy</span>
+                  <span className="flex items-center gap-1"><span className="inline-block w-4 h-[2px] bg-violet-400" /> normal 15–20</span>
+                </div>
+              </div>
+              <div className="h-36 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <XAxis dataKey="time" hide />
+                    <YAxis domain={[0, 40]} hide />
+                    <ReferenceLine y={10} stroke="#ffb300" strokeDasharray="3 3" opacity={0.6} />
+                    <RechartsTooltip
+                      contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '12px' }}
+                      formatter={(v: number) => [`${v} bpm`, 'Blink Rate']}
+                      labelStyle={{ display: 'none' }}
+                    />
+                    <Line type="monotone" dataKey="blinkRate" stroke="#a78bfa" strokeWidth={2} dot={false} isAnimationActive={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           </div>
         </div>

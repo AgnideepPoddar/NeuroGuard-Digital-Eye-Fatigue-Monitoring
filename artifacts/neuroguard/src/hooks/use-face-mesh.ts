@@ -117,6 +117,8 @@ function getStateFromScore(
 export interface MetricDataPoint {
   timestamp: number;
   ear: number;
+  perclos: number;
+  blinkRate: number;
 }
 
 export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm') {
@@ -181,8 +183,6 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
         blinksInWindowRef.current.push({ timestamp: now });
       }
 
-      historyRef.current.push({ timestamp: now, ear: avgEar });
-
       const windowStart = now - 60000;
       historyRef.current = historyRef.current.filter(p => p.timestamp >= windowStart);
       blinksInWindowRef.current = blinksInWindowRef.current.filter(b => b.timestamp >= windowStart);
@@ -195,6 +195,8 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
         (now - (historyRef.current[0]?.timestamp || now)) / 60000, 1
       ) || 0.1;
       const currentBlinkRate = Math.round(blinksInWindowRef.current.length / windowDurationMins);
+
+      historyRef.current.push({ timestamp: now, ear: avgEar, perclos: perclosVal, blinkRate: currentBlinkRate });
 
       const rawState = getStateFromScore(avgEar, perclosVal, currentBlinkRate, config);
 
