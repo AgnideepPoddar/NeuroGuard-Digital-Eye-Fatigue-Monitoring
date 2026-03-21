@@ -187,11 +187,11 @@ export function useFaceMesh(isActive: boolean, modelType: ModelType = 'cnn_lstm'
   const earBufferRef = useRef<number[]>([]);
   const modelTypeRef = useRef<ModelType>(modelType);
 
-  // State transition debounce — only commit a new state after it holds for 2.5s
+  // State transition debounce — only commit a new state after it holds for 800ms
   const pendingStateRef = useRef<'alert' | 'drowsy' | 'fatigued'>('alert');
   const committedStateRef = useRef<'alert' | 'drowsy' | 'fatigued'>('alert');
   const stateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const STATE_HOLD_MS = 2500;
+  const STATE_HOLD_MS = 800;
 
   // Keep ref in sync with prop
   useEffect(() => { modelTypeRef.current = modelType; }, [modelType]);
