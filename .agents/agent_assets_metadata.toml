@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "cf1FWcJuReuuLkieP9MtF"
+uri = "file://artifacts/neuroguard/public/erd.svg"
+type = "image"
+title = "NeuroGuard ERD — IEEE Paper"

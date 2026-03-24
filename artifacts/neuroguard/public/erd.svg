@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 680" width="1460" height="680" font-family="'Times New Roman', Times, serif">
+
+  <!-- Background -->
+  <rect width="1460" height="680" fill="#ffffff" stroke="none"/>
+
+  <!-- ═══════════════════════════════════════════════════ TITLE -->
+  <text x="730" y="32" text-anchor="middle" font-size="15" font-weight="bold" fill="#000">Entity Relationship Diagram — NeuroGuard Real-Time Eye Fatigue Monitoring System</text>
+  <line x1="40" y1="40" x2="1420" y2="40" stroke="#000" stroke-width="1"/>
+
+  <!-- ═══════════════════════════════════════════════════ ENTITY: FATIGUE_METRIC -->
+  <!-- Outer box -->
+  <rect x="40" y="60" width="380" height="340" fill="#f0f6ff" stroke="#000" stroke-width="1.5"/>
+  <!-- Header -->
+  <rect x="40" y="60" width="380" height="36" fill="#1a3a6b" stroke="#000" stroke-width="1.5"/>
+  <text x="230" y="83" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff" letter-spacing="1">FATIGUE_METRIC</text>
+  <!-- Divider after FK attrs -->
+  <line x1="40" y1="160" x2="420" y2="160" stroke="#888" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <!-- Attributes -->
+  <text x="55" y="113" font-size="11.5" fill="#000"><tspan font-weight="bold" fill="#c0392b">PK</tspan>  id                  SERIAL</text>
+  <text x="55" y="131" font-size="11.5" fill="#000"><tspan font-weight="bold" fill="#16a085">FK</tspan>  session_id          INTEGER</text>
+  <text x="55" y="152" font-size="11" fill="#555" font-style="italic">        references sessions(id)</text>
+  <text x="55" y="178" font-size="11.5" fill="#000">    ear                 REAL</text>
+  <text x="55" y="196" font-size="11.5" fill="#000">    perclos             REAL</text>
+  <text x="55" y="214" font-size="11.5" fill="#000">    blink_rate          REAL</text>
+  <text x="55" y="232" font-size="11.5" fill="#000">    fatigue_state       ENUM</text>
+  <text x="55" y="248" font-size="10.5" fill="#555" font-style="italic">        (alert | drowsy | fatigued)</text>
+  <text x="55" y="268" font-size="11.5" fill="#000">    timestamp           TIMESTAMPTZ</text>
+  <!-- Constraints note -->
+  <line x1="40" y1="285" x2="420" y2="285" stroke="#ccc" stroke-width="0.7"/>
+  <text x="55" y="302" font-size="10" fill="#555" font-style="italic">Constraints:</text>
+  <text x="55" y="316" font-size="10" fill="#555" font-style="italic">  • session_id NOT NULL</text>
+  <text x="55" y="330" font-size="10" fill="#555" font-style="italic">  • ear, perclos, blink_rate NOT NULL</text>
+  <text x="55" y="344" font-size="10" fill="#555" font-style="italic">  • Indexed on (session_id, timestamp)</text>
+  <text x="55" y="358" font-size="10" fill="#555" font-style="italic">  • ON DELETE CASCADE</text>
+  <text x="55" y="374" font-size="10" fill="#555" font-style="italic">  • Default: timestamp = NOW()</text>
+
+  <!-- ═══════════════════════════════════════════════════ ENTITY: SESSION -->
+  <!-- Outer box -->
+  <rect x="540" y="60" width="420" height="530" fill="#f0f6ff" stroke="#000" stroke-width="1.5"/>
+  <!-- Header -->
+  <rect x="540" y="60" width="420" height="36" fill="#1a3a6b" stroke="#000" stroke-width="1.5"/>
+  <text x="750" y="83" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff" letter-spacing="1">SESSION</text>
+  <!-- Divider after PK -->
+  <line x1="540" y1="113" x2="960" y2="113" stroke="#888" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <!-- Attributes -->
+  <text x="555" y="107" font-size="11.5" fill="#000"><tspan font-weight="bold" fill="#c0392b">PK</tspan>  id                  SERIAL</text>
+  <text x="555" y="132" font-size="11.5" fill="#000">    user_name           TEXT</text>
+  <text x="555" y="150" font-size="11.5" fill="#000">    session_type        ENUM</text>
+  <text x="555" y="166" font-size="10.5" fill="#555" font-style="italic">        (driving | development | general)</text>
+  <text x="555" y="186" font-size="11.5" fill="#000">    model_type          ENUM</text>
+  <text x="555" y="202" font-size="10.5" fill="#555" font-style="italic">        (cnn_lstm | resnet_lstm | densenet_lstm)</text>
+  <text x="555" y="222" font-size="11.5" fill="#000">    status              ENUM  (active | completed)</text>
+  <text x="555" y="242" font-size="11.5" fill="#000">    started_at          TIMESTAMPTZ</text>
+  <text x="555" y="260" font-size="11.5" fill="#000">    ended_at            TIMESTAMPTZ</text>
+  <text x="555" y="278" font-size="11.5" fill="#000">    total_alerts        INTEGER</text>
+  <text x="555" y="296" font-size="11.5" fill="#000">    avg_ear             REAL</text>
+  <text x="555" y="314" font-size="11.5" fill="#000">    avg_perclos         REAL</text>
+  <!-- Constraints note -->
+  <line x1="540" y1="332" x2="960" y2="332" stroke="#ccc" stroke-width="0.7"/>
+  <text x="555" y="350" font-size="10" fill="#555" font-style="italic">Constraints:</text>
+  <text x="555" y="364" font-size="10" fill="#555" font-style="italic">  • user_name NOT NULL</text>
+  <text x="555" y="378" font-size="10" fill="#555" font-style="italic">  • session_type, model_type, status NOT NULL</text>
+  <text x="555" y="392" font-size="10" fill="#555" font-style="italic">  • started_at NOT NULL, Default = NOW()</text>
+  <text x="555" y="406" font-size="10" fill="#555" font-style="italic">  • total_alerts NOT NULL, Default = 0</text>
+  <text x="555" y="420" font-size="10" fill="#555" font-style="italic">  • avg_ear, avg_perclos nullable (computed)</text>
+  <text x="555" y="434" font-size="10" fill="#555" font-style="italic">  • ended_at nullable (NULL when active)</text>
+  <text x="555" y="448" font-size="10" fill="#555" font-style="italic">  • Indexed on (status, started_at)</text>
+  <text x="555" y="462" font-size="10" fill="#555" font-style="italic">  • model_type: Default = cnn_lstm</text>
+  <text x="555" y="476" font-size="10" fill="#555" font-style="italic">  • session_type: Default = general</text>
+
+  <!-- ═══════════════════════════════════════════════════ ENTITY: ALERT -->
+  <!-- Outer box -->
+  <rect x="1070" y="60" width="380" height="320" fill="#f0f6ff" stroke="#000" stroke-width="1.5"/>
+  <!-- Header -->
+  <rect x="1070" y="60" width="380" height="36" fill="#1a3a6b" stroke="#000" stroke-width="1.5"/>
+  <text x="1260" y="83" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff" letter-spacing="1">ALERT</text>
+  <!-- Divider after FK attrs -->
+  <line x1="1070" y1="160" x2="1450" y2="160" stroke="#888" stroke-width="0.8" stroke-dasharray="4,3"/>
+  <!-- Attributes -->
+  <text x="1085" y="113" font-size="11.5" fill="#000"><tspan font-weight="bold" fill="#c0392b">PK</tspan>  id                  SERIAL</text>
+  <text x="1085" y="131" font-size="11.5" fill="#000"><tspan font-weight="bold" fill="#16a085">FK</tspan>  session_id          INTEGER</text>
+  <text x="1085" y="149" font-size="11" fill="#555" font-style="italic">        references sessions(id)</text>
+  <text x="1085" y="176" font-size="11.5" fill="#000">    alert_type          ENUM</text>
+  <text x="1085" y="192" font-size="10.5" fill="#555" font-style="italic">        (drowsy | fatigued | microsleep)</text>
+  <text x="1085" y="212" font-size="11.5" fill="#000">    message             TEXT</text>
+  <text x="1085" y="230" font-size="11.5" fill="#000">    ear                 REAL</text>
+  <text x="1085" y="248" font-size="11.5" fill="#000">    perclos             REAL</text>
+  <text x="1085" y="266" font-size="11.5" fill="#000">    timestamp           TIMESTAMPTZ</text>
+  <!-- Constraints note -->
+  <line x1="1070" y1="283" x2="1450" y2="283" stroke="#ccc" stroke-width="0.7"/>
+  <text x="1085" y="300" font-size="10" fill="#555" font-style="italic">Constraints:</text>
+  <text x="1085" y="314" font-size="10" fill="#555" font-style="italic">  • session_id NOT NULL</text>
+  <text x="1085" y="328" font-size="10" fill="#555" font-style="italic">  • alert_type, message NOT NULL</text>
+  <text x="1085" y="342" font-size="10" fill="#555" font-style="italic">  • ON DELETE CASCADE</text>
+  <text x="1085" y="356" font-size="10" fill="#555" font-style="italic">  • Default: timestamp = NOW()</text>
+
+  <!-- ═══════════════════════════════════════════════════ RELATIONSHIP: SESSION GENERATES FATIGUE_METRIC -->
+  <!-- Relationship diamond -->
+  <polygon points="365,245 420,218 475,245 420,272" fill="#fff8dc" stroke="#1a3a6b" stroke-width="1.5"/>
+  <text x="420" y="249" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1a3a6b">GENERATES</text>
+  <!-- Line: FATIGUE_METRIC right → diamond left -->
+  <line x1="420" y1="230" x2="365" y2="245" stroke="#1a3a6b" stroke-width="1.5"/>
+  <!-- Line: diamond right → SESSION left -->
+  <line x1="475" y1="245" x2="540" y2="280" stroke="#1a3a6b" stroke-width="1.5"/>
+  <!-- Cardinality N on FM side -->
+  <text x="430" y="218" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">N</text>
+  <!-- Cardinality 1 on SESSION side -->
+  <text x="508" y="268" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">1</text>
+  <!-- Double tick mark for "many" side near FM -->
+  <line x1="413" y1="232" x2="419" y2="228" stroke="#000" stroke-width="1.5"/>
+  <line x1="408" y1="235" x2="414" y2="231" stroke="#000" stroke-width="1.5"/>
+
+  <!-- ═══════════════════════════════════════════════════ RELATIONSHIP: SESSION TRIGGERS ALERT -->
+  <!-- Relationship diamond -->
+  <polygon points="985,245 1040,218 1095,245 1040,272" fill="#fff8dc" stroke="#1a3a6b" stroke-width="1.5"/>
+  <text x="1040" y="249" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#1a3a6b">TRIGGERS</text>
+  <!-- Line: SESSION right → diamond left -->
+  <line x1="960" y1="280" x2="985" y2="245" stroke="#1a3a6b" stroke-width="1.5"/>
+  <!-- Line: diamond right → ALERT left -->
+  <line x1="1095" y1="245" x2="1070" y2="230" stroke="#1a3a6b" stroke-width="1.5"/>
+  <!-- Cardinality 1 on SESSION side -->
+  <text x="1002" y="268" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">1</text>
+  <!-- Cardinality N on ALERT side -->
+  <text x="1060" y="218" text-anchor="middle" font-size="13" font-weight="bold" fill="#000">N</text>
+  <!-- Double tick mark for "many" side near ALERT -->
+  <line x1="1083" y1="231" x2="1089" y2="235" stroke="#000" stroke-width="1.5"/>
+  <line x1="1078" y1="228" x2="1084" y2="232" stroke="#000" stroke-width="1.5"/>
+
+  <!-- ═══════════════════════════════════════════════════ CASCADE LABELS -->
+  <text x="420" y="282" text-anchor="middle" font-size="8.5" fill="#888" font-style="italic">(on delete cascade)</text>
+  <text x="1040" y="282" text-anchor="middle" font-size="8.5" fill="#888" font-style="italic">(on delete cascade)</text>
+
+  <!-- ═══════════════════════════════════════════════════ LEGEND -->
+  <rect x="40" y="620" width="1380" height="52" fill="#f7f7f7" stroke="#bbb" stroke-width="1"/>
+  <text x="60" y="638" font-size="10.5" font-weight="bold" fill="#000">LEGEND:</text>
+  <text x="120" y="638" font-size="10.5" fill="#000">  </text>
+  <text x="125" y="638" font-size="10.5" font-weight="bold" fill="#c0392b">PK</text>
+  <text x="148" y="638" font-size="10.5" fill="#000"> = Primary Key</text>
+  <text x="250" y="638" font-size="10.5" font-weight="bold" fill="#16a085">FK</text>
+  <text x="270" y="638" font-size="10.5" fill="#000"> = Foreign Key</text>
+  <text x="365" y="638" font-size="10.5" fill="#000">SERIAL = Auto-increment Integer</text>
+  <text x="560" y="638" font-size="10.5" fill="#000">REAL = Floating-point Number</text>
+  <text x="735" y="638" font-size="10.5" fill="#000">ENUM = Enumerated Type</text>
+  <text x="880" y="638" font-size="10.5" fill="#000">TIMESTAMPTZ = Timestamp with Timezone</text>
+  <text x="60" y="658" font-size="10.5" fill="#000">Cardinality:  <tspan font-weight="bold">1</tspan> = One side  |  <tspan font-weight="bold">N</tspan> = Many side  |  ◆ = Relationship entity (Chen notation)  |  Double tick = Many-side participation  |  Cascade = child rows deleted with parent</text>
+
+  <!-- ═══════════════════════════════════════════════════ BORDER -->
+  <rect x="1" y="1" width="1458" height="678" fill="none" stroke="#000" stroke-width="2"/>
+</svg>
