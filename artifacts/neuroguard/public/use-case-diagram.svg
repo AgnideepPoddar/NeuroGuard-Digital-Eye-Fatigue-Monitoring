@@ -1,188 +1,201 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 780" font-family="'Inter', system-ui, sans-serif">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" font-family="'Inter', system-ui, sans-serif">
+    <rect width="1600" height="1100" fill="#f8fafc"/>
     <defs>
-      <style>
-        .actor{fill:none;stroke:#0f172a;stroke-width:2}
-        .actor-label{font-size:14px;fill:#0f172a;font-weight:600;text-anchor:middle}
-        .system-box{fill:#f8fafc;stroke:#0f172a;stroke-width:2}
-        .system-label{font-size:15px;fill:#0f172a;font-weight:700;letter-spacing:1px;text-anchor:middle}
-        .uc{fill:#ffffff;stroke:#475569;stroke-width:1.6}
-        .uc-primary{fill:#eff6ff;stroke:#2563eb;stroke-width:1.8}
-        .uc-secondary{fill:#f0fdf4;stroke:#16a34a;stroke-width:1.6}
-        .uc-alert{fill:#fef2f2;stroke:#dc2626;stroke-width:1.8}
-        .uc-text{font-size:12.5px;fill:#0f172a;text-anchor:middle;font-weight:500}
-        .conn{fill:none;stroke:#475569;stroke-width:1.2}
-        .conn-dashed{fill:none;stroke:#64748b;stroke-width:1.2;stroke-dasharray:4 4}
-        .stereo{font-size:10.5px;fill:#64748b;text-anchor:middle;font-style:italic}
-        .title-text{font-size:20px;font-weight:700;fill:#0f172a}
-        .subtitle-text{font-size:12px;fill:#64748b;letter-spacing:1.5px}
-      </style>
-      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" orient="auto">
-        <path d="M 0 0 L 10 5 L 0 10" fill="none" stroke="#475569" stroke-width="1.2"/>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+        <path d="M 0 0 L 10 5 L 0 10" fill="none" stroke="#64748b" stroke-width="1.2"/>
       </marker>
     </defs>
 
-    <!-- Title -->
-    <text x="640" y="38" text-anchor="middle" class="title-text">NeuroGuard — Use Case Diagram</text>
-    <text x="640" y="60" text-anchor="middle" class="subtitle-text">UML · ACTOR INTERACTIONS &amp; SYSTEM CAPABILITIES</text>
+    <text x="800" y="42" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">NeuroGuard — Use Case Diagram</text>
+    <text x="800" y="64" text-anchor="middle" font-size="12" fill="#64748b" letter-spacing="2">UML · MULTI-ACTOR INTERACTION MODEL</text>
 
-    <!-- ============== ACTOR (User) ============== -->
-    <g transform="translate(110, 380)">
-      <!-- head -->
-      <circle cx="0" cy="-50" r="18" class="actor"/>
-      <!-- body -->
-      <line x1="0" y1="-32" x2="0" y2="20" class="actor"/>
-      <!-- arms -->
-      <line x1="-26" y1="-12" x2="26" y2="-12" class="actor"/>
-      <!-- legs -->
-      <line x1="0" y1="20" x2="-22" y2="58" class="actor"/>
-      <line x1="0" y1="20" x2="22" y2="58" class="actor"/>
-      <text x="0" y="84" class="actor-label">User</text>
-      <text x="0" y="102" class="actor-label" font-size="11" fill="#64748b" font-weight="400">(Driver / Developer / General)</text>
-    </g>
-
-    <!-- ============== SYSTEM BOUNDARY ============== -->
+    <!-- System boundary -->
+    <rect x="240" y="100" width="1340" height="950" rx="12" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+    <text x="910" y="130" text-anchor="middle" font-size="15" font-weight="700" fill="#0f172a" letter-spacing="1">NeuroGuard System</text>
+  
+    <rect x="240" y="150" width="1340" height="290" fill="#2563eb" opacity="0.05"/>
+    <line x1="240" y1="150" x2="1580" y2="150" stroke="#2563eb" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.6"/>
+    <text x="254" y="172" font-size="11" font-weight="700" fill="#2563eb" letter-spacing="2" opacity="0.85">USER LANE</text>
+    <rect x="240" y="450" width="1340" height="270" fill="#7c3aed" opacity="0.05"/>
+    <line x1="240" y1="450" x2="1580" y2="450" stroke="#7c3aed" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.6"/>
+    <text x="254" y="472" font-size="11" font-weight="700" fill="#7c3aed" letter-spacing="2" opacity="0.85">SME LANE</text>
+    <rect x="240" y="730" width="1340" height="320" fill="#ea580c" opacity="0.05"/>
+    <line x1="240" y1="730" x2="1580" y2="730" stroke="#ea580c" stroke-width="0.8" stroke-dasharray="3 4" opacity="0.6"/>
+    <text x="254" y="752" font-size="11" font-weight="700" fill="#ea580c" letter-spacing="2" opacity="0.85">DEVELOPER LANE</text>
     <g>
-      <rect x="260" y="100" width="980" height="640" rx="12" class="system-box"/>
-      <text x="750" y="128" class="system-label">NeuroGuard System</text>
+      <circle cx="110" cy="240" r="18" fill="none" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="258" x2="110" y2="312" stroke="#0f172a" stroke-width="2"/>
+      <line x1="82" y1="278" x2="138" y2="278" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="312" x2="86" y2="350" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="312" x2="134" y2="350" stroke="#0f172a" stroke-width="2"/>
+      <text x="110" y="376" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">User</text>
+      <text x="110" y="394" text-anchor="middle" font-size="11" fill="#64748b">(Driver / General)</text>
     </g>
-
-    <!-- ============== USE CASES ============== -->
-    <!-- UC1: Start Monitoring Session (primary) -->
-    <g transform="translate(420, 200)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc-primary"/>
-      <text x="0" y="-2" class="uc-text">Start Monitoring</text>
-      <text x="0" y="14" class="uc-text">Session</text>
+    <g>
+      <circle cx="110" cy="530" r="18" fill="none" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="548" x2="110" y2="602" stroke="#0f172a" stroke-width="2"/>
+      <line x1="82" y1="568" x2="138" y2="568" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="602" x2="86" y2="640" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="602" x2="134" y2="640" stroke="#0f172a" stroke-width="2"/>
+      <text x="110" y="666" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">SME</text>
+      <text x="110" y="684" text-anchor="middle" font-size="11" fill="#64748b">(Safety Domain Expert)</text>
     </g>
-
-    <!-- UC2: Select Inference Model -->
-    <g transform="translate(720, 200)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc"/>
-      <text x="0" y="-2" class="uc-text">Select Inference</text>
-      <text x="0" y="14" class="uc-text">Model</text>
+    <g>
+      <circle cx="110" cy="830" r="18" fill="none" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="848" x2="110" y2="902" stroke="#0f172a" stroke-width="2"/>
+      <line x1="82" y1="868" x2="138" y2="868" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="902" x2="86" y2="940" stroke="#0f172a" stroke-width="2"/>
+      <line x1="110" y1="902" x2="134" y2="940" stroke="#0f172a" stroke-width="2"/>
+      <text x="110" y="966" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">Developer</text>
+      <text x="110" y="984" text-anchor="middle" font-size="11" fill="#64748b">(Engineer / Maintainer)</text>
     </g>
-
-    <!-- UC3: View Live Metrics (primary) -->
-    <g transform="translate(420, 320)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc-primary"/>
-      <text x="0" y="-2" class="uc-text">View Live</text>
-      <text x="0" y="14" class="uc-text">Metrics</text>
+    <g>
+      <ellipse cx="380" cy="220" rx="100" ry="32" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+      <text x="380" y="218" text-anchor="middle" font-size="12.5" fill="#1e3a8a" font-weight="500">Start Monitoring</text>
+         <text x="380" y="234" text-anchor="middle" font-size="12.5" fill="#1e3a8a" font-weight="500">Session</text>
     </g>
-
-    <!-- UC4: Receive Fatigue Alert (alert) -->
-    <g transform="translate(720, 320)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc-alert"/>
-      <text x="0" y="-2" class="uc-text">Receive Fatigue</text>
-      <text x="0" y="14" class="uc-text">Alert</text>
+    <g>
+      <ellipse cx="620" cy="220" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="620" y="218" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Select Inference</text>
+         <text x="620" y="234" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Model</text>
     </g>
-
-    <!-- UC5: End Session -->
-    <g transform="translate(420, 440)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc"/>
-      <text x="0" y="4" class="uc-text">End Session</text>
+    <g>
+      <ellipse cx="860" cy="220" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="860" y="224" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">End Session</text>
     </g>
-
-    <!-- UC6: View Session History -->
-    <g transform="translate(720, 440)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc"/>
-      <text x="0" y="-2" class="uc-text">View Session</text>
-      <text x="0" y="14" class="uc-text">History</text>
+    <g>
+      <ellipse cx="380" cy="320" rx="100" ry="32" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
+      <text x="380" y="318" text-anchor="middle" font-size="12.5" fill="#1e3a8a" font-weight="500">View Live</text>
+         <text x="380" y="334" text-anchor="middle" font-size="12.5" fill="#1e3a8a" font-weight="500">Metrics</text>
     </g>
-
-    <!-- UC7: View Analytics Dashboard -->
-    <g transform="translate(420, 560)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc"/>
-      <text x="0" y="-2" class="uc-text">View Analytics</text>
-      <text x="0" y="14" class="uc-text">Dashboard</text>
+    <g>
+      <ellipse cx="620" cy="320" rx="100" ry="32" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8"/>
+      <text x="620" y="318" text-anchor="middle" font-size="12.5" fill="#7f1d1d" font-weight="500">Receive Fatigue</text>
+         <text x="620" y="334" text-anchor="middle" font-size="12.5" fill="#7f1d1d" font-weight="500">Alert</text>
     </g>
-
-    <!-- UC8: Delete Session -->
-    <g transform="translate(720, 560)">
-      <ellipse cx="0" cy="0" rx="118" ry="34" class="uc"/>
-      <text x="0" y="4" class="uc-text">Delete Session</text>
+    <g>
+      <ellipse cx="860" cy="320" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="860" y="318" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">View Session</text>
+         <text x="860" y="334" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">History</text>
     </g>
-
-    <!-- ============== INCLUDED USE CASES (system internals) ============== -->
-    <!-- Compute EAR (secondary, included from View Live Metrics) -->
-    <g transform="translate(1050, 270)">
-      <ellipse cx="0" cy="0" rx="100" ry="28" class="uc-secondary"/>
-      <text x="0" y="4" class="uc-text">Compute EAR</text>
+    <g>
+      <ellipse cx="380" cy="410" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="380" y="408" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">View Analytics</text>
+         <text x="380" y="424" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Dashboard</text>
     </g>
-    <!-- Compute PERCLOS -->
-    <g transform="translate(1050, 340)">
-      <ellipse cx="0" cy="0" rx="100" ry="28" class="uc-secondary"/>
-      <text x="0" y="4" class="uc-text">Compute PERCLOS</text>
+    <g>
+      <ellipse cx="620" cy="410" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="620" y="414" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Delete Session</text>
     </g>
-    <!-- Persist Metric -->
-    <g transform="translate(1050, 410)">
-      <ellipse cx="0" cy="0" rx="100" ry="28" class="uc-secondary"/>
-      <text x="0" y="4" class="uc-text">Persist Metric</text>
+    <g>
+      <ellipse cx="380" cy="530" rx="100" ry="32" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.8"/>
+      <text x="380" y="528" text-anchor="middle" font-size="12.5" fill="#4c1d95" font-weight="500">Review Session</text>
+         <text x="380" y="544" text-anchor="middle" font-size="12.5" fill="#4c1d95" font-weight="500">Analytics</text>
     </g>
-    <!-- Detect Face Landmarks -->
-    <g transform="translate(1050, 200)">
-      <ellipse cx="0" cy="0" rx="100" ry="28" class="uc-secondary"/>
-      <text x="0" y="-2" class="uc-text">Detect Face</text>
-      <text x="0" y="12" class="uc-text">Landmarks</text>
+    <g>
+      <ellipse cx="620" cy="530" rx="100" ry="32" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.8"/>
+      <text x="620" y="528" text-anchor="middle" font-size="12.5" fill="#4c1d95" font-weight="500">Validate Model</text>
+         <text x="620" y="544" text-anchor="middle" font-size="12.5" fill="#4c1d95" font-weight="500">Accuracy</text>
     </g>
+    <g>
+      <ellipse cx="860" cy="530" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="860" y="528" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Tune Fatigue</text>
+         <text x="860" y="544" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Thresholds</text>
+    </g>
+    <g>
+      <ellipse cx="380" cy="630" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="380" y="628" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Audit Alert</text>
+         <text x="380" y="644" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Logs</text>
+    </g>
+    <g>
+      <ellipse cx="620" cy="630" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="620" y="628" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Approve Model</text>
+         <text x="620" y="644" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Deployment</text>
+    </g>
+    <g>
+      <ellipse cx="860" cy="630" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="860" y="628" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Generate Compliance</text>
+         <text x="860" y="644" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Report</text>
+    </g>
+    <g>
+      <ellipse cx="380" cy="810" rx="100" ry="32" fill="#fff7ed" stroke="#ea580c" stroke-width="1.8"/>
+      <text x="380" y="808" text-anchor="middle" font-size="12.5" fill="#7c2d12" font-weight="500">Configure System</text>
+         <text x="380" y="824" text-anchor="middle" font-size="12.5" fill="#7c2d12" font-weight="500">Settings</text>
+    </g>
+    <g>
+      <ellipse cx="620" cy="810" rx="100" ry="32" fill="#fff7ed" stroke="#ea580c" stroke-width="1.8"/>
+      <text x="620" y="808" text-anchor="middle" font-size="12.5" fill="#7c2d12" font-weight="500">Deploy Model</text>
+         <text x="620" y="824" text-anchor="middle" font-size="12.5" fill="#7c2d12" font-weight="500">Update</text>
+    </g>
+    <g>
+      <ellipse cx="860" cy="810" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="860" y="808" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Monitor System</text>
+         <text x="860" y="824" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Health</text>
+    </g>
+    <g>
+      <ellipse cx="380" cy="920" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="380" y="918" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Manage Database</text>
+         <text x="380" y="934" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Schema</text>
+    </g>
+    <g>
+      <ellipse cx="620" cy="920" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="620" y="918" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Debug &amp; Analyze</text>
+         <text x="620" y="934" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Logs</text>
+    </g>
+    <g>
+      <ellipse cx="860" cy="920" rx="100" ry="32" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+      <text x="860" y="918" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">View System</text>
+         <text x="860" y="934" text-anchor="middle" font-size="12.5" fill="#0f172a" font-weight="500">Telemetry</text>
+    </g>
+    <g>
+      <ellipse cx="1310" cy="200" rx="100" ry="32" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+      <text x="1310" y="198" text-anchor="middle" font-size="12.5" fill="#14532d" font-weight="500">Detect Face</text>
+         <text x="1310" y="214" text-anchor="middle" font-size="12.5" fill="#14532d" font-weight="500">Landmarks</text>
+    </g>
+    <g>
+      <ellipse cx="1310" cy="280" rx="100" ry="32" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+      <text x="1310" y="284" text-anchor="middle" font-size="12.5" fill="#14532d" font-weight="500">Compute EAR</text>
+    </g>
+    <g>
+      <ellipse cx="1310" cy="360" rx="100" ry="32" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+      <text x="1310" y="364" text-anchor="middle" font-size="12.5" fill="#14532d" font-weight="500">Compute PERCLOS</text>
+    </g>
+    <g>
+      <ellipse cx="1310" cy="440" rx="100" ry="32" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
+      <text x="1310" y="444" text-anchor="middle" font-size="12.5" fill="#14532d" font-weight="500">Persist Metric</text>
+    </g><line x1="138" y1="290" x2="280" y2="220" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="290" x2="280" y2="320" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="290" x2="280" y2="410" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="290" x2="760" y2="320" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="290" x2="760" y2="220" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="280" y2="530" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="280" y2="630" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="520" y2="530" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="520" y2="630" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="760" y2="530" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="760" y2="630" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="760" y2="410" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="580" x2="760" y2="320" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="880" x2="280" y2="810" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="880" x2="280" y2="920" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="880" x2="520" y2="810" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="880" x2="520" y2="920" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="880" x2="760" y2="810" stroke="#475569" stroke-width="1.2"/><line x1="138" y1="880" x2="760" y2="920" stroke="#475569" stroke-width="1.2"/><line x1="480" y1="220" x2="520" y2="220" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="500" y="217" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text><line x1="478" y1="312" x2="1212" y2="200" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="845" y="253" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text><line x1="478" y1="318" x2="1212" y2="280" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="845" y="296" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text><line x1="478" y1="324" x2="1212" y2="360" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="845" y="339" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text><line x1="478" y1="330" x2="1212" y2="440" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="845" y="382" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text><line x1="520" y1="320" x2="480" y2="320" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="500" y="317" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«extend»</text><line x1="620" y1="380" x2="820" y2="350" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="720" y="362" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«extend»</text><line x1="620" y1="600" x2="620" y2="562" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="620" y="578" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text><line x1="620" y1="780" x2="620" y2="660" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+    <text x="620" y="717" text-anchor="middle" font-size="10.5" fill="#64748b" font-style="italic">«include»</text>
+    <g transform="translate(260, 1075)">
+      <rect x="-10" y="-22" width="1080" height="34" rx="17" fill="#ffffff" stroke="#e2e8f0"/>
 
-    <!-- ============== ACTOR → USE CASE LINES ============== -->
-    <line x1="138" y1="370" x2="302" y2="208" class="conn"/>
-    <line x1="138" y1="375" x2="302" y2="320" class="conn"/>
-    <line x1="138" y1="385" x2="302" y2="440" class="conn"/>
-    <line x1="138" y1="395" x2="602" y2="320" class="conn"/>
-    <line x1="138" y1="400" x2="602" y2="440" class="conn"/>
-    <line x1="138" y1="405" x2="302" y2="560" class="conn"/>
-    <line x1="138" y1="410" x2="602" y2="560" class="conn"/>
+      <ellipse cx="20" cy="-5" rx="14" ry="9" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"/>
+      <text x="42" y="-1" font-size="11.5" fill="#475569">User flow</text>
 
-    <!-- ============== INCLUDE / EXTEND RELATIONSHIPS ============== -->
-    <!-- Start Monitoring «include» Select Inference Model -->
-    <line x1="538" y1="200" x2="602" y2="200" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="570" y="190" class="stereo">«include»</text>
+      <ellipse cx="120" cy="-5" rx="14" ry="9" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.6"/>
+      <text x="142" y="-1" font-size="11.5" fill="#475569">SME flow</text>
 
-    <!-- View Live Metrics «include» Detect Face Landmarks -->
-    <path d="M 538 312 Q 800 250 950 200" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="780" y="240" class="stereo">«include»</text>
+      <ellipse cx="220" cy="-5" rx="14" ry="9" fill="#fff7ed" stroke="#ea580c" stroke-width="1.6"/>
+      <text x="242" y="-1" font-size="11.5" fill="#475569">Developer flow</text>
 
-    <!-- View Live Metrics «include» Compute EAR -->
-    <path d="M 538 318 Q 800 290 950 270" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="780" y="288" class="stereo">«include»</text>
+      <ellipse cx="350" cy="-5" rx="14" ry="9" fill="#fef2f2" stroke="#dc2626" stroke-width="1.6"/>
+      <text x="372" y="-1" font-size="11.5" fill="#475569">Safety-critical</text>
 
-    <!-- View Live Metrics «include» Compute PERCLOS -->
-    <line x1="538" y1="324" x2="950" y2="340" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="780" y="324" class="stereo">«include»</text>
+      <ellipse cx="490" cy="-5" rx="14" ry="9" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.6"/>
+      <text x="512" y="-1" font-size="11.5" fill="#475569">System internal</text>
 
-    <!-- View Live Metrics «include» Persist Metric -->
-    <path d="M 538 332 Q 800 380 950 410" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="780" y="378" class="stereo">«include»</text>
+      <line x1="630" y1="-5" x2="660" y2="-5" stroke="#475569" stroke-width="1.2"/>
+      <text x="668" y="-1" font-size="11.5" fill="#475569">Association</text>
 
-    <!-- View Live Metrics «extend» Receive Fatigue Alert -->
-    <line x1="538" y1="320" x2="602" y2="320" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="570" y="310" class="stereo">«extend»</text>
-
-    <!-- View Session History «extend» Delete Session -->
-    <line x1="720" y1="474" x2="720" y2="526" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="752" y="504" class="stereo">«extend»</text>
-
-    <!-- View Session History «include» View Analytics Dashboard -->
-    <path d="M 602 458 Q 500 510 538 545" class="conn-dashed" marker-end="url(#arrow)"/>
-    <text x="540" y="510" class="stereo">«include»</text>
-
-    <!-- ============== LEGEND ============== -->
-    <g transform="translate(290, 700)">
-      <rect x="-10" y="-22" width="940" height="32" rx="16" fill="#ffffff" stroke="#e2e8f0"/>
-      <ellipse cx="20" cy="-6" rx="14" ry="9" class="uc-primary"/>
-      <text x="42" y="-2" font-size="12" fill="#475569">Primary flow</text>
-
-      <ellipse cx="155" cy="-6" rx="14" ry="9" class="uc-alert"/>
-      <text x="177" y="-2" font-size="12" fill="#475569">Alert / safety-critical</text>
-
-      <ellipse cx="335" cy="-6" rx="14" ry="9" class="uc-secondary"/>
-      <text x="357" y="-2" font-size="12" fill="#475569">Internal (system-only)</text>
-
-      <line x1="495" y1="-6" x2="525" y2="-6" stroke="#475569" stroke-width="1.2"/>
-      <text x="535" y="-2" font-size="12" fill="#475569">Association</text>
-
-      <line x1="635" y1="-6" x2="665" y2="-6" stroke-dasharray="4 4" stroke="#64748b" stroke-width="1.2"/>
-      <text x="675" y="-2" font-size="12" fill="#475569">«include» / «extend»</text>
+      <line x1="770" y1="-5" x2="800" y2="-5" stroke="#64748b" stroke-width="1.2" stroke-dasharray="4 3"/>
+      <text x="808" y="-1" font-size="11.5" fill="#475569">«include» / «extend»</text>
     </g>
   </svg>
