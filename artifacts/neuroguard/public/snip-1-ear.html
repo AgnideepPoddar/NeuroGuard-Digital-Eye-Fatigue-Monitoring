@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <title>src/lib/face-mesh-utils.ts</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 36px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #282c34;
+      border-radius: 14px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.3);
+      overflow: hidden;
+      width: 100%;
+      max-width: 1180px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .titlebar {
+      background: #21252b;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #181a1f;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.3); }
+    .r { background: #ff5f56; }
+    .y { background: #ffbd2e; }
+    .g { background: #27c93f; }
+    .filename {
+      color: #abb2bf;
+      font-size: 13px;
+      margin-left: 16px;
+      font-family: 'SF Mono', Menlo, monospace;
+      letter-spacing: 0.3px;
+    }
+    .badge {
+      color: #61afef;
+      font-size: 11px;
+      margin-left: auto;
+      padding: 4px 12px;
+      background: rgba(97,175,239,0.12);
+      border: 1px solid rgba(97,175,239,0.25);
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    pre[class*="language-"] {
+      margin: 0 !important;
+      padding: 24px 28px !important;
+      font-size: 13.5px !important;
+      line-height: 1.65 !important;
+      background: #282c34 !important;
+      overflow: visible !important;
+    }
+    code[class*="language-"] {
+      font-family: 'SF Mono', 'JetBrains Mono', 'Cascadia Code', Menlo, monospace !important;
+      text-shadow: none !important;
+      font-size: 13.5px !important;
+    }
+    .footer {
+      background: #21252b;
+      padding: 8px 22px;
+      color: #5c6370;
+      font-size: 11px;
+      font-family: 'SF Mono', Menlo, monospace;
+      border-top: 1px solid #181a1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer span.lang {
+      color: #c678dd;
+      font-weight: 600;
+    }
+    .footer span.brand {
+      color: #4b5263;
+      letter-spacing: 1px;
+    }
+  </style>
+  </head>
+  <body>
+  <div class="card">
+    <div class="titlebar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="filename">src/lib/face-mesh-utils.ts</span>
+      <span class="badge">EAR Formula · Algorithm Core</span>
+    </div>
+    <pre class="language-typescript"><code class="language-typescript">// Eye Aspect Ratio (EAR) — Soukupova &amp; Cech, 2016
+  // 6 landmarks per eye, indexed from MediaPipe's 468-point Face Mesh
+
+  export const LEFT_EYE  = [362, 385, 387, 263, 373, 380];
+  export const RIGHT_EYE = [ 33, 160, 158, 133, 153, 144];
+
+  const euclideanDistance = (p1: Point, p2: Point): number =&gt; {
+    return Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
+  };
+
+  export const calculateEAR = (landmarks: any[], eyeIndices: number[]): number =&gt; {
+    if (!landmarks || landmarks.length === 0) return 0;
+
+    // p1..p6 correspond to eyeIndices[0..5]
+    const p1 = landmarks[eyeIndices[0]];   // outer corner
+    const p2 = landmarks[eyeIndices[1]];   // upper-left
+    const p3 = landmarks[eyeIndices[2]];   // upper-right
+    const p4 = landmarks[eyeIndices[3]];   // inner corner
+    const p5 = landmarks[eyeIndices[4]];   // lower-right
+    const p6 = landmarks[eyeIndices[5]];   // lower-left
+
+    const vertical1   = euclideanDistance(p2, p6);
+    const vertical2   = euclideanDistance(p3, p5);
+    const horizontal  = euclideanDistance(p1, p4);
+
+    if (horizontal === 0) return 0;
+
+    //          ‖p2 − p6‖ + ‖p3 − p5‖
+    //  EAR  =  ─────────────────────
+    //               2 · ‖p1 − p4‖
+    return (vertical1 + vertical2) / (2.0 * horizontal);
+  };</code></pre>
+    <div class="footer"><span class="lang">TYPESCRIPT</span><span class="brand">NEUROGUARD &middot; IEEE PROJECT REPORT</span></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <title>artifacts/api-server/src/routes/sessions.ts</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 36px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #282c34;
+      border-radius: 14px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.3);
+      overflow: hidden;
+      width: 100%;
+      max-width: 1180px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .titlebar {
+      background: #21252b;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #181a1f;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.3); }
+    .r { background: #ff5f56; }
+    .y { background: #ffbd2e; }
+    .g { background: #27c93f; }
+    .filename {
+      color: #abb2bf;
+      font-size: 13px;
+      margin-left: 16px;
+      font-family: 'SF Mono', Menlo, monospace;
+      letter-spacing: 0.3px;
+    }
+    .badge {
+      color: #61afef;
+      font-size: 11px;
+      margin-left: auto;
+      padding: 4px 12px;
+      background: rgba(97,175,239,0.12);
+      border: 1px solid rgba(97,175,239,0.25);
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    pre[class*="language-"] {
+      margin: 0 !important;
+      padding: 24px 28px !important;
+      font-size: 13.5px !important;
+      line-height: 1.65 !important;
+      background: #282c34 !important;
+      overflow: visible !important;
+    }
+    code[class*="language-"] {
+      font-family: 'SF Mono', 'JetBrains Mono', 'Cascadia Code', Menlo, monospace !important;
+      text-shadow: none !important;
+      font-size: 13.5px !important;
+    }
+    .footer {
+      background: #21252b;
+      padding: 8px 22px;
+      color: #5c6370;
+      font-size: 11px;
+      font-family: 'SF Mono', Menlo, monospace;
+      border-top: 1px solid #181a1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer span.lang {
+      color: #c678dd;
+      font-weight: 600;
+    }
+    .footer span.brand {
+      color: #4b5263;
+      letter-spacing: 1px;
+    }
+  </style>
+  </head>
+  <body>
+  <div class="card">
+    <div class="titlebar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="filename">artifacts/api-server/src/routes/sessions.ts</span>
+      <span class="badge">REST API · Express + Drizzle + Zod Validation</span>
+    </div>
+    <pre class="language-typescript"><code class="language-typescript">// ── Create new monitoring session ────────────────────────────
+  router.post("/sessions", async (req, res): Promise&lt;void&gt; =&gt; {
+    const parsed = CreateSessionBody.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: parsed.error.message });
+      return;
+    }
+    const [session] = await db.insert(sessionsTable).values({
+      userName:    parsed.data.userName,
+      sessionType: parsed.data.sessionType,
+      modelType:   parsed.data.modelType,
+    }).returning();
+    res.status(201).json(GetSessionResponse.parse(session));
+  });
+
+  // ── End session: aggregate metrics + alert count ─────────────
+  router.patch("/sessions/:sessionId", async (req, res): Promise&lt;void&gt; =&gt; {
+    const { sessionId } = EndSessionParams.parse(req.params);
+
+    const metricsAgg = await db.select({
+      avgEar:     avg(fatigueMetricsTable.ear),
+      avgPerclos: avg(fatigueMetricsTable.perclos),
+    }).from(fatigueMetricsTable)
+      .where(eq(fatigueMetricsTable.sessionId, sessionId));
+
+    const [session] = await db.update(sessionsTable).set({
+      status:      "completed",
+      endedAt:     new Date(),
+      avgEar:      parseFloat(metricsAgg[0].avgEar as string),
+      avgPerclos:  parseFloat(metricsAgg[0].avgPerclos as string),
+    }).where(eq(sessionsTable.id, sessionId)).returning();
+
+    res.json(EndSessionResponse.parse(session));
+  });
+
+  // ── Cascade-delete session and all dependent rows ────────────
+  router.delete("/sessions/:sessionId", async (req, res): Promise&lt;void&gt; =&gt; {
+    const sessionId = parseInt(req.params.sessionId, 10);
+    const [deleted] = await db.delete(sessionsTable)
+      .where(eq(sessionsTable.id, sessionId)).returning();
+    if (!deleted) { res.status(404).json({ error: "Session not found" }); return; }
+    res.sendStatus(204);
+  });</code></pre>
+    <div class="footer"><span class="lang">TYPESCRIPT</span><span class="brand">NEUROGUARD &middot; IEEE PROJECT REPORT</span></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  </body>
+  </html>

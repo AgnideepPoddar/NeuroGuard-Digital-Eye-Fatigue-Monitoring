@@ -6,3 +6,39 @@ id = "cf1FWcJuReuuLkieP9MtF"
 uri = "file://artifacts/neuroguard/public/erd.svg"
 type = "image"
 title = "NeuroGuard ERD — IEEE Paper"
+
+[[outputs]]
+id = "6C_HNUQlGeRz5-5IWfUX4"
+uri = "file://screenshots/code-1-ear-formula.jpg"
+type = "image"
+title = "1. Eye Aspect Ratio (EAR) Formula — face-mesh-utils.ts"
+
+[[outputs]]
+id = "hy6CsD7qyQeWmfxPto6tQ"
+uri = "file://screenshots/code-2-model-configs.jpg"
+type = "image"
+title = "2. Three Hybrid Model Configurations — use-face-mesh.ts"
+
+[[outputs]]
+id = "J4XY3EKFWjXLBRGXmbMcb"
+uri = "file://screenshots/code-3-classifier.jpg"
+type = "image"
+title = "3. Fatigue State Classifier (Threshold + Weighted) — use-face-mesh.ts"
+
+[[outputs]]
+id = "IiVSnrjApGnc3jwnC6HW0"
+uri = "file://screenshots/code-4-db-schema.jpg"
+type = "image"
+title = "4. Database Schema (Drizzle + PostgreSQL) — sessions.ts"
+
+[[outputs]]
+id = "2qGoOCAdncoNkGBY4b7JL"
+uri = "file://screenshots/code-5-rest-api.jpg"
+type = "image"
+title = "5. REST API Endpoints (Express + Zod) — routes/sessions.ts"
+
+[[outputs]]
+id = "Gok3t4jJU1-Rv1fk0nHrs"
+uri = "file://screenshots/code-6-live-react.jpg"
+type = "image"
+title = "6. Live Monitor React Integration — pages/live.tsx"

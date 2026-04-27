@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="utf-8" />
+  <title>src/hooks/use-face-mesh.ts</title>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 36px;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #282c34;
+      border-radius: 14px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.3);
+      overflow: hidden;
+      width: 100%;
+      max-width: 1180px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .titlebar {
+      background: #21252b;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #181a1f;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.3); }
+    .r { background: #ff5f56; }
+    .y { background: #ffbd2e; }
+    .g { background: #27c93f; }
+    .filename {
+      color: #abb2bf;
+      font-size: 13px;
+      margin-left: 16px;
+      font-family: 'SF Mono', Menlo, monospace;
+      letter-spacing: 0.3px;
+    }
+    .badge {
+      color: #61afef;
+      font-size: 11px;
+      margin-left: auto;
+      padding: 4px 12px;
+      background: rgba(97,175,239,0.12);
+      border: 1px solid rgba(97,175,239,0.25);
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    pre[class*="language-"] {
+      margin: 0 !important;
+      padding: 24px 28px !important;
+      font-size: 13.5px !important;
+      line-height: 1.65 !important;
+      background: #282c34 !important;
+      overflow: visible !important;
+    }
+    code[class*="language-"] {
+      font-family: 'SF Mono', 'JetBrains Mono', 'Cascadia Code', Menlo, monospace !important;
+      text-shadow: none !important;
+      font-size: 13.5px !important;
+    }
+    .footer {
+      background: #21252b;
+      padding: 8px 22px;
+      color: #5c6370;
+      font-size: 11px;
+      font-family: 'SF Mono', Menlo, monospace;
+      border-top: 1px solid #181a1f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer span.lang {
+      color: #c678dd;
+      font-weight: 600;
+    }
+    .footer span.brand {
+      color: #4b5263;
+      letter-spacing: 1px;
+    }
+  </style>
+  </head>
+  <body>
+  <div class="card">
+    <div class="titlebar">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span class="filename">src/hooks/use-face-mesh.ts</span>
+      <span class="badge">Fatigue State Classifier · Threshold + Weighted Hybrid</span>
+    </div>
+    <pre class="language-typescript"><code class="language-typescript">function getStateFromScore(
+    ear: number,
+    perclos: number,
+    blinkRate: number,
+    config: ModelConfig
+  ): 'alert' | 'drowsy' | 'fatigued' {
+
+    // ─── DenseNet+LSTM: Composite weighted score ────────────────────
+    if (config.useWeightedScore) {
+      const earRisk     = Math.max(0, Math.min(1, (0.35 - ear) / 0.2));
+      const perclosRisk = Math.max(0, Math.min(1, perclos / 0.4));
+      const blinkRisk   = blinkRate &lt; 8 ? 0.8 : blinkRate &gt; 25 ? 0.4 : 0;
+
+      const compositeScore =
+        config.earWeight     * earRisk     +
+        config.perclosWeight * perclosRisk +
+        config.blinkWeight   * blinkRisk;
+
+      if (compositeScore &gt; 0.55) return 'fatigued';
+      if (compositeScore &gt; 0.30) return 'drowsy';
+      return 'alert';
+    }
+
+    // ─── CNN+LSTM / ResNet+LSTM: Threshold classification ──────────
+    if (ear &lt; config.earFatiguedThreshold ||
+        perclos &gt; config.perclosFatiguedThreshold) {
+      return 'fatigued';
+    }
+    if (ear &lt; config.earDrowsyThreshold ||
+        perclos &gt; config.perclosDrowsyThreshold) {
+      return 'drowsy';
+    }
+    return 'alert';
+  }</code></pre>
+    <div class="footer"><span class="lang">TYPESCRIPT</span><span class="brand">NEUROGUARD &middot; IEEE PROJECT REPORT</span></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-jsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-tsx.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  </body>
+  </html>
