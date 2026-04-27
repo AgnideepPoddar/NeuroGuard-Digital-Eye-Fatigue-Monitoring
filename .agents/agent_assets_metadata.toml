@@ -53,7 +53,7 @@ title = "Schema Diagram — Crow's-Foot Notation (PostgreSQL/Drizzle)"
 id = "djStKksjd75ULAAFOaBtO"
 uri = "file://screenshots/diagram-er-styled.jpg"
 type = "image"
-title = "ER Diagram — Styled Entity Boxes"
+title = "ER Diagram — Chen Notation (separated attributes)"
 
 [[outputs]]
 id = "vsBMX88z4IdyfmkdVHJSb"
@@ -71,7 +71,7 @@ title = "Schema Diagram (vector SVG — scales infinitely)"
 id = "5b4Zr1UwtwE99ZBGQ1LGb"
 uri = "file://artifacts/neuroguard/public/er-diagram-styled.svg"
 type = "image"
-title = "ER Diagram Styled (vector SVG)"
+title = "ER Diagram — Chen Notation (vector SVG)"
 
 [[outputs]]
 id = "fPV-ZC77ZDLxCawqWOA-t"
