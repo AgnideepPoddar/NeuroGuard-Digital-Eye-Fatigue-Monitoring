@@ -42,3 +42,39 @@ id = "Gok3t4jJU1-Rv1fk0nHrs"
 uri = "file://screenshots/code-6-live-react.jpg"
 type = "image"
 title = "6. Live Monitor React Integration — pages/live.tsx"
+
+[[outputs]]
+id = "7tIeIbpJCGfWKSOqAyGTJ"
+uri = "file://screenshots/diagram-schema.jpg"
+type = "image"
+title = "Schema Diagram — Crow's-Foot Notation (PostgreSQL/Drizzle)"
+
+[[outputs]]
+id = "djStKksjd75ULAAFOaBtO"
+uri = "file://screenshots/diagram-er-styled.jpg"
+type = "image"
+title = "ER Diagram — Styled Entity Boxes"
+
+[[outputs]]
+id = "vsBMX88z4IdyfmkdVHJSb"
+uri = "file://screenshots/diagram-use-case.jpg"
+type = "image"
+title = "Use Case Diagram — UML Actor & System Capabilities"
+
+[[outputs]]
+id = "jEq60m7SeC0_4VvY--04n"
+uri = "file://artifacts/neuroguard/public/schema-diagram.svg"
+type = "image"
+title = "Schema Diagram (vector SVG — scales infinitely)"
+
+[[outputs]]
+id = "5b4Zr1UwtwE99ZBGQ1LGb"
+uri = "file://artifacts/neuroguard/public/er-diagram-styled.svg"
+type = "image"
+title = "ER Diagram Styled (vector SVG)"
+
+[[outputs]]
+id = "fPV-ZC77ZDLxCawqWOA-t"
+uri = "file://artifacts/neuroguard/public/use-case-diagram.svg"
+type = "image"
+title = "Use Case Diagram (vector SVG)"

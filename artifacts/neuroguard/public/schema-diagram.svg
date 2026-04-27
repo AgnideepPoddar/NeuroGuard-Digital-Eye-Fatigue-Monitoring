@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 680" font-family="'Inter', system-ui, sans-serif">
+    <defs>
+      <style>
+        .table-bg{fill:#ffffff;stroke:#94a3b8;stroke-width:1}
+        .table-hdr{fill:#e5e7eb;stroke:#94a3b8;stroke-width:1}
+        .hdr-text{font-size:14px;font-weight:600;fill:#1f2937}
+        .field{font-size:12px;fill:#1f2937;font-family:'JetBrains Mono','SF Mono',monospace}
+        .pk{font-size:10px;fill:#16a34a;font-weight:600}
+        .fk{font-size:10px;fill:#2563eb;font-weight:600}
+        .conn{fill:none;stroke:#475569;stroke-width:1.4}
+        .dot{fill:#22c55e}
+        .title-text{font-size:18px;font-weight:700;fill:#0f172a;letter-spacing:0.5px}
+        .subtitle-text{font-size:11px;fill:#64748b;letter-spacing:1px}
+        .key-icon{fill:#f59e0b}
+        .link-icon{fill:#3b82f6}
+      </style>
+      <marker id="crowsfoot" viewBox="0 0 14 12" refX="12" refY="6" markerWidth="14" markerHeight="12" orient="auto">
+        <path d="M0,6 L12,1 M0,6 L12,6 M0,6 L12,11" stroke="#475569" stroke-width="1.4" fill="none"/>
+      </marker>
+      <marker id="onebar" viewBox="0 0 12 12" refX="2" refY="6" markerWidth="12" markerHeight="12" orient="auto">
+        <line x1="2" y1="0" x2="2" y2="12" stroke="#475569" stroke-width="1.6"/>
+        <line x1="6" y1="0" x2="6" y2="12" stroke="#475569" stroke-width="1.6"/>
+      </marker>
+    </defs>
+
+    <!-- Title -->
+    <text x="700" y="34" text-anchor="middle" class="title-text">NeuroGuard — Relational Schema Diagram</text>
+    <text x="700" y="54" text-anchor="middle" class="subtitle-text">PostgreSQL · Drizzle ORM · Crow's-Foot Notation</text>
+
+    <!-- ============== SESSIONS table (top center) ============== -->
+    <g>
+      <rect x="540" y="90" width="320" height="32" rx="6" class="table-hdr"/>
+      <text x="700" y="111" text-anchor="middle" class="hdr-text">sessions</text>
+      <rect x="540" y="122" width="320" height="240" class="table-bg"/>
+      <g>
+        <circle cx="556" cy="143" r="3" class="dot"/>
+        <text x="568" y="147" class="field">id : SERIAL</text>
+        <text x="848" y="147" text-anchor="end" class="pk">«PK»</text>
+      </g>
+      <g><circle cx="556" cy="165" r="3" class="dot"/><text x="568" y="169" class="field">user_name : TEXT</text></g>
+      <g><circle cx="556" cy="187" r="3" class="dot"/><text x="568" y="191" class="field">session_type : ENUM</text></g>
+      <g><circle cx="556" cy="209" r="3" class="dot"/><text x="568" y="213" class="field">model_type : ENUM</text></g>
+      <g><circle cx="556" cy="231" r="3" class="dot"/><text x="568" y="235" class="field">status : ENUM</text></g>
+      <g><circle cx="556" cy="253" r="3" class="dot"/><text x="568" y="257" class="field">started_at : TIMESTAMPTZ</text></g>
+      <g><circle cx="556" cy="275" r="3" class="dot"/><text x="568" y="279" class="field">ended_at : TIMESTAMPTZ</text></g>
+      <g><circle cx="556" cy="297" r="3" class="dot"/><text x="568" y="301" class="field">total_alerts : INT</text></g>
+      <g><circle cx="556" cy="319" r="3" class="dot"/><text x="568" y="323" class="field">avg_ear : REAL</text></g>
+      <g><circle cx="556" cy="341" r="3" class="dot"/><text x="568" y="345" class="field">avg_perclos : REAL</text></g>
+    </g>
+
+    <!-- ============== FATIGUE_METRICS table (bottom-left) ============== -->
+    <g>
+      <rect x="80" y="430" width="320" height="32" rx="6" class="table-hdr"/>
+      <text x="240" y="451" text-anchor="middle" class="hdr-text">fatigue_metrics</text>
+      <rect x="80" y="462" width="320" height="180" class="table-bg"/>
+      <g>
+        <circle cx="96" cy="483" r="3" class="dot"/>
+        <text x="108" y="487" class="field">id : SERIAL</text>
+        <text x="388" y="487" text-anchor="end" class="pk">«PK»</text>
+      </g>
+      <g>
+        <circle cx="96" cy="505" r="3" class="dot"/>
+        <text x="108" y="509" class="field">session_id : INT</text>
+        <text x="388" y="509" text-anchor="end" class="fk">«FK»</text>
+      </g>
+      <g><circle cx="96" cy="527" r="3" class="dot"/><text x="108" y="531" class="field">ear : REAL</text></g>
+      <g><circle cx="96" cy="549" r="3" class="dot"/><text x="108" y="553" class="field">perclos : REAL</text></g>
+      <g><circle cx="96" cy="571" r="3" class="dot"/><text x="108" y="575" class="field">blink_rate : REAL</text></g>
+      <g><circle cx="96" cy="593" r="3" class="dot"/><text x="108" y="597" class="field">fatigue_state : ENUM</text></g>
+      <g><circle cx="96" cy="615" r="3" class="dot"/><text x="108" y="619" class="field">timestamp : TIMESTAMPTZ</text></g>
+    </g>
+
+    <!-- ============== ALERTS table (bottom-right) ============== -->
+    <g>
+      <rect x="1000" y="430" width="320" height="32" rx="6" class="table-hdr"/>
+      <text x="1160" y="451" text-anchor="middle" class="hdr-text">alerts</text>
+      <rect x="1000" y="462" width="320" height="180" class="table-bg"/>
+      <g>
+        <circle cx="1016" cy="483" r="3" class="dot"/>
+        <text x="1028" y="487" class="field">id : SERIAL</text>
+        <text x="1308" y="487" text-anchor="end" class="pk">«PK»</text>
+      </g>
+      <g>
+        <circle cx="1016" cy="505" r="3" class="dot"/>
+        <text x="1028" y="509" class="field">session_id : INT</text>
+        <text x="1308" y="509" text-anchor="end" class="fk">«FK»</text>
+      </g>
+      <g><circle cx="1016" cy="527" r="3" class="dot"/><text x="1028" y="531" class="field">alert_type : ENUM</text></g>
+      <g><circle cx="1016" cy="549" r="3" class="dot"/><text x="1028" y="553" class="field">message : TEXT</text></g>
+      <g><circle cx="1016" cy="571" r="3" class="dot"/><text x="1028" y="575" class="field">ear : REAL</text></g>
+      <g><circle cx="1016" cy="593" r="3" class="dot"/><text x="1028" y="597" class="field">perclos : REAL</text></g>
+      <g><circle cx="1016" cy="615" r="3" class="dot"/><text x="1028" y="619" class="field">timestamp : TIMESTAMPTZ</text></g>
+    </g>
+
+    <!-- ============== Relationship lines ============== -->
+    <!-- sessions(id) → fatigue_metrics(session_id) : one-to-many -->
+    <path d="M 600 362 L 600 400 L 240 400 L 240 425" class="conn" marker-start="url(#onebar)" marker-end="url(#crowsfoot)"/>
+    <text x="430" y="392" class="field" fill="#475569" font-size="11">1 : N  records</text>
+
+    <!-- sessions(id) → alerts(session_id) : one-to-many -->
+    <path d="M 800 362 L 800 400 L 1160 400 L 1160 425" class="conn" marker-start="url(#onebar)" marker-end="url(#crowsfoot)"/>
+    <text x="970" y="392" class="field" fill="#475569" font-size="11">1 : N  triggers</text>
+
+    <!-- ============== Legend ============== -->
+    <g transform="translate(540, 660)">
+      <text x="0" y="0" class="pk">«PK»</text><text x="35" y="0" class="field" fill="#475569" font-size="11">Primary Key</text>
+      <text x="140" y="0" class="fk">«FK»</text><text x="175" y="0" class="field" fill="#475569" font-size="11">Foreign Key (ON DELETE CASCADE)</text>
+    </g>
+  </svg>
