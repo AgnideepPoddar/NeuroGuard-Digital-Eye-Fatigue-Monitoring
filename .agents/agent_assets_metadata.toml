@@ -78,3 +78,9 @@ id = "fPV-ZC77ZDLxCawqWOA-t"
 uri = "file://artifacts/neuroguard/public/use-case-diagram.svg"
 type = "image"
 title = "Use Case Diagram — vector SVG"
+
+[[outputs]]
+id = "6CfzbS6GI0wyYd-IwSze-"
+uri = "file://screenshots/schema-tables.jpg"
+type = "image"
+title = "Database Schema Tables 2.10 – 2.13"
