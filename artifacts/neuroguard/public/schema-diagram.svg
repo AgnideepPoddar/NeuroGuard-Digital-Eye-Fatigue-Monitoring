@@ -1,110 +1,219 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 680" font-family="'Inter', system-ui, sans-serif">
-    <defs>
-      <style>
-        .table-bg{fill:#ffffff;stroke:#94a3b8;stroke-width:1}
-        .table-hdr{fill:#e5e7eb;stroke:#94a3b8;stroke-width:1}
-        .hdr-text{font-size:14px;font-weight:600;fill:#1f2937}
-        .field{font-size:12px;fill:#1f2937;font-family:'JetBrains Mono','SF Mono',monospace}
-        .pk{font-size:10px;fill:#16a34a;font-weight:600}
-        .fk{font-size:10px;fill:#2563eb;font-weight:600}
-        .conn{fill:none;stroke:#475569;stroke-width:1.4}
-        .dot{fill:#22c55e}
-        .title-text{font-size:18px;font-weight:700;fill:#0f172a;letter-spacing:0.5px}
-        .subtitle-text{font-size:11px;fill:#64748b;letter-spacing:1px}
-        .key-icon{fill:#f59e0b}
-        .link-icon{fill:#3b82f6}
-      </style>
-      <marker id="crowsfoot" viewBox="0 0 14 12" refX="12" refY="6" markerWidth="14" markerHeight="12" orient="auto">
-        <path d="M0,6 L12,1 M0,6 L12,6 M0,6 L12,11" stroke="#475569" stroke-width="1.4" fill="none"/>
-      </marker>
-      <marker id="onebar" viewBox="0 0 12 12" refX="2" refY="6" markerWidth="12" markerHeight="12" orient="auto">
-        <line x1="2" y1="0" x2="2" y2="12" stroke="#475569" stroke-width="1.6"/>
-        <line x1="6" y1="0" x2="6" y2="12" stroke="#475569" stroke-width="1.6"/>
-      </marker>
-    </defs>
-
-    <!-- Title -->
-    <text x="700" y="34" text-anchor="middle" class="title-text">NeuroGuard — Relational Schema Diagram</text>
-    <text x="700" y="54" text-anchor="middle" class="subtitle-text">PostgreSQL · Drizzle ORM · Crow's-Foot Notation</text>
-
-    <!-- ============== SESSIONS table (top center) ============== -->
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1500" font-family="'Inter', system-ui, sans-serif">
+    <rect width="1500" height="1500" fill="#f8fafc"/>
+    <text x="750" y="60" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">NeuroGuard — Database Schema</text>
+    <text x="750" y="92" text-anchor="middle" font-size="14" fill="#64748b" letter-spacing="3">POSTGRESQL · DRIZZLE ORM · CROW'S-FOOT NOTATION</text>
+    
     <g>
-      <rect x="540" y="90" width="320" height="32" rx="6" class="table-hdr"/>
-      <text x="700" y="111" text-anchor="middle" class="hdr-text">sessions</text>
-      <rect x="540" y="122" width="320" height="240" class="table-bg"/>
-      <g>
-        <circle cx="556" cy="143" r="3" class="dot"/>
-        <text x="568" y="147" class="field">id : SERIAL</text>
-        <text x="848" y="147" text-anchor="end" class="pk">«PK»</text>
+      <!-- shadow -->
+      <rect x="564" y="154" width="380" height="390" rx="8" fill="#0f172a" opacity="0.06"/>
+      <!-- table body -->
+      <rect x="560" y="150" width="380" height="390" rx="8" fill="#ffffff" stroke="#7c3aed" stroke-width="2"/>
+      <!-- header -->
+      <path d="M 560 158 a 8 8 0 0 1 8 -8 h 364 a 8 8 0 0 1 8 8 v 42 h -380 z" fill="#7c3aed"/>
+      <text x="750" y="182" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff" letter-spacing="0.5">sessions</text>
+    
+      <line x1="560" y1="200" x2="940" y2="200" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="222" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="700" fill="#15803d">id</text>
+      <text x="924" y="222" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">SERIAL</text>
+      <text x="740" y="222" text-anchor="end" font-size="10" font-weight="700" fill="#15803d">«PK»</text>
+      
+      
+      <line x1="560" y1="234" x2="940" y2="234" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="256" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">user_name</text>
+      <text x="924" y="256" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">VARCHAR</text>
+      
+      
+      
+      <line x1="560" y1="268" x2="940" y2="268" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="290" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">session_type</text>
+      <text x="924" y="290" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">ENUM</text>
+      
+      
+      
+      <line x1="560" y1="302" x2="940" y2="302" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="324" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">model_type</text>
+      <text x="924" y="324" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">ENUM</text>
+      
+      
+      
+      <line x1="560" y1="336" x2="940" y2="336" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="358" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">status</text>
+      <text x="924" y="358" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">ENUM</text>
+      
+      
+      
+      <line x1="560" y1="370" x2="940" y2="370" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="392" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">started_at</text>
+      <text x="924" y="392" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">TIMESTAMPTZ</text>
+      
+      
+      
+      <line x1="560" y1="404" x2="940" y2="404" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="426" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">ended_at</text>
+      <text x="924" y="426" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">TIMESTAMPTZ</text>
+      
+      
+      
+      <line x1="560" y1="438" x2="940" y2="438" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="460" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">total_alerts</text>
+      <text x="924" y="460" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">INTEGER</text>
+      
+      
+      
+      <line x1="560" y1="472" x2="940" y2="472" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="494" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">avg_ear</text>
+      <text x="924" y="494" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
+      
+      <line x1="560" y1="506" x2="940" y2="506" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="576" y="528" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">avg_perclos</text>
+      <text x="924" y="528" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
       </g>
-      <g><circle cx="556" cy="165" r="3" class="dot"/><text x="568" y="169" class="field">user_name : TEXT</text></g>
-      <g><circle cx="556" cy="187" r="3" class="dot"/><text x="568" y="191" class="field">session_type : ENUM</text></g>
-      <g><circle cx="556" cy="209" r="3" class="dot"/><text x="568" y="213" class="field">model_type : ENUM</text></g>
-      <g><circle cx="556" cy="231" r="3" class="dot"/><text x="568" y="235" class="field">status : ENUM</text></g>
-      <g><circle cx="556" cy="253" r="3" class="dot"/><text x="568" y="257" class="field">started_at : TIMESTAMPTZ</text></g>
-      <g><circle cx="556" cy="275" r="3" class="dot"/><text x="568" y="279" class="field">ended_at : TIMESTAMPTZ</text></g>
-      <g><circle cx="556" cy="297" r="3" class="dot"/><text x="568" y="301" class="field">total_alerts : INT</text></g>
-      <g><circle cx="556" cy="319" r="3" class="dot"/><text x="568" y="323" class="field">avg_ear : REAL</text></g>
-      <g><circle cx="556" cy="341" r="3" class="dot"/><text x="568" y="345" class="field">avg_perclos : REAL</text></g>
-    </g>
-
-    <!-- ============== FATIGUE_METRICS table (bottom-left) ============== -->
+    
     <g>
-      <rect x="80" y="430" width="320" height="32" rx="6" class="table-hdr"/>
-      <text x="240" y="451" text-anchor="middle" class="hdr-text">fatigue_metrics</text>
-      <rect x="80" y="462" width="320" height="180" class="table-bg"/>
-      <g>
-        <circle cx="96" cy="483" r="3" class="dot"/>
-        <text x="108" y="487" class="field">id : SERIAL</text>
-        <text x="388" y="487" text-anchor="end" class="pk">«PK»</text>
+      <!-- shadow -->
+      <rect x="114" y="924" width="380" height="288" rx="8" fill="#0f172a" opacity="0.06"/>
+      <!-- table body -->
+      <rect x="110" y="920" width="380" height="288" rx="8" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+      <!-- header -->
+      <path d="M 110 928 a 8 8 0 0 1 8 -8 h 364 a 8 8 0 0 1 8 8 v 42 h -380 z" fill="#10b981"/>
+      <text x="300" y="952" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff" letter-spacing="0.5">fatigue_metrics</text>
+    
+      <line x1="110" y1="970" x2="490" y2="970" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="992" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="700" fill="#15803d">id</text>
+      <text x="474" y="992" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">SERIAL</text>
+      <text x="290" y="992" text-anchor="end" font-size="10" font-weight="700" fill="#15803d">«PK»</text>
+      
+      
+      <line x1="110" y1="1004" x2="490" y2="1004" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="1026" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="700" fill="#c2410c">session_id</text>
+      <text x="474" y="1026" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">INTEGER</text>
+      
+      <text x="290" y="1026" text-anchor="end" font-size="10" font-weight="700" fill="#c2410c">«FK»</text>
+      
+      <line x1="110" y1="1038" x2="490" y2="1038" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="1060" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">ear</text>
+      <text x="474" y="1060" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
+      
+      <line x1="110" y1="1072" x2="490" y2="1072" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="1094" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">perclos</text>
+      <text x="474" y="1094" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
+      
+      <line x1="110" y1="1106" x2="490" y2="1106" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="1128" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">blink_rate</text>
+      <text x="474" y="1128" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
+      
+      <line x1="110" y1="1140" x2="490" y2="1140" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="1162" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">fatigue_state</text>
+      <text x="474" y="1162" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">ENUM</text>
+      
+      
+      
+      <line x1="110" y1="1174" x2="490" y2="1174" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="126" y="1196" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">timestamp</text>
+      <text x="474" y="1196" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">TIMESTAMPTZ</text>
+      
+      
       </g>
-      <g>
-        <circle cx="96" cy="505" r="3" class="dot"/>
-        <text x="108" y="509" class="field">session_id : INT</text>
-        <text x="388" y="509" text-anchor="end" class="fk">«FK»</text>
-      </g>
-      <g><circle cx="96" cy="527" r="3" class="dot"/><text x="108" y="531" class="field">ear : REAL</text></g>
-      <g><circle cx="96" cy="549" r="3" class="dot"/><text x="108" y="553" class="field">perclos : REAL</text></g>
-      <g><circle cx="96" cy="571" r="3" class="dot"/><text x="108" y="575" class="field">blink_rate : REAL</text></g>
-      <g><circle cx="96" cy="593" r="3" class="dot"/><text x="108" y="597" class="field">fatigue_state : ENUM</text></g>
-      <g><circle cx="96" cy="615" r="3" class="dot"/><text x="108" y="619" class="field">timestamp : TIMESTAMPTZ</text></g>
-    </g>
-
-    <!-- ============== ALERTS table (bottom-right) ============== -->
+    
     <g>
-      <rect x="1000" y="430" width="320" height="32" rx="6" class="table-hdr"/>
-      <text x="1160" y="451" text-anchor="middle" class="hdr-text">alerts</text>
-      <rect x="1000" y="462" width="320" height="180" class="table-bg"/>
-      <g>
-        <circle cx="1016" cy="483" r="3" class="dot"/>
-        <text x="1028" y="487" class="field">id : SERIAL</text>
-        <text x="1308" y="487" text-anchor="end" class="pk">«PK»</text>
+      <!-- shadow -->
+      <rect x="1014" y="924" width="380" height="288" rx="8" fill="#0f172a" opacity="0.06"/>
+      <!-- table body -->
+      <rect x="1010" y="920" width="380" height="288" rx="8" fill="#ffffff" stroke="#f97316" stroke-width="2"/>
+      <!-- header -->
+      <path d="M 1010 928 a 8 8 0 0 1 8 -8 h 364 a 8 8 0 0 1 8 8 v 42 h -380 z" fill="#f97316"/>
+      <text x="1200" y="952" text-anchor="middle" font-size="20" font-weight="700" fill="#ffffff" letter-spacing="0.5">alerts</text>
+    
+      <line x1="1010" y1="970" x2="1390" y2="970" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="992" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="700" fill="#15803d">id</text>
+      <text x="1374" y="992" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">SERIAL</text>
+      <text x="1190" y="992" text-anchor="end" font-size="10" font-weight="700" fill="#15803d">«PK»</text>
+      
+      
+      <line x1="1010" y1="1004" x2="1390" y2="1004" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="1026" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="700" fill="#c2410c">session_id</text>
+      <text x="1374" y="1026" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">INTEGER</text>
+      
+      <text x="1190" y="1026" text-anchor="end" font-size="10" font-weight="700" fill="#c2410c">«FK»</text>
+      
+      <line x1="1010" y1="1038" x2="1390" y2="1038" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="1060" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">alert_type</text>
+      <text x="1374" y="1060" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">ENUM</text>
+      
+      
+      
+      <line x1="1010" y1="1072" x2="1390" y2="1072" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="1094" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">message</text>
+      <text x="1374" y="1094" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">TEXT</text>
+      
+      
+      
+      <line x1="1010" y1="1106" x2="1390" y2="1106" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="1128" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">ear</text>
+      <text x="1374" y="1128" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
+      
+      <line x1="1010" y1="1140" x2="1390" y2="1140" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="1162" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">perclos</text>
+      <text x="1374" y="1162" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">REAL</text>
+      
+      
+      
+      <line x1="1010" y1="1174" x2="1390" y2="1174" stroke="#e2e8f0" stroke-width="1"/>
+      <text x="1026" y="1196" font-family="'JetBrains Mono','SF Mono',monospace" font-size="13.5" font-weight="500" fill="#0f172a">timestamp</text>
+      <text x="1374" y="1196" text-anchor="end" font-family="'JetBrains Mono','SF Mono',monospace" font-size="12" font-weight="600" fill="#1e3a8a">TIMESTAMPTZ</text>
+      
+      
       </g>
-      <g>
-        <circle cx="1016" cy="505" r="3" class="dot"/>
-        <text x="1028" y="509" class="field">session_id : INT</text>
-        <text x="1308" y="509" text-anchor="end" class="fk">«FK»</text>
+  
+    <path d="M 640 540 L 640 720 L 538 720 L 538 1021 L 508 1021" 
+          stroke="#475569" stroke-width="1.8" fill="none"/>
+  <line x1="632" y1="550" x2="648" y2="550" stroke="#475569" stroke-width="2"/><g transform="translate(508, 1021) rotate(180)">
+    <line x1="0" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.8"/>
+    <line x1="0" y1="0" x2="14" y2="-8" stroke="#475569" stroke-width="1.8"/>
+    <line x1="0" y1="0" x2="14" y2="8" stroke="#475569" stroke-width="1.8"/>
+  </g><g transform="translate(330, 720)">
+    <rect x="-90" y="-22" width="180" height="34" rx="17" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="0" y="3" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">1 : N  records</text>
+  </g>
+    <path d="M 860 540 L 860 720 L 962 720 L 962 1021 L 992 1021" 
+          stroke="#475569" stroke-width="1.8" fill="none"/>
+  <line x1="852" y1="550" x2="868" y2="550" stroke="#475569" stroke-width="2"/><g transform="translate(992, 1021)">
+    <line x1="0" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.8"/>
+    <line x1="0" y1="0" x2="14" y2="-8" stroke="#475569" stroke-width="1.8"/>
+    <line x1="0" y1="0" x2="14" y2="8" stroke="#475569" stroke-width="1.8"/>
+  </g><g transform="translate(1170, 720)">
+    <rect x="-90" y="-22" width="180" height="34" rx="17" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="0" y="3" text-anchor="middle" font-size="14" font-weight="700" fill="#0f172a">1 : N  triggers</text>
+  </g><text x="330" y="760" text-anchor="middle" font-size="12" fill="#64748b" font-style="italic">ON DELETE CASCADE</text><text x="1170" y="760" text-anchor="middle" font-size="12" fill="#64748b" font-style="italic">ON DELETE CASCADE</text>
+    <g transform="translate(290, 1450)">
+      <rect x="-20" y="-26" width="940" height="42" rx="21" fill="#ffffff" stroke="#e2e8f0"/>
+      <text x="0" y="3" font-size="13" font-weight="700" fill="#15803d">«PK»</text>
+      <text x="48" y="3" font-size="13" fill="#475569">Primary Key</text>
+      <text x="170" y="3" font-size="13" font-weight="700" fill="#c2410c">«FK»</text>
+      <text x="218" y="3" font-size="13" fill="#475569">Foreign Key</text>
+      <line x1="340" y1="-4" x2="370" y2="-4" stroke="#475569" stroke-width="1.8"/>
+      <line x1="370" y1="-12" x2="370" y2="4" stroke="#475569" stroke-width="2"/>
+      <text x="385" y="3" font-size="13" fill="#475569">"One" side</text>
+      <g transform="translate(490, -4)">
+        <line x1="0" y1="0" x2="14" y2="0" stroke="#475569" stroke-width="1.8"/>
+        <line x1="0" y1="0" x2="14" y2="-8" stroke="#475569" stroke-width="1.8"/>
+        <line x1="0" y1="0" x2="14" y2="8" stroke="#475569" stroke-width="1.8"/>
       </g>
-      <g><circle cx="1016" cy="527" r="3" class="dot"/><text x="1028" y="531" class="field">alert_type : ENUM</text></g>
-      <g><circle cx="1016" cy="549" r="3" class="dot"/><text x="1028" y="553" class="field">message : TEXT</text></g>
-      <g><circle cx="1016" cy="571" r="3" class="dot"/><text x="1028" y="575" class="field">ear : REAL</text></g>
-      <g><circle cx="1016" cy="593" r="3" class="dot"/><text x="1028" y="597" class="field">perclos : REAL</text></g>
-      <g><circle cx="1016" cy="615" r="3" class="dot"/><text x="1028" y="619" class="field">timestamp : TIMESTAMPTZ</text></g>
-    </g>
-
-    <!-- ============== Relationship lines ============== -->
-    <!-- sessions(id) → fatigue_metrics(session_id) : one-to-many -->
-    <path d="M 600 362 L 600 400 L 240 400 L 240 425" class="conn" marker-start="url(#onebar)" marker-end="url(#crowsfoot)"/>
-    <text x="430" y="392" class="field" fill="#475569" font-size="11">1 : N  records</text>
-
-    <!-- sessions(id) → alerts(session_id) : one-to-many -->
-    <path d="M 800 362 L 800 400 L 1160 400 L 1160 425" class="conn" marker-start="url(#onebar)" marker-end="url(#crowsfoot)"/>
-    <text x="970" y="392" class="field" fill="#475569" font-size="11">1 : N  triggers</text>
-
-    <!-- ============== Legend ============== -->
-    <g transform="translate(540, 660)">
-      <text x="0" y="0" class="pk">«PK»</text><text x="35" y="0" class="field" fill="#475569" font-size="11">Primary Key</text>
-      <text x="140" y="0" class="fk">«FK»</text><text x="175" y="0" class="field" fill="#475569" font-size="11">Foreign Key (ON DELETE CASCADE)</text>
+      <text x="515" y="3" font-size="13" fill="#475569">"Many" side (crow's-foot)</text>
+      <text x="730" y="3" font-size="13" font-weight="700" fill="#0f172a">1 : N</text>
+      <text x="770" y="3" font-size="13" fill="#475569">Cardinality</text>
     </g>
   </svg>
