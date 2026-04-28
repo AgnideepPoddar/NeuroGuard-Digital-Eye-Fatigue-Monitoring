@@ -84,3 +84,9 @@ id = "6CfzbS6GI0wyYd-IwSze-"
 uri = "file://screenshots/schema-tables.jpg"
 type = "image"
 title = "Schema Tables 2.10–2.13"
+
+[[outputs]]
+id = "EOKENFQLAo4T-vnNzRsb9"
+uri = "file://screenshots/diagram-architecture.jpg"
+type = "image"
+title = "NeuroGuard — System Architecture Diagram"
