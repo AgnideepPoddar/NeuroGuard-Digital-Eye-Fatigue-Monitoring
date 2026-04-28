@@ -47,19 +47,19 @@ title = "6. Live Monitor React Integration — pages/live.tsx"
 id = "7tIeIbpJCGfWKSOqAyGTJ"
 uri = "file://screenshots/diagram-schema.jpg"
 type = "image"
-title = "Database Schema (Crow's-Foot) — 1500×1500"
+title = "Database Schema (Crow's-Foot)"
 
 [[outputs]]
 id = "djStKksjd75ULAAFOaBtO"
 uri = "file://screenshots/diagram-er-styled.jpg"
 type = "image"
-title = "ER Diagram (Chen Notation) — 1500×1500"
+title = "ER Diagram (Chen Notation)"
 
 [[outputs]]
 id = "vsBMX88z4IdyfmkdVHJSb"
 uri = "file://screenshots/diagram-use-case.jpg"
 type = "image"
-title = "Use Case Diagram (3 Actors / Lanes) — 1500×1500"
+title = "Use Case Diagram (3 Actors)"
 
 [[outputs]]
 id = "jEq60m7SeC0_4VvY--04n"
@@ -83,4 +83,4 @@ title = "Use Case Diagram — vector SVG"
 id = "6CfzbS6GI0wyYd-IwSze-"
 uri = "file://screenshots/schema-tables.jpg"
 type = "image"
-title = "Schema Design Tables 2.10–2.13 — 1500×1500"
+title = "Schema Tables 2.10–2.13"
