@@ -1,90 +1,99 @@
 <!DOCTYPE html>
-  <html><head><meta charset="utf-8"/><title>NeuroGuard Schema Tables</title>
-  <style>
-    body { font-family: 'Times New Roman', Times, serif; background: #ffffff; color: #0f172a; padding: 40px 50px; margin: 0; width: 1500px; height: 1500px; box-sizing: border-box; }
-    h1 { text-align: center; font-size: 38px; margin: 0 0 10px 0; letter-spacing: .5px; }
-    .sub { text-align: center; color: #475569; font-size: 20px; margin: 0 0 38px 0; font-style: italic; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 44px 50px; }
-    .caption { font-weight: 700; font-size: 22px; margin: 0 0 12px 0; color: #0f172a; }
-    table { border-collapse: collapse; width: 100%; font-size: 19px; margin-bottom: 0; }
-    th, td { border: 1.4px solid #0f172a; padding: 12px 16px; text-align: left; vertical-align: top; }
-    thead th { background: #e2e8f0; font-weight: 700; text-align: center; font-size: 19px; }
-    td.code { font-family: 'Courier New', Courier, monospace; font-weight: 700; font-size: 19px; }
-    td.type { font-family: 'Courier New', Courier, monospace; color: #1e3a8a; font-weight: 700; white-space: nowrap; font-size: 18px; }
-    .pk { color: #15803d; font-weight: 700; }
-    .fk { color: #c2410c; font-weight: 700; }
-    .note { font-size: 16px; color: #64748b; font-style: italic; margin-top: 10px; }
-  </style></head>
-  <body>
-  <h1>NeuroGuard — Database Schema Design</h1>
-  <p class="sub">PostgreSQL · Drizzle ORM · 4 Tables with Cascade Foreign Keys</p>
+<html><head><meta charset="utf-8"/><title>NeuroGuard Schema Tables</title>
+<style>
+  body { font-family: 'Times New Roman', Times, serif; background: #ffffff; color: #0f172a; padding: 28px 40px; margin: 0; width: 1500px; height: 1500px; box-sizing: border-box; }
+  h1 { text-align: center; font-size: 40px; margin: 0 0 8px 0; letter-spacing: .5px; font-weight: 800; }
+  .sub { text-align: center; color: #475569; font-size: 21px; margin: 0 0 22px 0; font-style: italic; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 36px; }
+  .caption { font-weight: 800; font-size: 24px; margin: 0 0 10px 0; color: #0f172a; }
+  table { border-collapse: collapse; width: 100%; font-size: 21px; margin-bottom: 0; table-layout: fixed; }
+  th, td { border: 1.6px solid #0f172a; padding: 8px 14px; text-align: left; vertical-align: middle; }
+  thead th { background: #e2e8f0; font-weight: 800; text-align: center; font-size: 21px; }
+  td.code { font-family: 'Courier New', Courier, monospace; font-weight: 800; font-size: 21px; }
+  td.type { font-family: 'Courier New', Courier, monospace; color: #1e3a8a; font-weight: 800; white-space: nowrap; font-size: 20px; }
+  td.desc { font-size: 20px; }
+  .pk { color: #15803d; font-weight: 800; }
+  .fk { color: #c2410c; font-weight: 800; }
+  .note { font-size: 19px; color: #64748b; font-style: italic; margin-top: 14px; }
+  /* Column widths */
+  .col-name { width: 33%; }
+  .col-type { width: 32%; }
+  .col-desc { width: 35%; }
+</style></head>
+<body>
+<h1>NeuroGuard — Database Schema Design</h1>
+<p class="sub">PostgreSQL · Drizzle ORM · 4 Tables with Cascade Foreign Keys</p>
 
-  <div class="grid">
+<div class="grid">
 
-  <div>
-  <p class="caption">Table 2.10 &nbsp; Users Table</p>
-  <table>
-    <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
-    <tbody>
-      <tr><td class="code"><span class="pk">user_id</span></td><td class="type">SERIAL (PK)</td><td>Unique user identifier</td></tr>
-      <tr><td class="code">user_name</td><td class="type">VARCHAR(80)</td><td>Display name</td></tr>
-      <tr><td class="code">role</td><td class="type">ENUM</td><td>USER, SME, DEVELOPER</td></tr>
-      <tr><td class="code">created_at</td><td class="type">TIMESTAMPTZ</td><td>Account creation</td></tr>
-    </tbody>
-  </table>
-  <p class="note">Roles align with actors in the Use Case Diagram.</p>
-  </div>
+<div>
+<p class="caption">Table 2.10 &nbsp; Users Table</p>
+<table>
+  <colgroup><col class="col-name"/><col class="col-type"/><col class="col-desc"/></colgroup>
+  <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td class="code"><span class="pk">user_id</span></td><td class="type">SERIAL (PK)</td><td class="desc">Unique user identifier</td></tr>
+    <tr><td class="code">user_name</td><td class="type">VARCHAR(80)</td><td class="desc">Display name</td></tr>
+    <tr><td class="code">role</td><td class="type">ENUM</td><td class="desc">USER, SME, DEVELOPER</td></tr>
+    <tr><td class="code">created_at</td><td class="type">TIMESTAMPTZ</td><td class="desc">Account creation</td></tr>
+  </tbody>
+</table>
+<p class="note">Roles align with actors in the Use Case Diagram.</p>
+</div>
 
-  <div>
-  <p class="caption">Table 2.11 &nbsp; Sessions Table</p>
-  <table>
-    <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
-    <tbody>
-      <tr><td class="code"><span class="pk">session_id</span></td><td class="type">SERIAL (PK)</td><td>Unique session ID</td></tr>
-      <tr><td class="code">user_name</td><td class="type">VARCHAR</td><td>Owner of session</td></tr>
-      <tr><td class="code">session_type</td><td class="type">ENUM</td><td>driving, dev, general</td></tr>
-      <tr><td class="code">model_type</td><td class="type">ENUM</td><td>cnn / resnet / densenet</td></tr>
-      <tr><td class="code">status</td><td class="type">ENUM</td><td>active, completed</td></tr>
-      <tr><td class="code">started_at</td><td class="type">TIMESTAMPTZ</td><td>Session start time</td></tr>
-      <tr><td class="code">ended_at</td><td class="type">TIMESTAMPTZ</td><td>Session end time</td></tr>
-      <tr><td class="code">total_alerts</td><td class="type">INTEGER</td><td>Aggregate alert count</td></tr>
-      <tr><td class="code">avg_ear</td><td class="type">REAL</td><td>Average EAR</td></tr>
-      <tr><td class="code">avg_perclos</td><td class="type">REAL</td><td>Average PERCLOS</td></tr>
-    </tbody>
-  </table>
-  </div>
+<div>
+<p class="caption">Table 2.11 &nbsp; Sessions Table</p>
+<table>
+  <colgroup><col class="col-name"/><col class="col-type"/><col class="col-desc"/></colgroup>
+  <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td class="code"><span class="pk">session_id</span></td><td class="type">SERIAL (PK)</td><td class="desc">Unique session ID</td></tr>
+    <tr><td class="code">user_name</td><td class="type">VARCHAR</td><td class="desc">Owner of session</td></tr>
+    <tr><td class="code">session_type</td><td class="type">ENUM</td><td class="desc">driving, dev, general</td></tr>
+    <tr><td class="code">model_type</td><td class="type">ENUM</td><td class="desc">cnn / resnet / densenet</td></tr>
+    <tr><td class="code">status</td><td class="type">ENUM</td><td class="desc">active, completed</td></tr>
+    <tr><td class="code">started_at</td><td class="type">TIMESTAMPTZ</td><td class="desc">Session start time</td></tr>
+    <tr><td class="code">ended_at</td><td class="type">TIMESTAMPTZ</td><td class="desc">Session end time</td></tr>
+    <tr><td class="code">total_alerts</td><td class="type">INTEGER</td><td class="desc">Aggregate alert count</td></tr>
+    <tr><td class="code">avg_ear</td><td class="type">REAL</td><td class="desc">Average EAR</td></tr>
+    <tr><td class="code">avg_perclos</td><td class="type">REAL</td><td class="desc">Average PERCLOS</td></tr>
+  </tbody>
+</table>
+</div>
 
-  <div>
-  <p class="caption">Table 2.12 &nbsp; Fatigue Metrics Table</p>
-  <table>
-    <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
-    <tbody>
-      <tr><td class="code"><span class="pk">metric_id</span></td><td class="type">SERIAL (PK)</td><td>Unique metric ID</td></tr>
-      <tr><td class="code"><span class="fk">session_id</span></td><td class="type">INTEGER (FK)</td><td>Sessions (CASCADE)</td></tr>
-      <tr><td class="code">ear</td><td class="type">REAL</td><td>Eye Aspect Ratio</td></tr>
-      <tr><td class="code">perclos</td><td class="type">REAL</td><td>% eye closure</td></tr>
-      <tr><td class="code">blink_rate</td><td class="type">REAL</td><td>Blinks per minute</td></tr>
-      <tr><td class="code">fatigue_state</td><td class="type">ENUM</td><td>alert / drowsy / fatigued</td></tr>
-      <tr><td class="code">timestamp</td><td class="type">TIMESTAMPTZ</td><td>Sample capture time</td></tr>
-    </tbody>
-  </table>
-  </div>
+<div>
+<p class="caption">Table 2.12 &nbsp; Fatigue Metrics Table</p>
+<table>
+  <colgroup><col class="col-name"/><col class="col-type"/><col class="col-desc"/></colgroup>
+  <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td class="code"><span class="pk">metric_id</span></td><td class="type">SERIAL (PK)</td><td class="desc">Unique metric ID</td></tr>
+    <tr><td class="code"><span class="fk">session_id</span></td><td class="type">INTEGER (FK)</td><td class="desc">Sessions (CASCADE)</td></tr>
+    <tr><td class="code">ear</td><td class="type">REAL</td><td class="desc">Eye Aspect Ratio</td></tr>
+    <tr><td class="code">perclos</td><td class="type">REAL</td><td class="desc">% eye closure</td></tr>
+    <tr><td class="code">blink_rate</td><td class="type">REAL</td><td class="desc">Blinks per minute</td></tr>
+    <tr><td class="code">fatigue_state</td><td class="type">ENUM</td><td class="desc">alert / drowsy / fatigued</td></tr>
+    <tr><td class="code">timestamp</td><td class="type">TIMESTAMPTZ</td><td class="desc">Sample capture time</td></tr>
+  </tbody>
+</table>
+</div>
 
-  <div>
-  <p class="caption">Table 2.13 &nbsp; Alerts Table</p>
-  <table>
-    <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
-    <tbody>
-      <tr><td class="code"><span class="pk">alert_id</span></td><td class="type">SERIAL (PK)</td><td>Unique alert ID</td></tr>
-      <tr><td class="code"><span class="fk">session_id</span></td><td class="type">INTEGER (FK)</td><td>Sessions (CASCADE)</td></tr>
-      <tr><td class="code">alert_type</td><td class="type">ENUM</td><td>drowsy / fatigued / micro</td></tr>
-      <tr><td class="code">message</td><td class="type">TEXT</td><td>Human-readable text</td></tr>
-      <tr><td class="code">ear</td><td class="type">REAL</td><td>EAR when triggered</td></tr>
-      <tr><td class="code">perclos</td><td class="type">REAL</td><td>PERCLOS when triggered</td></tr>
-      <tr><td class="code">timestamp</td><td class="type">TIMESTAMPTZ</td><td>Alert generation time</td></tr>
-    </tbody>
-  </table>
-  </div>
+<div>
+<p class="caption">Table 2.13 &nbsp; Alerts Table</p>
+<table>
+  <colgroup><col class="col-name"/><col class="col-type"/><col class="col-desc"/></colgroup>
+  <thead><tr><th>Field Name</th><th>Data Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td class="code"><span class="pk">alert_id</span></td><td class="type">SERIAL (PK)</td><td class="desc">Unique alert ID</td></tr>
+    <tr><td class="code"><span class="fk">session_id</span></td><td class="type">INTEGER (FK)</td><td class="desc">Sessions (CASCADE)</td></tr>
+    <tr><td class="code">alert_type</td><td class="type">ENUM</td><td class="desc">drowsy / fatigued / micro</td></tr>
+    <tr><td class="code">message</td><td class="type">TEXT</td><td class="desc">Human-readable text</td></tr>
+    <tr><td class="code">ear</td><td class="type">REAL</td><td class="desc">EAR when triggered</td></tr>
+    <tr><td class="code">perclos</td><td class="type">REAL</td><td class="desc">PERCLOS when triggered</td></tr>
+    <tr><td class="code">timestamp</td><td class="type">TIMESTAMPTZ</td><td class="desc">Alert generation time</td></tr>
+  </tbody>
+</table>
+</div>
 
-  </div>
-  </body></html>
+</div>
+</body></html>

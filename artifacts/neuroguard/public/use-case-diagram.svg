@@ -1,189 +1,256 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1500" font-family="'Inter', system-ui, sans-serif">
-    <rect width="1500" height="1500" fill="#f8fafc"/>
-    <defs>
-      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
-        <path d="M 0 0 L 10 5 L 0 10" fill="none" stroke="#64748b" stroke-width="1.5"/>
-      </marker>
-    </defs>
-    <text x="750" y="62" text-anchor="middle" font-size="34" font-weight="700" fill="#0f172a">NeuroGuard — Use Case Diagram</text>
-    <text x="750" y="98" text-anchor="middle" font-size="17" fill="#64748b" letter-spacing="3">UML · MULTI-ACTOR INTERACTION MODEL</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1500" font-family="'Inter', system-ui, sans-serif">
+  <rect width="1500" height="1500" fill="#f8fafc"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10" fill="none" stroke="#64748b" stroke-width="2"/>
+    </marker>
+  </defs>
 
-    <rect x="240" y="140" width="1240" height="1240" rx="14" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/>
-    <text x="860" y="178" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a" letter-spacing="1">NeuroGuard System</text>
-  
-    <rect x="240" y="200" width="1240" height="380" fill="#2563eb" opacity="0.05"/>
-    <line x1="240" y1="200" x2="1480" y2="200" stroke="#2563eb" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
-    <text x="256" y="228" font-size="16" font-weight="700" fill="#2563eb" letter-spacing="2.5" opacity="0.85">USER LANE</text>
-    <rect x="240" y="585" width="1240" height="380" fill="#7c3aed" opacity="0.05"/>
-    <line x1="240" y1="585" x2="1480" y2="585" stroke="#7c3aed" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
-    <text x="256" y="613" font-size="16" font-weight="700" fill="#7c3aed" letter-spacing="2.5" opacity="0.85">SME LANE</text>
-    <rect x="240" y="970" width="1240" height="410" fill="#ea580c" opacity="0.05"/>
-    <line x1="240" y1="970" x2="1480" y2="970" stroke="#ea580c" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>
-    <text x="256" y="998" font-size="16" font-weight="700" fill="#ea580c" letter-spacing="2.5" opacity="0.85">DEVELOPER LANE</text>
-    <g>
-      <circle cx="110" cy="304" r="24" fill="none" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="328" x2="110" y2="392" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="74" y1="352" x2="146" y2="352" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="392" x2="80" y2="436" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="392" x2="140" y2="436" stroke="#0f172a" stroke-width="2.6"/>
-      <text x="110" y="468" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">User</text>
-      <text x="110" y="492" text-anchor="middle" font-size="14" fill="#64748b">(Driver / General)</text>
-    </g>
-    <g>
-      <circle cx="110" cy="714" r="24" fill="none" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="738" x2="110" y2="802" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="74" y1="762" x2="146" y2="762" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="802" x2="80" y2="846" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="802" x2="140" y2="846" stroke="#0f172a" stroke-width="2.6"/>
-      <text x="110" y="878" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">SME</text>
-      <text x="110" y="902" text-anchor="middle" font-size="14" fill="#64748b">(Safety Domain Expert)</text>
-    </g>
-    <g>
-      <circle cx="110" cy="1119" r="24" fill="none" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="1143" x2="110" y2="1207" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="74" y1="1167" x2="146" y2="1167" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="1207" x2="80" y2="1251" stroke="#0f172a" stroke-width="2.6"/>
-      <line x1="110" y1="1207" x2="140" y2="1251" stroke="#0f172a" stroke-width="2.6"/>
-      <text x="110" y="1283" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">Developer</text>
-      <text x="110" y="1307" text-anchor="middle" font-size="14" fill="#64748b">(Engineer / Maintainer)</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="280" rx="120" ry="42" fill="#eff6ff" stroke="#2563eb" stroke-width="2.2"/>
-      <text x="410" y="276" text-anchor="middle" font-size="16" fill="#1e3a8a" font-weight="600">Start Monitoring</text>
-         <text x="410" y="298" text-anchor="middle" font-size="16" fill="#1e3a8a" font-weight="600">Session</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="280" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="685" y="276" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Select Inference</text>
-         <text x="685" y="298" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Model</text>
-    </g>
-    <g>
-      <ellipse cx="960" cy="280" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="960" y="276" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">View Session</text>
-         <text x="960" y="298" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">History</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="390" rx="120" ry="42" fill="#eff6ff" stroke="#2563eb" stroke-width="2.2"/>
-      <text x="410" y="386" text-anchor="middle" font-size="16" fill="#1e3a8a" font-weight="600">View Live</text>
-         <text x="410" y="408" text-anchor="middle" font-size="16" fill="#1e3a8a" font-weight="600">Metrics</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="390" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="685" y="396" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">End Session</text>
-    </g>
-    <g>
-      <ellipse cx="960" cy="390" rx="120" ry="42" fill="#fef2f2" stroke="#dc2626" stroke-width="2.2"/>
-      <text x="960" y="386" text-anchor="middle" font-size="16" fill="#7f1d1d" font-weight="600">Receive Fatigue</text>
-         <text x="960" y="408" text-anchor="middle" font-size="16" fill="#7f1d1d" font-weight="600">Alert</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="500" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="410" y="496" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">View Analytics</text>
-         <text x="410" y="518" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Dashboard</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="500" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="685" y="506" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Delete Session</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="670" rx="120" ry="42" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
-      <text x="410" y="666" text-anchor="middle" font-size="16" fill="#4c1d95" font-weight="600">Review Session</text>
-         <text x="410" y="688" text-anchor="middle" font-size="16" fill="#4c1d95" font-weight="600">Analytics</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="670" rx="120" ry="42" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.2"/>
-      <text x="685" y="666" text-anchor="middle" font-size="16" fill="#4c1d95" font-weight="600">Validate Model</text>
-         <text x="685" y="688" text-anchor="middle" font-size="16" fill="#4c1d95" font-weight="600">Accuracy</text>
-    </g>
-    <g>
-      <ellipse cx="960" cy="670" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="960" y="666" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Tune Fatigue</text>
-         <text x="960" y="688" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Thresholds</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="785" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="410" y="781" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Audit Alert</text>
-         <text x="410" y="803" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Logs</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="785" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="685" y="781" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Approve Model</text>
-         <text x="685" y="803" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Deployment</text>
-    </g>
-    <g>
-      <ellipse cx="960" cy="785" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="960" y="781" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Generate Compliance</text>
-         <text x="960" y="803" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Report</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="1055" rx="120" ry="42" fill="#fff7ed" stroke="#ea580c" stroke-width="2.2"/>
-      <text x="410" y="1051" text-anchor="middle" font-size="16" fill="#7c2d12" font-weight="600">Configure System</text>
-         <text x="410" y="1073" text-anchor="middle" font-size="16" fill="#7c2d12" font-weight="600">Settings</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="1055" rx="120" ry="42" fill="#fff7ed" stroke="#ea580c" stroke-width="2.2"/>
-      <text x="685" y="1051" text-anchor="middle" font-size="16" fill="#7c2d12" font-weight="600">Deploy Model</text>
-         <text x="685" y="1073" text-anchor="middle" font-size="16" fill="#7c2d12" font-weight="600">Update</text>
-    </g>
-    <g>
-      <ellipse cx="960" cy="1055" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="960" y="1051" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Monitor System</text>
-         <text x="960" y="1073" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Health</text>
-    </g>
-    <g>
-      <ellipse cx="410" cy="1170" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="410" y="1166" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Manage Database</text>
-         <text x="410" y="1188" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Schema</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="1170" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="685" y="1166" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Debug &amp; Analyze</text>
-         <text x="685" y="1188" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Logs</text>
-    </g>
-    <g>
-      <ellipse cx="960" cy="1170" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="960" y="1166" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">View System</text>
-         <text x="960" y="1188" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Telemetry</text>
-    </g>
-    <g>
-      <ellipse cx="685" cy="1285" rx="120" ry="42" fill="#ffffff" stroke="#475569" stroke-width="1.6"/>
-      <text x="685" y="1281" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Manage User</text>
-         <text x="685" y="1303" text-anchor="middle" font-size="16" fill="#0f172a" font-weight="600">Roles</text>
-    </g>
-    <g>
-      <ellipse cx="1340" cy="280" rx="120" ry="42" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
-      <text x="1340" y="276" text-anchor="middle" font-size="16" fill="#14532d" font-weight="600">Detect Face</text>
-         <text x="1340" y="298" text-anchor="middle" font-size="16" fill="#14532d" font-weight="600">Landmarks</text>
-    </g>
-    <g>
-      <ellipse cx="1340" cy="380" rx="120" ry="42" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
-      <text x="1340" y="386" text-anchor="middle" font-size="16" fill="#14532d" font-weight="600">Compute EAR</text>
-    </g>
-    <g>
-      <ellipse cx="1340" cy="480" rx="120" ry="42" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
-      <text x="1340" y="476" text-anchor="middle" font-size="16" fill="#14532d" font-weight="600">Compute</text>
-         <text x="1340" y="498" text-anchor="middle" font-size="16" fill="#14532d" font-weight="600">PERCLOS</text>
-    </g>
-    <g>
-      <ellipse cx="1340" cy="555" rx="120" ry="42" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.2"/>
-      <text x="1340" y="561" text-anchor="middle" font-size="16" fill="#14532d" font-weight="600">Persist Metric</text>
-    </g><line x1="146" y1="360" x2="290" y2="280" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="360" x2="290" y2="390" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="360" x2="290" y2="500" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="360" x2="565" y2="280" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="360" x2="565" y2="390" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="360" x2="840" y2="280" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="360" x2="840" y2="390" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="290" y2="670" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="290" y2="785" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="565" y2="670" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="565" y2="785" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="840" y2="670" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="840" y2="785" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="290" y2="500" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="770" x2="840" y2="280" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="290" y2="1055" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="290" y2="1170" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="565" y2="1055" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="565" y2="1170" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="565" y2="1285" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="840" y2="1055" stroke="#475569" stroke-width="1.4"/><line x1="146" y1="1175" x2="840" y2="1170" stroke="#475569" stroke-width="1.4"/><line x1="530" y1="280" x2="565" y2="280" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/><text x="547" y="265" text-anchor="middle" font-size="14" fill="#64748b" font-style="italic">«include»</text><path d="M 410 432 L 410 455 L 1090 455 L 1090 280 L 1220 280" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/><path d="M 410 432 L 410 455 L 1100 455 L 1100 380 L 1220 380" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/><path d="M 410 432 L 410 455 L 1110 455 L 1110 480 L 1220 480" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/><path d="M 410 432 L 410 455 L 1120 455 L 1120 555 L 1220 555" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/><text x="730" y="448" text-anchor="middle" font-size="15" fill="#64748b" font-style="italic">«include» × 4 system functions</text><path d="M 840 380 Q 685 320 530 380" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/><text x="685" y="320" text-anchor="middle" font-size="14" fill="#64748b" font-style="italic">«extend»</text><line x1="685" y1="458" x2="960" y2="320" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/><text x="830" y="380" font-size="14" fill="#64748b" font-style="italic">«extend»</text><line x1="685" y1="743" x2="685" y2="712" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/><text x="700" y="730" font-size="14" fill="#64748b" font-style="italic">«include»</text><line x1="685" y1="1013" x2="685" y2="825" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#arrow)"/><text x="700" y="920" font-size="14" fill="#64748b" font-style="italic">«include»</text>
-    <g transform="translate(110, 1430)">
-      <rect x="-18" y="-30" width="1310" height="50" rx="25" fill="#ffffff" stroke="#e2e8f0"/>
-      <ellipse cx="22" cy="-2" rx="20" ry="13" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8"/>
-      <text x="50" y="3" font-size="15" fill="#475569">User flow</text>
-      <ellipse cx="160" cy="-2" rx="20" ry="13" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.8"/>
-      <text x="190" y="3" font-size="15" fill="#475569">SME flow</text>
-      <ellipse cx="295" cy="-2" rx="20" ry="13" fill="#fff7ed" stroke="#ea580c" stroke-width="1.8"/>
-      <text x="325" y="3" font-size="15" fill="#475569">Developer flow</text>
-      <ellipse cx="455" cy="-2" rx="20" ry="13" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8"/>
-      <text x="485" y="3" font-size="15" fill="#475569">Safety-critical</text>
-      <ellipse cx="615" cy="-2" rx="20" ry="13" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8"/>
-      <text x="645" y="3" font-size="15" fill="#475569">System internal</text>
-      <line x1="780" y1="-2" x2="820" y2="-2" stroke="#475569" stroke-width="1.6"/>
-      <text x="830" y="3" font-size="15" fill="#475569">Association</text>
-      <line x1="945" y1="-2" x2="985" y2="-2" stroke="#64748b" stroke-width="1.5" stroke-dasharray="6 4"/>
-      <text x="995" y="3" font-size="15" font-style="italic" fill="#475569">«include» / «extend»</text>
-    </g>
-  </svg>
+  <!-- Title -->
+  <text x="750" y="62" text-anchor="middle" font-size="42" font-weight="800" fill="#0f172a">NeuroGuard — Use Case Diagram</text>
+  <text x="750" y="106" text-anchor="middle" font-size="22" fill="#64748b" letter-spacing="3" font-weight="600">UML  ·  ACTORS  ·  USE CASES  ·  SYSTEM BOUNDARY</text>
+
+  <!-- ============ SYSTEM BOUNDARY ============ -->
+  <rect x="240" y="135" width="1240" height="1240" rx="14" fill="#ffffff" stroke="#0f172a" stroke-width="2.4"/>
+  <text x="860" y="178" text-anchor="middle" font-size="28" font-weight="800" fill="#0f172a" letter-spacing="1">NeuroGuard System</text>
+
+  <!-- ============ LANES ============ -->
+  <rect x="240" y="200" width="1240" height="380" fill="#2563eb" opacity="0.05"/>
+  <line x1="240" y1="200" x2="1480" y2="200" stroke="#2563eb" stroke-width="1.4" stroke-dasharray="6 5" opacity="0.6"/>
+  <text x="260" y="232" font-size="22" font-weight="800" fill="#2563eb" letter-spacing="2.5" opacity="0.9">USER LANE</text>
+
+  <rect x="240" y="585" width="1240" height="380" fill="#7c3aed" opacity="0.05"/>
+  <line x1="240" y1="585" x2="1480" y2="585" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="6 5" opacity="0.6"/>
+  <text x="260" y="617" font-size="22" font-weight="800" fill="#7c3aed" letter-spacing="2.5" opacity="0.9">SME LANE</text>
+
+  <rect x="240" y="970" width="1240" height="405" fill="#ea580c" opacity="0.05"/>
+  <line x1="240" y1="970" x2="1480" y2="970" stroke="#ea580c" stroke-width="1.4" stroke-dasharray="6 5" opacity="0.6"/>
+  <text x="260" y="1002" font-size="22" font-weight="800" fill="#ea580c" letter-spacing="2.5" opacity="0.9">DEVELOPER LANE</text>
+
+  <!-- ============ ACTORS (left side, outside system) ============ -->
+  <!-- USER -->
+  <g>
+    <circle cx="120" cy="320" r="28" fill="none" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="348" x2="120" y2="420" stroke="#0f172a" stroke-width="3"/>
+    <line x1="78" y1="375" x2="162" y2="375" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="420" x2="85" y2="470" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="420" x2="155" y2="470" stroke="#0f172a" stroke-width="3"/>
+    <text x="120" y="500" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">User</text>
+    <text x="120" y="525" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic">(Driver / Operator)</text>
+  </g>
+  <!-- SME -->
+  <g>
+    <circle cx="120" cy="710" r="28" fill="none" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="738" x2="120" y2="810" stroke="#0f172a" stroke-width="3"/>
+    <line x1="78" y1="765" x2="162" y2="765" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="810" x2="85" y2="860" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="810" x2="155" y2="860" stroke="#0f172a" stroke-width="3"/>
+    <text x="120" y="890" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">SME</text>
+    <text x="120" y="915" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic">(Safety Domain Expert)</text>
+  </g>
+  <!-- DEVELOPER -->
+  <g>
+    <circle cx="120" cy="1110" r="28" fill="none" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="1138" x2="120" y2="1210" stroke="#0f172a" stroke-width="3"/>
+    <line x1="78" y1="1165" x2="162" y2="1165" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="1210" x2="85" y2="1260" stroke="#0f172a" stroke-width="3"/>
+    <line x1="120" y1="1210" x2="155" y2="1260" stroke="#0f172a" stroke-width="3"/>
+    <text x="120" y="1290" text-anchor="middle" font-size="26" font-weight="800" fill="#0f172a">Developer</text>
+    <text x="120" y="1315" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic">(Engineer / Maintainer)</text>
+  </g>
+
+  <!-- ============ USER LANE ASSOCIATION BUS ============ -->
+  <line x1="162" y1="375" x2="220" y2="375" stroke="#475569" stroke-width="2"/>
+  <line x1="220" y1="290" x2="220" y2="490" stroke="#475569" stroke-width="2"/>
+
+  <!-- USER USE CASES (Row 1: y=305) -->
+  <line x1="220" y1="305" x2="320" y2="305" stroke="#475569" stroke-width="2"/>
+  <g>
+    <ellipse cx="450" cy="305" rx="130" ry="50" fill="#eff6ff" stroke="#2563eb" stroke-width="2.6"/>
+    <text x="450" y="299" text-anchor="middle" font-size="20" fill="#1e3a8a" font-weight="700">Start Monitoring</text>
+    <text x="450" y="324" text-anchor="middle" font-size="20" fill="#1e3a8a" font-weight="700">Session</text>
+  </g>
+
+  <line x1="580" y1="305" x2="620" y2="305" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="600" y="293" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic" font-weight="600">«include»</text>
+  <g>
+    <ellipse cx="750" cy="305" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="750" y="299" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Select Inference</text>
+    <text x="750" y="324" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Model</text>
+  </g>
+
+  <g>
+    <ellipse cx="1080" cy="305" rx="130" ry="50" fill="#fef2f2" stroke="#dc2626" stroke-width="2.6"/>
+    <text x="1080" y="299" text-anchor="middle" font-size="20" fill="#7f1d1d" font-weight="700">Receive Fatigue</text>
+    <text x="1080" y="324" text-anchor="middle" font-size="20" fill="#7f1d1d" font-weight="700">Alert</text>
+  </g>
+
+  <!-- USER USE CASES (Row 2: y=425) -->
+  <line x1="220" y1="425" x2="320" y2="425" stroke="#475569" stroke-width="2"/>
+  <g>
+    <ellipse cx="450" cy="425" rx="130" ry="50" fill="#eff6ff" stroke="#2563eb" stroke-width="2.6"/>
+    <text x="450" y="419" text-anchor="middle" font-size="20" fill="#1e3a8a" font-weight="700">View Live</text>
+    <text x="450" y="444" text-anchor="middle" font-size="20" fill="#1e3a8a" font-weight="700">Metrics</text>
+  </g>
+
+  <g>
+    <ellipse cx="750" cy="425" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="750" y="419" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">View Session</text>
+    <text x="750" y="444" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">History</text>
+  </g>
+
+  <g>
+    <ellipse cx="1080" cy="425" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="1080" y="419" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">View Analytics</text>
+    <text x="1080" y="444" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Dashboard</text>
+  </g>
+  <!-- Connect rows 1+2 to bus and to row 1 ovals -->
+  <line x1="320" y1="305" x2="320" y2="425" stroke="#475569" stroke-width="2"/>
+  <line x1="750" y1="355" x2="750" y2="375" stroke="#475569" stroke-width="2"/>
+  <line x1="1080" y1="355" x2="1080" y2="375" stroke="#475569" stroke-width="2"/>
+  <!-- Row 1 stems -->
+  <line x1="220" y1="305" x2="320" y2="305" stroke="#475569" stroke-width="2"/>
+
+  <!-- ============ SME LANE ASSOCIATION BUS ============ -->
+  <line x1="162" y1="765" x2="220" y2="765" stroke="#475569" stroke-width="2"/>
+  <line x1="220" y1="685" x2="220" y2="900" stroke="#475569" stroke-width="2"/>
+
+  <!-- SME USE CASES (Row 1: y=700) -->
+  <line x1="220" y1="700" x2="320" y2="700" stroke="#475569" stroke-width="2"/>
+  <g>
+    <ellipse cx="450" cy="700" rx="130" ry="50" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.6"/>
+    <text x="450" y="694" text-anchor="middle" font-size="20" fill="#4c1d95" font-weight="700">Review Session</text>
+    <text x="450" y="719" text-anchor="middle" font-size="20" fill="#4c1d95" font-weight="700">Analytics</text>
+  </g>
+  <g>
+    <ellipse cx="750" cy="700" rx="130" ry="50" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.6"/>
+    <text x="750" y="694" text-anchor="middle" font-size="20" fill="#4c1d95" font-weight="700">Validate Model</text>
+    <text x="750" y="719" text-anchor="middle" font-size="20" fill="#4c1d95" font-weight="700">Accuracy</text>
+  </g>
+  <g>
+    <ellipse cx="1080" cy="700" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="1080" y="694" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Tune Fatigue</text>
+    <text x="1080" y="719" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Thresholds</text>
+  </g>
+
+  <!-- SME USE CASES (Row 2: y=830) -->
+  <line x1="220" y1="830" x2="320" y2="830" stroke="#475569" stroke-width="2"/>
+  <g>
+    <ellipse cx="450" cy="830" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="450" y="824" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Audit Alert</text>
+    <text x="450" y="849" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Logs</text>
+  </g>
+  <g>
+    <ellipse cx="750" cy="830" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="750" y="824" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Approve Model</text>
+    <text x="750" y="849" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Deployment</text>
+  </g>
+  <g>
+    <ellipse cx="1080" cy="830" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="1080" y="824" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Generate Compliance</text>
+    <text x="1080" y="849" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Report</text>
+  </g>
+  <line x1="320" y1="700" x2="320" y2="830" stroke="#475569" stroke-width="2"/>
+  <line x1="750" y1="750" x2="750" y2="765" stroke="#475569" stroke-width="2"/>
+  <line x1="1080" y1="750" x2="1080" y2="765" stroke="#475569" stroke-width="2"/>
+
+  <!-- ============ DEVELOPER LANE ASSOCIATION BUS ============ -->
+  <line x1="162" y1="1165" x2="220" y2="1165" stroke="#475569" stroke-width="2"/>
+  <line x1="220" y1="1075" x2="220" y2="1310" stroke="#475569" stroke-width="2"/>
+
+  <!-- DEV USE CASES (Row 1: y=1090) -->
+  <line x1="220" y1="1090" x2="320" y2="1090" stroke="#475569" stroke-width="2"/>
+  <g>
+    <ellipse cx="450" cy="1090" rx="130" ry="50" fill="#fff7ed" stroke="#ea580c" stroke-width="2.6"/>
+    <text x="450" y="1084" text-anchor="middle" font-size="20" fill="#7c2d12" font-weight="700">Configure System</text>
+    <text x="450" y="1109" text-anchor="middle" font-size="20" fill="#7c2d12" font-weight="700">Settings</text>
+  </g>
+  <g>
+    <ellipse cx="750" cy="1090" rx="130" ry="50" fill="#fff7ed" stroke="#ea580c" stroke-width="2.6"/>
+    <text x="750" y="1084" text-anchor="middle" font-size="20" fill="#7c2d12" font-weight="700">Deploy Model</text>
+    <text x="750" y="1109" text-anchor="middle" font-size="20" fill="#7c2d12" font-weight="700">Update</text>
+  </g>
+  <g>
+    <ellipse cx="1080" cy="1090" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="1080" y="1084" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Monitor System</text>
+    <text x="1080" y="1109" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Health</text>
+  </g>
+
+  <!-- DEV USE CASES (Row 2: y=1230) -->
+  <line x1="220" y1="1230" x2="320" y2="1230" stroke="#475569" stroke-width="2"/>
+  <g>
+    <ellipse cx="450" cy="1230" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="450" y="1224" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Manage Database</text>
+    <text x="450" y="1249" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Schema</text>
+  </g>
+  <g>
+    <ellipse cx="750" cy="1230" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="750" y="1224" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Debug &amp; Analyze</text>
+    <text x="750" y="1249" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Logs</text>
+  </g>
+  <g>
+    <ellipse cx="1080" cy="1230" rx="130" ry="50" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+    <text x="1080" y="1224" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">View System</text>
+    <text x="1080" y="1249" text-anchor="middle" font-size="20" fill="#0f172a" font-weight="700">Telemetry</text>
+  </g>
+  <line x1="320" y1="1090" x2="320" y2="1230" stroke="#475569" stroke-width="2"/>
+  <line x1="750" y1="1140" x2="750" y2="1165" stroke="#475569" stroke-width="2"/>
+  <line x1="1080" y1="1140" x2="1080" y2="1165" stroke="#475569" stroke-width="2"/>
+
+  <!-- ============ SYSTEM-INTERNAL USE CASES (right column) ============ -->
+  <g>
+    <ellipse cx="1340" cy="305" rx="120" ry="48" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.6"/>
+    <text x="1340" y="299" text-anchor="middle" font-size="20" fill="#14532d" font-weight="700">Detect Face</text>
+    <text x="1340" y="324" text-anchor="middle" font-size="20" fill="#14532d" font-weight="700">Landmarks</text>
+  </g>
+  <g>
+    <ellipse cx="1340" cy="425" rx="120" ry="48" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.6"/>
+    <text x="1340" y="431" text-anchor="middle" font-size="20" fill="#14532d" font-weight="700">Compute EAR</text>
+  </g>
+  <g>
+    <ellipse cx="1340" cy="700" rx="120" ry="48" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.6"/>
+    <text x="1340" y="694" text-anchor="middle" font-size="20" fill="#14532d" font-weight="700">Compute</text>
+    <text x="1340" y="719" text-anchor="middle" font-size="20" fill="#14532d" font-weight="700">PERCLOS</text>
+  </g>
+  <g>
+    <ellipse cx="1340" cy="830" rx="120" ry="48" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.6"/>
+    <text x="1340" y="836" text-anchor="middle" font-size="20" fill="#14532d" font-weight="700">Persist Metric</text>
+  </g>
+
+  <!-- ============ KEY «include» / «extend» RELATIONSHIPS ============ -->
+  <!-- Receive Fatigue Alert → Detect Face Landmarks (include, routed up) -->
+  <path d="M 1210 295 L 1220 295" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/>
+  <text x="1180" y="278" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic" font-weight="600">«include»</text>
+
+  <!-- View Analytics Dashboard → Compute EAR (include) -->
+  <path d="M 1210 425 L 1220 425" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/>
+  <text x="1180" y="413" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic" font-weight="600">«include»</text>
+
+  <!-- Validate Model → Persist Metric (include, routed around) -->
+  <path d="M 880 720 Q 1100 760 1220 820" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/>
+  <text x="1080" y="755" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic" font-weight="600">«include»</text>
+
+  <!-- Tune Fatigue Thresholds → Compute PERCLOS (extend) -->
+  <path d="M 1210 700 L 1220 700" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/>
+  <text x="1185" y="688" text-anchor="middle" font-size="16" fill="#64748b" font-style="italic" font-weight="600">«extend»</text>
+
+  <!-- ============ LEGEND (bottom) ============ -->
+  <g transform="translate(70, 1430)">
+    <rect x="0" y="0" width="1360" height="58" rx="29" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.6"/>
+    <ellipse cx="40" cy="29" rx="22" ry="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2.4"/>
+    <text x="74" y="36" font-size="19" fill="#334155" font-weight="600">User flow</text>
+    <ellipse cx="208" cy="29" rx="22" ry="14" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2.4"/>
+    <text x="242" y="36" font-size="19" fill="#334155" font-weight="600">SME flow</text>
+    <ellipse cx="368" cy="29" rx="22" ry="14" fill="#fff7ed" stroke="#ea580c" stroke-width="2.4"/>
+    <text x="402" y="36" font-size="19" fill="#334155" font-weight="600">Developer flow</text>
+    <ellipse cx="572" cy="29" rx="22" ry="14" fill="#fef2f2" stroke="#dc2626" stroke-width="2.4"/>
+    <text x="606" y="36" font-size="19" fill="#334155" font-weight="600">Safety-critical</text>
+    <ellipse cx="780" cy="29" rx="22" ry="14" fill="#f0fdf4" stroke="#16a34a" stroke-width="2.4"/>
+    <text x="814" y="36" font-size="19" fill="#334155" font-weight="600">System internal</text>
+    <line x1="990" y1="29" x2="1040" y2="29" stroke="#475569" stroke-width="2.2"/>
+    <text x="1054" y="36" font-size="19" fill="#334155" font-weight="600">Association</text>
+    <line x1="1190" y1="29" x2="1240" y2="29" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="1254" y="36" font-size="19" font-style="italic" fill="#334155" font-weight="600">«include» / «extend»</text>
+  </g>
+</svg>
