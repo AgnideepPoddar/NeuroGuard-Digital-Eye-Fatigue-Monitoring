@@ -1,6 +1,6 @@
 # NeuroGuard — Real-Time Eye Fatigue Monitor
 
-A full-stack web application for real-time eye fatigue monitoring built for an IEEE research paper.
+A full-stack web application for real-time eye fatigue monitoring.
 
 ## Features
 - Real-time eye fatigue detection using MediaPipe Face Mesh
