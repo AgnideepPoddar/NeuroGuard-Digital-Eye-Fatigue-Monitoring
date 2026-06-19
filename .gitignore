@@ -47,3 +47,10 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Generated diagram assets and screenshots (not for source control)
+screenshots/
+artifacts/neuroguard/public/*.svg
+artifacts/neuroguard/public/*.html
+artifacts/neuroguard/public/*.jpg
+artifacts/neuroguard/public/*.png
