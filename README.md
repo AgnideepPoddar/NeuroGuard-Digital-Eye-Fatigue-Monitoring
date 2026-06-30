@@ -93,9 +93,7 @@ NeuroGuard/
 
 ### Clone the Repository
 
-```bash
 
-```
 
 ### Install Dependencies
 
