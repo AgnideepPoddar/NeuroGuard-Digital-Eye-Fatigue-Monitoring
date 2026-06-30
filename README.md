@@ -94,8 +94,7 @@ NeuroGuard/
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/neuroguard.git
-cd neuroguard
+
 ```
 
 ### Install Dependencies
