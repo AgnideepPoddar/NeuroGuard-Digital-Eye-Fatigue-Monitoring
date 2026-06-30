@@ -107,11 +107,7 @@ pnpm install
 
 Create a `.env` file inside the backend directory:
 
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/neuroguard
-PORT=5000
-JWT_SECRET=your_secret_key
-```
+
 
 ---
 
